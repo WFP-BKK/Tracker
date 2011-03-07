@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<markers>
+{%for item in list%}
+<marker name="{{item.user}}" address="{{item.position.dateoccurred}}&lt;br&gt; Lat: {{item.position.latitude}}&lt;br&gt; Long: {{item.position.longitude}} {%if item.user.userdetail.callSign%}&lt;br&gt;Call Sign: {{item.user.userdetail.callSign}}{%endif%}" lat="{{item.position.latitude}}" lng="{{item.position.longitude}}" type="{{item.pin}}" />
+{%endfor%}
+</markers>

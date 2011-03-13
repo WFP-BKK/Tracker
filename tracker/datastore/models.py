@@ -19,11 +19,11 @@ class Icon(models.Model):
 
 class ActionUser(models.Model):
     username = models.CharField(unique=True, max_length=60)
-    password = models.CharField(max_length=150,null=True,blank=True)
+    password = models.CharField(max_length=150, null=True, blank=True)
     class Meta:
         db_table = u'users'
     def __unicode__(self):
-        return '%s'%(self.username)
+        return '%s' % (self.username)
     
     
     def myLatestPos(self):
@@ -35,13 +35,13 @@ class ActionUser(models.Model):
 
 class UserDetail(models.Model):
     user = models.OneToOneField(ActionUser)
-    callSign = models.CharField(max_length=20, null=True,blank=True)
-    firsName=  models.CharField(max_length=40, null=True,blank=True)
-    lastName=  models.CharField(max_length=40, null=True,blank=True)
-    organization= models.CharField(max_length=40, null=True,blank=True)
+    callSign = models.CharField(max_length=20, null=True, blank=True)
+    firsName = models.CharField(max_length=40, null=True, blank=True)
+    lastName = models.CharField(max_length=40, null=True, blank=True)
+    organization = models.CharField(max_length=40, null=True, blank=True)
     
 class Position(models.Model):
-    user = models.ForeignKey(ActionUser,db_column='FK_Users_ID') 
+    user = models.ForeignKey(ActionUser, db_column='FK_Users_ID') 
     icon = models.ForeignKey(Icon, db_column='FK_Icons_ID', blank=True) 
     latitude = models.FloatField(db_column='Latitude') 
     longitude = models.FloatField(db_column='Longitude') 

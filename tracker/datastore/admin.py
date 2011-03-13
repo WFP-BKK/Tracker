@@ -1,5 +1,5 @@
 from django.contrib import admin
-from tracker.datastore.models import UserDetail,ActionUser,Icon
+from tracker.datastore.models import UserDetail, ActionUser, Icon
 
 
 
@@ -11,5 +11,5 @@ class ActionUserAdmin(admin.ModelAdmin):
         UserDetailInline,
     ]
     
-admin.site.register(ActionUser,ActionUserAdmin)
+admin.site.register(ActionUser, ActionUserAdmin)
 admin.site.register(Icon)

@@ -44,9 +44,10 @@ def update_current(request):
     allUsers = ActionUser.objects.all()
     for theUser in allUsers:
         myPosition = Position.objects.filter(user=theUser).order_by('-dateoccurred')
-        myCurrent, ok = CurrentPosition.objects.get_or_create(user=theUser, defaults={'position':myPosition[0]})
-        print ok
-        myCurrent.position = myPosition[0]
-        myCurrent.save()
+        if myPosition:
+            myCurrent, ok = CurrentPosition.objects.get_or_create(user=theUser, defaults={'position':myPosition[0]})
+            print ok
+            myCurrent.position = myPosition[0]
+            myCurrent.save()
     return HttpResponse('Result:0')
 

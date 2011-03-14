@@ -73,10 +73,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'datastore',
-    'collector',
-    'kml',
-    'mapper',
+    'tracker.datastore',
+    'tracker.collector',
+    'tracker.kml',
+    'tracker.mapper',
 
 )
 MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')

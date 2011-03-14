@@ -7,9 +7,9 @@ from tracker.settings import MEDIA_ROOT
 
 urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
-    (r'^mapper/', include('mapper.urls')),
-    (r'^kml', include('kml.urls')),
-    (r'^trackme/', include('collector.urls')),
+    (r'^mapper/', include('tracker.mapper.urls')),
+    (r'^kml', include('tracker.kml.urls')),
+    (r'^trackme/', include('tracker.collector.urls')),
     (r'^trackme/media/(?P<path>.*)$', 'django.views.static.serve',
     {'document_root': MEDIA_ROOT}),
 )

@@ -1,5 +1,5 @@
 # Create your views here.
-from datastore.models import *
+#from tracker.datastore.models import *
 import datetime
 from tracker.datastore.models import Position, CurrentPosition, ActionUser
 from django.http import HttpResponse

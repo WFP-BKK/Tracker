@@ -38,14 +38,33 @@
 			<color>ff0000aa</color>
 		</LabelStyle>
 	</Style>
-{%for item in list%}
+{%for user in users%}{%if user.hasPath%}
+
+
   <Placemark>
-    <name>{{item.user}}</name>
-    <description>{{item.user}}</description>
+    <name>{{user}} Start</name>
+    <description>{{user}}</description>
     <Point>
-      <coordinates>{{item.position.longitude}},{{item.position.latitude}},0</coordinates>
+      <coordinates>{{user.path.0.longitude}},{{user.path.0.latitude}},0</coordinates>
     </Point>
+ </Placemark>
+
+<Placemark>
+    <name>{{user}}'s Path</name>
+    <description></description>
+          <LineString>
+        <altitudeMode>relative</altitudeMode>
+        <coordinates>{%for point in user.path%}
+        {{point.longitude}},{{point.latitude}},0{%endfor%}
+        </coordinates></LineString>
   </Placemark>
-{%endfor%}
+   <Placemark>
+    <name>{{user}} End</name>
+    <description>{{user}}</description>
+    <Point>
+      <coordinates>{{user.lastPoint.longitude}},{{user.lastPoint.latitude}},0</coordinates>
+    </Point>
+ </Placemark>
+ {%endif%}{%endfor%}
 </Document>
 </kml>

@@ -58,6 +58,8 @@ class Position(models.Model):
     batterystatus = models.IntegerField(null=True, db_column='BatteryStatus', blank=True) 
     class Meta:
         db_table = u'positions'
+    def __unicode__(self):
+        return '%s "%s" %s' % (self.user, self.dateoccurred,self.latitude )
         
 class CurrentPosition(models.Model):
     user = models.OneToOneField(ActionUser) 

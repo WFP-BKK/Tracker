@@ -1,5 +1,5 @@
 # Create your views here.
-from tracker.datastore.models import CurrentPosition
+from tracker.datastore.models import CurrentPosition, ActionUser, Position
 from django.shortcuts import render_to_response
 import datetime
 #from django.template import Template, RequestContext,Library, Node, loader, Context
@@ -43,4 +43,25 @@ def all_points_kml(request):
             points.append(the_user)
                 
     return render_to_response('kml_repr.kml', {'list':points}, mimetype="text/xml")
+
+def all_paths_kml(requst):
+    theUsers = ActionUser.objects.all()
+    #points for the last 10w
+    datefilter = datetime.datetime.now() + datetime.timedelta(days= -70)
+    for user in theUsers:
+        allPoints = Position.objects.filter(user=user).order_by('-dateoccurred').filter(dateoccurred__gt = datefilter)
+        
+        if  allPoints.count() > 3:
+            user.hasPath=True
+            user.path = allPoints
+            print '%s %s' % (user,allPoints.count())
+            user.lastPoint = allPoints[allPoints.count()-1]
+        #else:
+        #    print user
+        
+
+    return render_to_response('kml_paths.kml', {'users':theUsers}, mimetype="text/xml")
+
+
+
 

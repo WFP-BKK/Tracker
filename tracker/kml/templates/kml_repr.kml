@@ -42,6 +42,7 @@
   <Placemark>
     <name>{{item.user}}</name>
     <description>{{item.user}}</description>
+    <styleUrl>#sh_ylw-pushpin</styleUrl>
     <Point>
       <coordinates>{{item.position.longitude}},{{item.position.latitude}},0</coordinates>
     </Point>

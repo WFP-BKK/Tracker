@@ -71,9 +71,9 @@ function pinnit( map, infoWindow) {
               parseFloat(markers[i].getAttribute("lat")),
               parseFloat(markers[i].getAttribute("lng")));
           var icon = customIcons[type] || {};
-          listOfPins += '<tr><td><a href="javascript:map.setCenter(new google.maps.LatLng('
+          listOfPins += '<li><a href="javascript:map.setCenter(new google.maps.LatLng('
           + parseFloat(markers[i].getAttribute("lat")) +','+ parseFloat(markers[i].getAttribute("lng")) +
-          '));showIW('+i+');"> <img src="'+ icon.icon+'">' + markers[i].getAttribute("name")+'</a></td></tr>'; 
+          '));showIW('+i+');"> <img src="'+ icon.icon+'">' + markers[i].getAttribute("name")+'</a></li>'; 
           var html = "<b>" + name + "</b> <br/>" + address;          
           
           var marker = new google.maps.Marker({
@@ -181,11 +181,9 @@ function StartTheTimer()
     <img src='images/mm_20_red.png' /> Current<br>
     <img src='images/mm_20_blue.png' /> &lt;7 Days
    
-  <table id='mytable'>
-   <tbody id="TheList">
-   <tr><td>&nbsp;</td></tr>
-   </tbody>
-  </table>
+  <ul id="TheList">
+   <li></li>
+	</ul>
 </div>   
    <div id="map" style="width: 800px; height: 600px;float:left"></div>
 <div style="clear:both;"></div>

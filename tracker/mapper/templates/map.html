@@ -5,7 +5,10 @@
   a {
   	text-decoration: none;
   }
-
+  img {border:0px;}
+  ul { list-style-type: none; }
+  body{width:950px}
+  .legend{ width: 140px;float:right;}
   </style>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>EPIC - Assets Tracking</title>
@@ -172,18 +175,17 @@ function StartTheTimer()
 //]]>
 </script>
   </head>
-  <body onload="load()" style="width:950px">
-   <div><img  src='images/epic_logo_small.jpg'/> - Assets Tracking
-    
-   </div>
+  <body onload="load()" >
+   <div><img  src='images/epic_logo_small.jpg'/> - Assets Tracking</div>
 <div style="clear:both;"></div>
-   <div style="width: 140px;float:right;">
-    <img src='images/mm_20_red.png' /> Current<br>
-    <img src='images/mm_20_blue.png' /> &lt;7 Days
-   
-  <ul id="TheList">
-   <li></li>
-	</ul>
+   <div class='legend'">
+    <ul>
+    <li><img src='images/mm_20_red.png' /> Current</li>
+    <li><img src='images/mm_20_blue.png' /> &lt;7 Days</li>
+    </ul>
+  	<ul id="TheList">
+   	<li><a href="#x"><img src="images/red-dot.png"> DEMO</a></li>
+   </ul>
 </div>   
    <div id="map" style="width: 800px; height: 600px;float:left"></div>
 <div style="clear:both;"></div>

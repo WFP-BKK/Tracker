@@ -7,3 +7,7 @@ def show_map(request):
 
 def show_map_kml(request):
     return render_to_response('kml_map.html') 
+
+def show_map_portal(request):
+    return render_to_response('EPIC.html') 
+

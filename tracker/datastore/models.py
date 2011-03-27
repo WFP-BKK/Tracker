@@ -23,7 +23,11 @@ class ActionUser(models.Model):
     class Meta:
         db_table = u'users'
     def __unicode__(self):
-        return '%s' % (self.username)
+        x = self.UserDetails.firstName
+        if x != '':
+            return '%s' % (x)
+        else:
+            return '%s' % (self.username)
     
     
     def myLatestPos(self):
@@ -36,9 +40,11 @@ class ActionUser(models.Model):
 class UserDetail(models.Model):
     user = models.OneToOneField(ActionUser)
     callSign = models.CharField(max_length=20, null=True, blank=True)
-    firsName = models.CharField(max_length=40, null=True, blank=True)
+    firstName = models.CharField(max_length=40, null=True, blank=True)
     lastName = models.CharField(max_length=40, null=True, blank=True)
     organization = models.CharField(max_length=40, null=True, blank=True)
+    epicNumber = models.CharField(max_length=10, null=True, blank=True)
+    inactiveUser = models.BooleanField(blank=True)
     
 class Position(models.Model):
     user = models.ForeignKey(ActionUser, db_column='FK_Users_ID') 

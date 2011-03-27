@@ -19,13 +19,13 @@ def all_points(request):
                 the_user.pin = 'old'
             points.append(the_user)
         else:
-            if the_user.user.inactiveUser == False:
+            if the_user.user.UserDetail.inactiveUser == False:
                 if the_user.position.dateoccurred > datefilter:
                     if the_user.position.dateoccurred > dayfilter:
                         the_user.pin = 'current'
                     else:
                         the_user.pin = 'old'
-                    points.append(the_user)                
+                    points.append(the_user)             
     return render_to_response('listit.xml', {'list':points}, mimetype="text/xml")
 
 def all_points_kml(request):

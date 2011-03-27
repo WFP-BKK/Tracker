@@ -22,14 +22,17 @@ class ActionUser(models.Model):
     password = models.CharField(max_length=150, null=True, blank=True)
     class Meta:
         db_table = u'users'
+
     def __unicode__(self):
-        x = self.UserDetails.firstName
+        try:
+            x = UserDetail.objects.get(user=self)
+        except:
+            x = ''
         if x != '':
             return '%s' % (x)
         else:
             return '%s' % (self.username)
-    
-    
+
     def myLatestPos(self):
         #myPos = Position()
         try:
@@ -45,6 +48,16 @@ class UserDetail(models.Model):
     organization = models.CharField(max_length=40, null=True, blank=True)
     epicNumber = models.CharField(max_length=10, null=True, blank=True)
     inactiveUser = models.BooleanField(blank=True)
+    sipAddress = models.CharField(max_length=80, null=True, blank=True)
+    
+    def __unicode__(self):
+        
+        theStr = '%s %s'%(self.firstName,self.lastName)
+        if theStr == ' ':
+            theStr = self.user.username
+        if self.organization:
+            theStr = '%s - %s'%(theStr,self.organization)
+        return theStr
     
 class Position(models.Model):
     user = models.ForeignKey(ActionUser, db_column='FK_Users_ID') 

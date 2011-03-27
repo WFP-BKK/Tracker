@@ -3,7 +3,13 @@
 {%for item in list%}
 <marker 
 	name="{{item.user}}" 
-	address="{{item.position.dateoccurred}}&lt;br&gt; Lat: {{item.position.latitude}}&lt;br&gt; Long: {{item.position.longitude}} {%if item.user.userdetail.callSign%}&lt;br&gt;Call Sign: {{item.user.userdetail.callSign}}{%endif%}" 
+	address="
+	{%if item.user.userdetail.epicNumber%}Number:{{item.user.userdetail.epicNumber}}{%endif%}
+	{%if item.user.userdetail.callSign%}&lt;br&gt;Call Sign: {{item.user.userdetail.callSign}}&lt;br&gt;{%endif%}
+	{%if item.user.userdetail.sipAddress%}&lt;a href='tel:sip:{{item.user.userdetail.sipAddress}}'&gt;Call {{item.user}}&lt;a&gt;&lt;br&gt;{%endif%}
+	Latest Position Date:{{item.position.dateoccurred}}&lt;br&gt;
+	Latitude: {{item.position.latitude}}&lt;br&gt;
+	Longitude: {{item.position.longitude}}"
 	lat="{{item.position.latitude}}" 
 	lng="{{item.position.longitude}}" 
 	type="{{item.pin}}" />

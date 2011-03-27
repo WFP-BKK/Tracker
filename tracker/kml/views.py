@@ -10,22 +10,30 @@ def all_points(request):
     dayfilter = datetime.datetime.now() + datetime.timedelta(days= -2)
     myUsers = CurrentPosition.objects.all()
     points = []
-    theFilter = request.GET.get('filter')
+    try:
+        theFilter = request.GET.get('filter')
+    except:
+        theFilter = ''
     for the_user in myUsers:
-        if theFilter == 'all':
-            if the_user.position.dateoccurred > dayfilter:
-                the_user.pin = 'current'
+        try:
+            inactive =  the_user.user.userdetail.inactiveUser
+        except:
+            inactive= False
+        if not inactive:
+            if theFilter == 'all':
+                if the_user.position.dateoccurred > dayfilter:
+                    the_user.pin = 'current'
+                else:
+                    the_user.pin = 'old'
+                points.append(the_user)
             else:
-                the_user.pin = 'old'
-            points.append(the_user)
-        else:
-            if the_user.user.UserDetail.inactiveUser == False:
-                if the_user.position.dateoccurred > datefilter:
-                    if the_user.position.dateoccurred > dayfilter:
-                        the_user.pin = 'current'
-                    else:
-                        the_user.pin = 'old'
-                    points.append(the_user)             
+    #            if the_user.user.details.inactiveUser != True:
+                    if the_user.position.dateoccurred > datefilter:
+                        if the_user.position.dateoccurred > dayfilter:
+                            the_user.pin = 'current'
+                        else:
+                            the_user.pin = 'old'
+                        points.append(the_user)             
     return render_to_response('listit.xml', {'list':points}, mimetype="text/xml")
 
 def all_points_kml(request):

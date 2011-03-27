@@ -6,7 +6,7 @@
 	address="
 	{%if item.user.userdetail.epicNumber%}Number:{{item.user.userdetail.epicNumber}}{%endif%}
 	{%if item.user.userdetail.callSign%}&lt;br&gt;Call Sign: {{item.user.userdetail.callSign}}&lt;br&gt;{%endif%}
-	{%if item.user.userdetail.sipAddress%}&lt;a href='tel:sip:{{item.user.userdetail.sipAddress}}'&gt;Call {{item.user}}&lt;a&gt;&lt;br&gt;{%endif%}
+	{%if item.user.userdetail.sipAddress%}&lt;a href='sip:{{item.user.userdetail.sipAddress}}'&gt;Call {{item.user}}&lt;a&gt;&lt;br&gt;{%endif%}
 	Latest Position Date:{{item.position.dateoccurred}}&lt;br&gt;
 	Latitude: {{item.position.latitude}}&lt;br&gt;
 	Longitude: {{item.position.longitude}}"

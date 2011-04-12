@@ -3,9 +3,9 @@
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-ADMINS = (
+ADMINS = ( 
     # ('Your Name', 'your_email@domain.com'),
-)
+ )
 
 MANAGERS = ADMINS
 
@@ -39,33 +39,34 @@ MEDIA_ROOT = ''
 MEDIA_URL = ''
 import os
 STATIC_DOC_ROOT = os.getcwd() + '/media/'
+print STATIC_DOC_ROOT
 ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'k_zc^@8l000s#5ni%@4_7w(q+=-x60)br1*^$r+&8y5%1g0l4v'
 
 # List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
+TEMPLATE_LOADERS = ( 
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
-)
+ )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = ( 
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-)
+ )
 
 ROOT_URLCONF = 'tracker.urls'
 
-TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates')
-)
+TEMPLATE_DIRS = ( 
+    os.path.join( os.path.dirname( __file__ ), 'templates' )
+ )
 
-INSTALLED_APPS = (
+INSTALLED_APPS = ( 
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -78,5 +79,5 @@ INSTALLED_APPS = (
     'tracker.kml',
     'tracker.mapper',
 
-)
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
+ )
+MEDIA_ROOT = os.path.join( os.path.dirname( __file__ ), 'media' )

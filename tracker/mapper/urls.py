@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import patterns
-from tracker.settings import STATIC_DOC_ROOT
+from settings import STATIC_DOC_ROOT
 from django.views.generic.simple import redirect_to, direct_to_template
 urlpatterns = patterns( 
                        '',

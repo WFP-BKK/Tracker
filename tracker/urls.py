@@ -1,16 +1,17 @@
 from django.conf.urls.defaults import patterns, include
-from tracker.collector.views import *
+from collector.views import *
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
-from tracker.settings import MEDIA_ROOT
+from settings import MEDIA_ROOT
 
-urlpatterns = patterns('',
-    (r'^admin/', include(admin.site.urls)),
-    (r'^mapper/', include('tracker.mapper.urls')),
-    (r'^kml', include('tracker.kml.urls')),
-    (r'^trackme/', include('tracker.collector.urls')),
-     (r'^requests.php', 'tracker.collector.views.collect'),
-    (r'^trackme/media/(?P<path>.*)$', 'django.views.static.serve',
-    {'document_root': MEDIA_ROOT}),
-)
+urlpatterns = patterns( '',
+    ( r'^admin/', include( admin.site.urls ) ),
+    ( r'^mapper/', include( 'mapper.urls' ) ),
+    ( r'^kml', include( 'kml.urls' ) ),
+    ( r'^trackme/', include( 'collector.urls' ) ),
+     ( r'^requests.php', 'collector.views.collect' ),
+    ( r'^trackme/media/(?P<path>.*)$', 'django.views.static.serve',
+    {'document_root': MEDIA_ROOT} ),
+    ( r'^$', 'django.views.generic.simple.redirect_to', {'url': 'mapper/'} ),
+ )

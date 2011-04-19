@@ -36,11 +36,10 @@ USE_I18N = True
 USE_L10N = True
 MEDIA_ROOT = ''
 
-MEDIA_URL = ''
 import os
 STATIC_DOC_ROOT = os.getcwd() + '/media/'
-print STATIC_DOC_ROOT
-ADMIN_MEDIA_PREFIX = '/media/'
+MEDIA_URL = '/tracker/trackme/media/'
+ADMIN_MEDIA_PREFIX = '/django/admin/media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'k_zc^@8l000s#5ni%@4_7w(q+=-x60)br1*^$r+&8y5%1g0l4v'
@@ -60,7 +59,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
  )
 
-ROOT_URLCONF = 'tracker.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATE_DIRS = ( 
     os.path.join( os.path.dirname( __file__ ), 'templates' )
@@ -74,10 +73,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'tracker.datastore',
-    'tracker.collector',
-    'tracker.kml',
-    'tracker.mapper',
-
+    'datastore',
+    'collector',
+    'kml',
+    'mapper',
  )
 MEDIA_ROOT = os.path.join( os.path.dirname( __file__ ), 'media' )

@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 def all_points( request ):
     datefilter = datetime.datetime.now() + datetime.timedelta( days = -7 )
     dayfilter = datetime.datetime.now() + datetime.timedelta( days = -2 )
-    myUsers = CurrentPosition.objects.all()
+    myUsers = Position.objects.all()
     points = []
     try:
         theFilter = request.GET.get( 'filter' )

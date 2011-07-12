@@ -63,7 +63,7 @@
       
     }
 function pinnit( map, infoWindow) {
-	downloadUrl("http://10.11.208.20/trackme/kml/all_items/?callback=?", function(data) {
+	downloadUrl("http://localhost:8000/kml/all_items/?callback=?", function(data) {
 		listOfPins=''
         var xml = data.responseXML;
         var markers = xml.documentElement.getElementsByTagName("marker");

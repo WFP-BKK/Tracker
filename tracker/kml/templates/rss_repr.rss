@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <feed xmlns="http://www.w3.org/2005/Atom" 
+      xmlns:georss="http://www.georss.org/georss" 
+      xmlns:gml="http://www.opengis.net/gml">
+  <title>People Positions Now</title>
+   <link href="http://wfp.org/"/>
+   <updated>{%now "Y-m-d"%}T{%now "H:i:s"%}+04:00</updated>
+   <author>
+      <name>EPIC</name>
+   </author>
+   <id>http://94.200.128.197/trackme/kml.rss</id>
+   {%for item in list%}
+   <entry>
+ <title>{{item.user}}</title>
+      <link href="http://94.200.128.197/trackme/kml.rss#{{item.user.id}}"/>
+      <id>http://94.200.128.197/trackme/kml.rss#{{item.user.id}}</id>
+      <updated>{{item.position.dateoccurred.isoformat}}+04:00</updated>
+      <summary>User: {{item.user}}&lt;br/&gt;
+On:{{item.position.dateoccurred}} &lt;br/&gt;
+Lat:{{item.position.latitude}} &lt;br/&gt;
+Long: {{item.position.longitude}}&lt;br/&gt;
+EMail: {{item.user.emailAddress}}
+      </summary>
+      <georss:where>
+         <gml:Point>
+            <gml:pos>{{item.position.latitude}} {{item.position.longitude}}</gml:pos>
+         </gml:Point>
+      </georss:where>
+   </entry>
+   {%endfor%}
+ </feed>

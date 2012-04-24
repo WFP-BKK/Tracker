@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml">
+<title>People Positions Now</title>
+<link href="http://trackme.globalepic.org/" />
+<updated>{%now "Y-m-d"%}T{%now "H:i:s"%}-04:00</updated>
+<author>
+  <name>EPIC</name>
+</author>
+<id>http://trackme.globalepic.org/trackme/kml.rss</id>{%for user in users%}{%if user.hasPath%} 
+<entry>
+  <title>{{user}}</title>
+  <link href="http://trackme.globalepic.org/trackme/kml.rss#{{item.user.name}}" />
+  <id>http://trackme.globalepic.org/trackme/kml.rss#{{user.id}}</id>
+  <updated>{{user.path.0.dateoccurred.isoformat}}-04:00</updated>
+  <summary>User: {{item.user}} Start</summary>
+  <georss:where>
+    <gml:Point>
+      <gml:pos>{{user.path.0.latitude}} {{user.path.0.longitude}}</gml:pos>
+    </gml:Point>
+    <gml:LineString>
+      <gml:posList>{%for point in user.path%} {{point.latitude}} {{point.longitude}}{%endfor%}</gml:posList>
+    </gml:LineString>
+    <gml:Point>
+      <gml:pos>{{user.lastPoint.latitude}} {{user.lastPoint.longitude}}</gml:pos>
+    </gml:Point>
+  </georss:where>
+</entry>{%endif%}{%endfor%}</feed>

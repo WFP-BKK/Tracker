@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?access-control allow="*"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document>
 <name>People</name>
@@ -39,14 +38,20 @@
 			<color>ff0000aa</color>
 		</LabelStyle>
 	</Style>
-{%for item in list%}
+{%for item in poi%}
   <Placemark>
-    <name>{{item.user}}</name>
-    <description>{{item.user}}</description>
-    <styleUrl>#sh_ylw-pushpin</styleUrl>
-    <TimeStamp>{{item.position.dateoccurred}}</TimeStamp>
+    <name>{{item.user}} {%if item.comments%}- {{item.comments}}{%endif%}</name>
+    <description>
+    Recorded: {{item.dateoccurred}}&lt;br/&gt;
+    {%if item.comments%}{{item.comments}}&lt;br/&gt;{%endif%}
+    {%if item.imageurl%}
+    &lt;img src='/trackme/media/images/{{item.imageurl}}'/ &gt;
+    {%endif%}
+
+    </description>
+    <styleUrl>http://94.200.128.197/trackme/kml/style.kml#{%if item.imageurl%}Camera{%else%}{{item.icon.name}}{%endif%}</styleUrl>
     <Point>
-      <coordinates>{{item.position.longitude}},{{item.position.latitude}},0</coordinates>
+      <coordinates>{{item.longitude}},{{item.latitude}},0</coordinates>
     </Point>
   </Placemark>
 {%endfor%}

@@ -14,3 +14,5 @@ from django.shortcuts import render_to_response
 #def show_map_portal( request ):
 #    return render_to_response( 'EPIC.html' )
 
+def gm(request):
+    return render_to_response( 'EPIC.html' )

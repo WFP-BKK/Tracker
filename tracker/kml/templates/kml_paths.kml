@@ -73,6 +73,7 @@
         <coordinates>{%for point in user.path%}
         {{point.longitude}},{{point.latitude}},0{%endfor%}
         </coordinates></LineString>
+        
 </Placemark>
 <Placemark>
     <name>{{user}} End</name>

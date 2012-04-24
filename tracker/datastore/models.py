@@ -16,20 +16,22 @@ class ActionUser( models.Model ):
 
     def __unicode__( self ):
         try:
-            x = UserDetail.objects.get( user = self )
+            x,new_user = UserDetail.objects.get_or_create( user = self )
         except:
             x = ''
         if x != '':
-            return '%s' % ( x )
+            return '%s - %s' % ( x, self.username )
         else:
-            return '%s' % ( self.username )
+            return ' NA - %s' % ( self.username )
 
     def myLatestPos( self ):
-        #myPos = Position()
         try:
             return CurrentPosition.object.get( id = self.positions_set.aggregate( Max( 'id' ) )['id__max'] )
         except:
             return
+    def myTag (self):
+        x = UserDetail.objects.get( user = self )
+        return self.username
 
 class UserDetail( models.Model ):
     user = models.OneToOneField( ActionUser )
@@ -40,14 +42,16 @@ class UserDetail( models.Model ):
     epicNumber = models.CharField( max_length = 10, null = True, blank = True )
     inactiveUser = models.BooleanField( blank = True )
     sipAddress = models.CharField( max_length = 80, null = True, blank = True )
+    emailAddress = models.EmailField(blank=True,null=True)
 
     def __unicode__( self ):
-
         theStr = '%s %s' % ( self.firstName, self.lastName )
-        if theStr == ' ':
+        if theStr == 'None None':
             theStr = self.user.username
         if self.organization:
             theStr = '%s - %s' % ( theStr, self.organization )
+        if self.emailAddress:
+            theStr = '%s - %s' % ( theStr, self.emailAddress )
         return theStr
 
 class Position( models.Model ):
@@ -61,7 +65,7 @@ class Position( models.Model ):
     dateadded = models.DateTimeField( db_column = 'DateAdded' )
     dateoccurred = models.DateTimeField( null = True, db_column = 'DateOccurred', blank = True )
     comments = models.CharField( max_length = 765, db_column = 'Comments', blank = True )
-    imageurl = models.CharField( max_length = 765, db_column = 'ImageURL', blank = True )
+    imageurl = models.ImageField(upload_to='c:/epic/tracker/media/images', max_length = 765, db_column = 'ImageURL', blank = True )
     signalstrength = models.IntegerField( null = True, db_column = 'SignalStrength', blank = True )
     signalstrengthmax = models.IntegerField( null = True, db_column = 'SignalStrengthMax', blank = True )
     signalstrengthmin = models.IntegerField( null = True, db_column = 'SignalStrengthMin', blank = True )
@@ -74,11 +78,20 @@ class Position( models.Model ):
 class CurrentPosition( models.Model ):
     user = models.OneToOneField( ActionUser )
     position = models.ForeignKey( Position )
+   
 
 
+class Trip(models.Model):
+    user = models.ForeignKey(ActionUser, db_column = 'FK_Users_ID')
+    name = models.CharField( max_length = 255, null = True, blank = True )
+    comments = models.CharField( max_length = 1024, null = True, blank = True )
+    class Meta:
+            db_table = u'trips'
+    def __unicode__(self):
+        return self.name
 
 class ContactWays( models.Model ):
-    contact_type_choice = ( ( u'skype', u'Skype' ), )
+    contact_type_choice = ( ( u'skype', u'Skype' ),( u'msn', u'MSN' ), )
     actionUser = models.ForeignKey( ActionUser )
     contactProtocol = models.CharField( max_length = 10, choices = contact_type_choice )
     contactString = models.CharField( max_length = 30 )

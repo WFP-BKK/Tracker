@@ -49,7 +49,7 @@
     {%endif%}
 
     </description>
-    <styleUrl>http://trackme.globalepic.lu/trackme/kml/style.kml#{%if item.imageurl%}Camera{%else%}{{item.icon.name}}{%endif%}</styleUrl>
+    <styleUrl>http://trackme.globalepic.org/trackme/kml/style.kml#{%if item.imageurl%}Camera{%else%}{{item.icon.name}}{%endif%}</styleUrl>
     <Point>
       <coordinates>{{item.longitude}},{{item.latitude}},0</coordinates>
     </Point>

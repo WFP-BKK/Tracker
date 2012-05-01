@@ -13,7 +13,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'trackme',
-        'USER': 'root',
+        'USER': 'trackme',
         'PASSWORD': 'trackme',
         'HOST': '10.11.208.20',
         'PORT': '',

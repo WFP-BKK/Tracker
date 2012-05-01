@@ -8,12 +8,12 @@
    <author>
       <name>EPIC</name>
    </author>
-   <id>http://94.200.128.197/trackme/kml.rss</id>
+   <id>http://trackme.globalepic.lu/trackme/kml.rss</id>
    {%for item in list%}
    <entry>
  <title>{{item.user}}</title>
-      <link href="http://94.200.128.197/trackme/kml.rss#{{item.user.id}}"/>
-      <id>http://94.200.128.197/trackme/kml.rss#{{item.user.id}}</id>
+      <link href="http://trackme.globalepic.lu/trackme/kml.rss#{{item.user.id}}"/>
+      <id>http://trackme.globalepic.lu/trackme/kml.rss#{{item.user.id}}</id>
       <updated>{{item.position.dateoccurred.isoformat}}+04:00</updated>
       <summary>User: {{item.user}}&lt;br/&gt;
 On:{{item.position.dateoccurred}} &lt;br/&gt;

@@ -30,7 +30,7 @@ def all_points( request ):
 						the_user.pin = 'old'
 					points.append( the_user )
 				else:
-					if inactive != True:
+					if not inactive:
 						if the_user.position.dateoccurred > datefilter:
 							if the_user.position.dateoccurred > dayfilter:
 								the_user.pin = 'current'
@@ -103,7 +103,7 @@ def all_points_rss( request ):
     points = []
     for the_user in myUsers:
         try:
-            if the_user.user.userdetail.inactiveUser==False:
+            if not the_user.user.userdetail.inactiveUser:
                 try:
                     if the_user.position.dateoccurred > datefilter:
                         if the_user.position.dateoccurred > dayfilter:

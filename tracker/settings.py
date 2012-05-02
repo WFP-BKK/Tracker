@@ -77,5 +77,11 @@ INSTALLED_APPS = (
     'collector',
     'kml',
     'mapper',
+    'shell_plus',
  )
+
+SERIALIZATION_MODULES = {
+    'json': 'wadofstuff.django.serializers.json'
+}
+
 MEDIA_ROOT = os.path.join( os.path.dirname( __file__ ), 'media' )

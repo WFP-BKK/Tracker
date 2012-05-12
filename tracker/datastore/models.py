@@ -43,6 +43,7 @@ class UserDetail( models.Model ):
     inactiveUser = models.BooleanField( blank = True )
     sipAddress = models.CharField( max_length = 80, null = True, blank = True )
     emailAddress = models.EmailField(blank=True,null=True)
+    timeZone = models.IntegerField( null = True, blank = True )
 
     def __unicode__( self ):
         theStr = '%s %s' % ( self.firstName, self.lastName )

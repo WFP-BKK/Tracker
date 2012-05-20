@@ -13,6 +13,7 @@ class ActionUserAdmin( admin.ModelAdmin ):
     inlines = [
         UserDetailInline, ContactWaysInline,#CurrentPositionInline
     ]
+    search_fields = ['ActionUser']
 
 admin.site.register( ActionUser, ActionUserAdmin )
 admin.site.register( Icon )

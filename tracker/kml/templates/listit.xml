@@ -12,6 +12,10 @@
 	Longitude: {{item.position.longitude}}"
 	lat="{{item.position.latitude}}" 
 	lng="{{item.position.longitude}}" 
-	type="{{item.pin}}" />
+	type="{{item.pin}}"
+	date="{{item.position.dateoccurred}}"
+	mid="{{item.user.id}}" 
+	
+	/>
 {%endfor%}
 </markers>

@@ -13,7 +13,10 @@ class ActionUserAdmin( admin.ModelAdmin ):
     inlines = [
         UserDetailInline, ContactWaysInline,#CurrentPositionInline
     ]
-    search_fields = ['ActionUser']
+    search_fields = ['username']
+class PositionAdmin( admin.ModelAdmin ):
+    model = Position
 
-admin.site.register( ActionUser, ActionUserAdmin )
+admin.site.register(Position)
 admin.site.register( Icon )
+admin.site.register( ActionUser, ActionUserAdmin )

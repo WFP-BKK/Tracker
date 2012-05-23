@@ -58,3 +58,6 @@ logs/sync_compas.log
 access.log
 
 src/ets/settings/development.py
+.svn
+#photos
+tracker/media/photos

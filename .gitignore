@@ -61,3 +61,4 @@ src/ets/settings/development.py
 .svn
 #photos
 tracker/media/photos
+tracker/data.dump.json

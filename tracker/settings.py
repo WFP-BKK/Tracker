@@ -11,11 +11,11 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'trackme',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'trackme-dev',
         'USER': 'trackme',
         'PASSWORD': 'trackme',
-        'HOST': '10.11.208.20',
+        'HOST': '10.11.208.35',
         'PORT': '',
     }
 }

@@ -62,7 +62,7 @@ class UserDetail( models.Model ):
 
 class Position( models.Model ):
     user = models.ForeignKey( ActionUser, db_column = 'FK_Users_ID' )
-    icon = models.ForeignKey( Icon, db_column = 'FK_Icons_ID', blank = True )
+    icon = models.ForeignKey( Icon, db_column = 'FK_Icons_ID', blank = True,null=True )
     latitude = models.FloatField( db_column = 'Latitude' )
     longitude = models.FloatField( db_column = 'Longitude' )
     altitude = models.FloatField( null = True, db_column = 'Altitude', blank = True )
@@ -70,7 +70,7 @@ class Position( models.Model ):
     angle = models.FloatField( null = True, db_column = 'Angle', blank = True )
     dateadded = models.DateTimeField( db_column = 'DateAdded' )
     dateoccurred = models.DateTimeField( null = True, db_column = 'DateOccurred', blank = True )
-    comments = models.CharField( max_length = 765, db_column = 'Comments', blank = True )
+    comments = models.CharField( max_length = 765, db_column = 'Comments', blank = True, null=True )
     imageurl = models.ImageField(upload_to='c:/epic/tracker/media/images', max_length = 765, db_column = 'ImageURL', blank = True )
     signalstrength = models.IntegerField( null = True, db_column = 'SignalStrength', blank = True )
     signalstrengthmax = models.IntegerField( null = True, db_column = 'SignalStrengthMax', blank = True )

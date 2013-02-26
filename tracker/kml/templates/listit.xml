@@ -12,6 +12,12 @@
 	Longitude: {{item.position.longitude}}"
 	lat="{{item.position.latitude}}" 
 	lng="{{item.position.longitude}}" 
-	type="{{item.pin}}" />
+	type="{{item.pin}}"
+	date="{{item.position.dateoccurred}}"
+	mid="{{item.user.id}}"
+    offset="{{item.user.userdetail.timeZone}}"
+    deviceType="{{item.user.userdetail.deviceType}}"
+    deviceModel="{{item.user.userdetail.deviceModel}}"
+	/>
 {%endfor%}
 </markers>

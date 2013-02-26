@@ -3,6 +3,7 @@ from datastore.models import CurrentPosition, ActionUser, Position,Icon
 from django.shortcuts import render_to_response
 import datetime
 from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
 #from django.template import Template, RequestContext,Library, Node, loader, Context
 
 
@@ -94,6 +95,28 @@ def all_points_kml( request ):
     my_response = render_to_response( 'kml_repr.kml', {'list':points}, mimetype = "application/xml" )
     my_response['Access-Control-Allow-Origin'] = '*'
     return my_response
+
+@csrf_exempt
+def all_points_json( request ):
+    datefilter = datetime.datetime.now() + datetime.timedelta( days = -7 )
+    dayfilter = datetime.datetime.now() + datetime.timedelta( days = -1 )
+    myUsers = CurrentPosition.objects.all()
+    points = []
+    for the_user in myUsers:
+        try:
+            if the_user.position.dateoccurred > datefilter:
+                if the_user.position.dateoccurred > dayfilter:
+                    the_user.pin = 'here'
+                else:
+                    the_user.pin = 'bar'
+                points.append( the_user )
+        except:
+            pass
+    data = serializers.serialize("json", points,ensure_ascii=False)
+    my_response = render_to_response( 'kml_repr.kml', {'list':points}, mimetype = "application/xml" )
+    my_response['Access-Control-Allow-Origin'] = '*'
+    return my_response
+
 
 @csrf_exempt
 def all_points_rss( request ):

@@ -36,6 +36,8 @@ class ActionUser( models.Model ):
 class UserDetail( models.Model ):
     user = models.OneToOneField( ActionUser )
     callSign = models.CharField( max_length = 20, null = True, blank = True )
+    deviceType = models.CharField( max_length = 40, null = True, blank = True )
+    deviceModel = models.CharField( max_length = 40, null = True, blank = True )
     firstName = models.CharField( max_length = 40, null = True, blank = True )
     lastName = models.CharField( max_length = 40, null = True, blank = True )
     organization = models.CharField( max_length = 40, null = True, blank = True )
@@ -44,7 +46,10 @@ class UserDetail( models.Model ):
     sipAddress = models.CharField( max_length = 80, null = True, blank = True )
     emailAddress = models.EmailField(blank=True,null=True)
     timeZone = models.IntegerField( null = True, blank = True )
+<<<<<<< HEAD
 
+=======
+>>>>>>> Table instead of list
     def __unicode__( self ):
         theStr = '%s %s' % ( self.firstName, self.lastName )
         if theStr == 'None None':

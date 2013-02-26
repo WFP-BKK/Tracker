@@ -1,6 +1,7 @@
 # Create your views here.
 #from tracker.datastore.models import *
-import datetime
+import datetime, urllib2
+from xml.dom.minidom import parse, parseString
 from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -17,7 +18,7 @@ from django.views.decorators.csrf import csrf_exempt
 #"GET /trackme/requests.php?a=geticonlist&u=wgonzalez&p=wfpdubai&db=8 HTTP/1.1" 200 14
 #"GET /trackme/requests.php?a=gettriplist&u=wgonzalez&p=wfpdubai&db=8 HTTP/1.1" 200 16
 #/trackme/requests.php?a=updateimageurl&u=wgonzalez&p=wfpdubai&id=0&imageurl=http://10.11.208.20:80/trackme/pics/wgonzalez1583.jpg&db=8 
-
+#Time zone http://www.earthtools.org/timezone-1.1/40.71417/-74.00639 (lat/long)
 def collect( request ): #request.php
     """
     The Collector:
@@ -104,14 +105,28 @@ def collect( request ): #request.php
     except:
             pass
     if action == 'upload':
+        #add online timeShift per location
+        
         from dateutil import parser
         myPoints=''
         tdate = parser.parse(do_date)
         time_now = datetime.datetime.now()
+<<<<<<< HEAD
         # add timeShift to time
         timeShift = 0
         timeShift = myUser.userdetail.timeZone
         if timeShift:
+=======
+        urlTZ = "http://www.earthtools.org/timezone-1.1/" + latitude + '/' + longitude
+        tzR = urllib2.urlopen(urlTZ)
+        tzXml = tzR.read()
+        
+        try:
+            timeShift = myUser.userdetail.timeZone
+        except:## check online for timeShift
+            timeShift = 0
+        if timeShift :
+>>>>>>> Table instead of list
             do_date = tdate - datetime.timedelta(hours = timeShift)
         myPoints , new_position = Position.objects.get_or_create( 
                                                      dateoccurred = do_date,
@@ -122,7 +137,6 @@ def collect( request ): #request.php
                                                      imageurl = image,
                                                      comments = comments,
                                                      defaults = {'dateadded':time_now })
-
         if myIconID:
             myPoints.icon = theIcon
             myPoints.save()

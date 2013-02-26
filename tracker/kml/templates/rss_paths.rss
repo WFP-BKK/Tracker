@@ -11,7 +11,7 @@
   <title>{{user}}</title>
   <link href="http://trackme.globalepic.org/trackme/kml.rss#{{item.user.name}}" />
   <id>http://trackme.globalepic.org/trackme/kml.rss#{{user.id}}</id>
-  <updated>{{user.path.0.dateoccurred.isoformat}}-04:00</updated>
+  <updated>{{user.path.0.dateoccurred.isoformat}}{%if item.user.userdetail.timeZone%}+00:00{%else%}+04:00{%endif%}</updated>
   <summary>User: {{item.user}} Start</summary>
   <georss:where>
     <gml:Point>

@@ -3,8 +3,8 @@ from django.db.models import Max
 
 class Icon( models.Model ):
     id = models.IntegerField( primary_key = True, db_column = 'ID' )
-    name = models.CharField( max_length = 765, db_column = 'Name' )
-    url = models.CharField( max_length = 1536, db_column = 'URL' )
+    name = models.TextField( max_length = 765, db_column = 'Name' )
+    url = models.TextField( max_length = 1536, db_column = 'URL' )
     class Meta:
         db_table = u'icons'
 
@@ -65,7 +65,7 @@ class Position( models.Model ):
     angle = models.FloatField( null = True, db_column = 'Angle', blank = True )
     dateadded = models.DateTimeField( db_column = 'DateAdded' )
     dateoccurred = models.DateTimeField( null = True, db_column = 'DateOccurred', blank = True )
-    comments = models.CharField( max_length = 765, db_column = 'Comments', blank = True, null=True )
+    comments = models.TextField( max_length = 765, db_column = 'Comments', blank = True, null=True )
     imageurl = models.ImageField(upload_to='c:/epic/tracker/media/images', max_length = 765, db_column = 'ImageURL', blank = True )
     signalstrength = models.IntegerField( null = True, db_column = 'SignalStrength', blank = True )
     signalstrengthmax = models.IntegerField( null = True, db_column = 'SignalStrengthMax', blank = True )
@@ -80,24 +80,18 @@ class CurrentPosition( models.Model ):
     user = models.OneToOneField( ActionUser )
     position = models.ForeignKey( Position )
    
-
+class RadioServer(models.Model):
+    serverName = models.CharField(max_length = 100)
+    latestUpdate = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    serverEnabled = models.BooleanField(default=True)
+    refreshPeriod = models.IntegerField(default = 300)
 
 class Trip(models.Model):
     user = models.ForeignKey(ActionUser, db_column = 'FK_Users_ID')
     name = models.CharField( max_length = 255, null = True, blank = True )
-    comments = models.CharField( max_length = 1024, null = True, blank = True )
+    comments = models.TextField( max_length = 1024, null = True, blank = True )
     class Meta:
             db_table = u'trips'
     def __unicode__(self):
         return self.name
-
-class ContactWays( models.Model ):
-    contact_type_choice = ( ( u'skype', u'Skype' ),( u'msn', u'MSN' ), )
-    actionUser = models.ForeignKey( ActionUser )
-    contactProtocol = models.CharField( max_length = 10, choices = contact_type_choice )
-    contactString = models.CharField( max_length = 30 )
-
-    @property
-    def contactUrl( self ):
-        return self.contactProtocol + ':' + self.contactString
 

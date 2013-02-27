@@ -38,7 +38,7 @@ MEDIA_ROOT = ''
 
 import os
 STATIC_DOC_ROOT = os.getcwd() + '/media/'
-MEDIA_URL = '/tracker/trackme/media/'
+MEDIA_URL = '/media/'
 ADMIN_MEDIA_PREFIX = '/django/admin/media/'
 
 # Make this unique, and don't share it with anybody.

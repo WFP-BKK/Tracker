@@ -1,5 +1,5 @@
 from django.contrib import admin
-from datastore.models import UserDetail, ActionUser, Icon,CurrentPosition
+from datastore.models import UserDetail, ActionUser, Icon,CurrentPosition,Position
 
 
 

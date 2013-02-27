@@ -1,5 +1,5 @@
 from django.contrib import admin
-from datastore.models import UserDetail, ActionUser, Icon, ContactWays,CurrentPosition
+from datastore.models import UserDetail, ActionUser, Icon,CurrentPosition
 
 
 
@@ -9,7 +9,7 @@ class CurrentPositionInline( admin.TabularInline ):
     model = CurrentPosition
 class ActionUserAdmin( admin.ModelAdmin ):
     inlines = [
-        UserDetailInline, ContactWaysInline,#CurrentPositionInline
+        UserDetailInline,# ContactWaysInline,#CurrentPositionInline
     ]
     search_fields = ['username']
 class PositionAdmin( admin.ModelAdmin ):

@@ -83,6 +83,7 @@ INSTALLED_APPS = (
     'kml',
     'mapper',
     'shell_plus',
+    'world'
  )
 
 SERIALIZATION_MODULES = {
@@ -90,3 +91,4 @@ SERIALIZATION_MODULES = {
 }
 
 
+GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so'

@@ -39,8 +39,8 @@ MEDIA_ROOT = ''
 import os
 STATIC_DOC_ROOT = os.getcwd() + '/media/'
 MEDIA_URL = '/media/'
-ADMIN_MEDIA_PREFIX = '/media/admin/'
-
+#ADMIN_MEDIA_PREFIX = '/media/admin/'
+STATIC_URL = '/media/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'k_zc^@8l000s#5ni%@4_7w(q+=-x60)br1*^$r+&8y5%1g0l4v'
 
@@ -73,6 +73,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'django.contrib.staticfiles',
     'datastore',
     'collector',
     'kml',

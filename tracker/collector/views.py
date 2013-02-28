@@ -175,7 +175,7 @@ def update_current( request ):
 
 
 def handle_uploaded_file(f,name):
-    destination = open('c:/epic/tracker/media/images/'+name, 'wb+')
+    destination = open(MEDIA_ROOT+name, 'wb+')
     for chunk in f.chunks():
         destination.write(chunk)
     destination.close()

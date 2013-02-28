@@ -37,10 +37,13 @@ USE_L10N = True
 MEDIA_ROOT = ''
 
 import os
-STATIC_DOC_ROOT = os.getcwd() + '/static/'
-MEDIA_URL = '/media/'
-#ADMIN_MEDIA_PREFIX = '/media/admin/'
+STATIC_DOC_ROOT = os.path.join( os.path.dirname( __file__ ), 'static' )
+MEDIA_ROOT = os.path.join( os.path.dirname( __file__ ), 'media' )
+
+
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'k_zc^@8l000s#5ni%@4_7w(q+=-x60)br1*^$r+&8y5%1g0l4v'
 
@@ -85,4 +88,4 @@ SERIALIZATION_MODULES = {
     'json': 'wadofstuff.django.serializers.json'
 }
 
-MEDIA_ROOT = os.path.join( os.path.dirname( __file__ ), 'media' )
+

@@ -35,6 +35,7 @@ SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
 MEDIA_ROOT = ''
+USE_TZ = True
 
 import os
 STATIC_DOC_ROOT = os.path.join( os.path.dirname( __file__ ), 'static' )

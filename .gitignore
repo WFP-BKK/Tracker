@@ -17,7 +17,8 @@ src/ets/settings/local.py
 #PyCharm's specific
 src/.idea/
 .idea/
-
+v1
+tracker/all-packeages.txt
 #buildout's specific
 .installed.cfg
 .mr.developer.cfg

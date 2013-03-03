@@ -75,7 +75,7 @@ class Position( models.Model ):
     signalstrengthmax = models.IntegerField( null = True, db_column = 'SignalStrengthMax', blank = True )
     signalstrengthmin = models.IntegerField( null = True, db_column = 'SignalStrengthMin', blank = True )
     batterystatus = models.IntegerField( null = True, db_column = 'BatteryStatus', blank = True )
-    location = models.PointField()
+    location = models.PointField( null = True, blank = True)
     objects = models.GeoManager()
     class Meta:
         db_table = u'positions'

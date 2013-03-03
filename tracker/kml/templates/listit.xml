@@ -13,7 +13,7 @@
 	lat="{{item.position.latitude}}" 
 	lng="{{item.position.longitude}}" 
 	type="{{item.pin}}"
-	date="{{item.position.dateoccurred|utc}}"
+	date="{{item.position.dateoccurred|utc|date:'Y-m-d H:i:s T'}}"
 	mid="{{item.user.id}}"
     offset="{{item.user.userdetail.timeZone}}"
     deviceType="{{item.user.userdetail.deviceType}}"

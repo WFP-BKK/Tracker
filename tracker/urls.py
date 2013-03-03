@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import patterns, include
 from collector.views import *
+from django.views.generic.base import RedirectView
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -16,5 +17,5 @@ urlpatterns = patterns( '',
     {'document_root': MEDIA_ROOT} ),
     ( r'^media/(?P<path>.*)$', 'django.views.static.serve',
     {'document_root': MEDIA_ROOT} ),
-    ( r'^$', 'django.views.generic.simple.redirect_to', {'url': 'mapper/'} ),
+    ( r'^$', RedirectView.as_view( 'mapper/')),
  )

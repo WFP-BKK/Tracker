@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns
+from django.conf.urls import patterns
 from settings import STATIC_DOC_ROOT
 #from django.views.generic.simple import redirect_to, direct_to_template
 from django.views.generic.base import TemplateView

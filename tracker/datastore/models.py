@@ -110,7 +110,7 @@ class Incident(models.Model):
     location = models.PointField()
     objects = models.GeoManager()
     
-class GeoFence(modles.Model):
+class GeoFence(models.Model):
     
     name = models.CharField(_('name'), max_length=200 , blank=True, null=True, help_text="Name of Fence")
     type = models.CharField(_('type'), max_length=50, blank=True, null=True, help_text="")

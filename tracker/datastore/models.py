@@ -81,13 +81,28 @@ class Position( models.Model ):
 class CurrentPosition( models.Model ):
     user = models.OneToOneField( ActionUser )
     position = models.ForeignKey( Position )
-   
+
+### NEW CLASSES   
 class RadioServer(models.Model):
     serverName = models.CharField(max_length = 100)
     latestUpdate = models.DateTimeField(blank=True, null=True, auto_now_add=True)
     serverEnabled = models.BooleanField(default=True)
     refreshPeriod = models.IntegerField(default = 300)
 
+
+    
+class LoggingList(models.Model):
+    reportingServer = models.CharField(max_length=20, blank=True, null=True, help_text="")
+    errorText = models.CharField(max_length=100, blank=True, null=True, help_text="")
+    actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
+    
+class Incident(models.Model):
+    user = models.ForeignKey(ActionUser)    
+    image = models.ImageField(upload_to=".")
+    desctiption = models.TextField(blank=True)
+    
+
+### TO BE REMOVED
 class Trip(models.Model):
     user = models.ForeignKey(ActionUser, db_column = 'FK_Users_ID')
     name = models.CharField( max_length = 255, null = True, blank = True )

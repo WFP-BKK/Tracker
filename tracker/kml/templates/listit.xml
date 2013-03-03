@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+{% load tz %}<?xml version="1.0" encoding="UTF-8"?>
 <markers>
 {%for item in list%}
 <marker 
@@ -13,7 +13,7 @@
 	lat="{{item.position.latitude}}" 
 	lng="{{item.position.longitude}}" 
 	type="{{item.pin}}"
-	date="{{item.position.dateoccurred|date:'Y-m-d H:i:s T'}}"
+	date="{{item.position.dateoccurred|utc}}"
 	mid="{{item.user.id}}"
     offset="{{item.user.userdetail.timeZone}}"
     deviceType="{{item.user.userdetail.deviceType}}"

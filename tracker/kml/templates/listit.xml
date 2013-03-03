@@ -7,13 +7,13 @@
 	{%if item.user.userdetail.epicNumber%}Number:{{item.user.userdetail.epicNumber}}{%endif%}
 	{%if item.user.userdetail.callSign%}&lt;br&gt;Call Sign: {{item.user.userdetail.callSign}}&lt;br&gt;{%endif%}
 	{%if item.user.userdetail.sipAddress%}&lt;a href='sip:{{item.user.userdetail.sipAddress}}'&gt;Call {{item.user}}&lt;a&gt;&lt;br&gt;{%endif%}
-	Latest Position Date:{{item.position.dateoccurred}}&lt;br&gt;
+	Latest Position Date:{{item.position.dateoccurred|date:'Y-m-d H:i:s T'}}&lt;br&gt;
 	Latitude: {{item.position.latitude}}&lt;br&gt;
 	Longitude: {{item.position.longitude}}"
 	lat="{{item.position.latitude}}" 
 	lng="{{item.position.longitude}}" 
 	type="{{item.pin}}"
-	date="{{item.position.dateoccurred}}"
+	date="{{item.position.dateoccurred|date:'Y-m-d H:i:s T'}}"
 	mid="{{item.user.id}}"
     offset="{{item.user.userdetail.timeZone}}"
     deviceType="{{item.user.userdetail.deviceType}}"

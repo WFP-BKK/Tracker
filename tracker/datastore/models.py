@@ -112,11 +112,11 @@ class Incident(models.Model):
     
 class GeoFence(models.Model):
     
-    name = models.CharField(_('name'), max_length=200 , blank=True, null=True, help_text="Name of Fence")
-    type = models.CharField(_('type'), max_length=50, blank=True, null=True, help_text="")
+    name = models.CharField( max_length=200 , blank=True, null=True, help_text="Name of Fence")
+    type = models.CharField( max_length=50, blank=True, null=True, help_text="")
     description = models.TextField(blank=True)
-    waring_in = models.CharField(_('warning_in'), max_length=144, blank=True, null=True, help_text="")
-    warining_out = models.CharField(_('warning_out'), max_length=144, blank=True, null=True, help_text="")
+    waring_in = models.CharField( max_length=144, blank=True, null=True, help_text="")
+    warining_out = models.CharField( max_length=144, blank=True, null=True, help_text="")
     fence = models.PolygonField()
     objects = models.GeoManager()
     

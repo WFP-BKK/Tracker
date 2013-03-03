@@ -17,5 +17,5 @@ urlpatterns = patterns( '',
     {'document_root': MEDIA_ROOT} ),
     ( r'^media/(?P<path>.*)$', 'django.views.static.serve',
     {'document_root': MEDIA_ROOT} ),
-    ( r'^$', RedirectView.as_view( 'mapper/')),
+    ( r'^$', RedirectView.as_view(url= 'mapper/')),
  )

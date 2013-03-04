@@ -120,7 +120,7 @@ def collect( request ): #request.php
         try:
             ta = tdate - time_now
             print ta
-        except
+        except:
             tdate = tdate.replace(tzinfo=utc)
         
 #         urlTZ = "http://www.earthtools.org/timezone-1.1/" + latitude + '/' + longitude

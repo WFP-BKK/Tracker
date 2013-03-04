@@ -111,6 +111,7 @@ def collect( request ): #request.php
         from dateutil import parser
         myPoints=''
         tdate = parser.parse(do_date)
+        print tdate
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
         urlTZ = "http://www.earthtools.org/timezone-1.1/" + latitude + '/' + longitude
         tzR = urllib2.urlopen(urlTZ)
@@ -119,7 +120,7 @@ def collect( request ): #request.php
         try:
             timeShift = myUser.userdetail.timeZone
         except:## check online for timeShift
-            timeShift = 0
+            timeShift = 0 
         if timeShift :
             do_date = tdate - datetime.timedelta(hours = timeShift)
         myPoints , new_position = Position.objects.get_or_create( 

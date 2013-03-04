@@ -1,6 +1,7 @@
 # Create your views here.
 #from tracker.datastore.models import *
 import datetime, urllib2
+from django.utils.timezone import utc
 from xml.dom.minidom import parse, parseString
 from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip
 from django.http import HttpResponse
@@ -110,13 +111,7 @@ def collect( request ): #request.php
         from dateutil import parser
         myPoints=''
         tdate = parser.parse(do_date)
-        time_now = datetime.datetime.now()
-<<<<<<< HEAD
-        # add timeShift to time
-        timeShift = 0
-        timeShift = myUser.userdetail.timeZone
-        if timeShift:
-=======
+        time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
         urlTZ = "http://www.earthtools.org/timezone-1.1/" + latitude + '/' + longitude
         tzR = urllib2.urlopen(urlTZ)
         tzXml = tzR.read()
@@ -126,7 +121,6 @@ def collect( request ): #request.php
         except:## check online for timeShift
             timeShift = 0
         if timeShift :
->>>>>>> Table instead of list
             do_date = tdate - datetime.timedelta(hours = timeShift)
         myPoints , new_position = Position.objects.get_or_create( 
                                                      dateoccurred = do_date,

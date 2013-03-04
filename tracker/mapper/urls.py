@@ -6,9 +6,7 @@ from django.views.generic.base import TemplateView
 urlpatterns = patterns( 
                        '',
                        ( r'^$', TemplateView.as_view(template_name='map.html') ),
-                       ( r'^new$', TemplateView.as_view(template_name='map2.html') ),
                        ( r'^plain$', TemplateView.as_view(template_name='map_plain.html') ),
-                       ( r'^kml/$', TemplateView.as_view(template_name='map.html') ),
                        ( r'^images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': STATIC_DOC_ROOT} ),
 
  )

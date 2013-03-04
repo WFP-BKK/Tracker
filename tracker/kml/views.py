@@ -168,7 +168,7 @@ def all_paths_kml( requst ):
 def all_paths_rss( requst ):
     theUsers = ActionUser.objects.all()
     #points for the last 10w
-    datetime.datetime.utcnow().replace(tzinfo=utc)
+    datefilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -200 )
     for user in theUsers:
         try:
             allPoints = Position.objects.filter( user = user ).order_by( '-dateoccurred' ).filter( dateoccurred__gt = datefilter )[:10]

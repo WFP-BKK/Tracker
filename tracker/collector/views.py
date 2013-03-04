@@ -120,18 +120,15 @@ def collect( request ): #request.php
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
         try:#brutal check if date is timezoned else add timezone
             ta = tdate - time_now
+            print "Got TZ"
         except:
+            print "No TZ"
             timeShift = myUser.userdetail.timeZone
             if timeShift !=0 :
                 timeZoneHere = tz.tzoffset("abc",timeShift*60*60)
                 tdate = tdate.replace(tzinfo=timeZoneHere)
             else:
                 tdate = tdate.replace(tzinfo=utc)
-        
-#         urlTZ = "http://www.earthtools.org/timezone-1.1/" + latitude + '/' + longitude
-#         tzR = urllib2.urlopen(urlTZ)
-#         tzXml = tzR.read()
-#         print tzXml
 
         myPoints , new_position = Position.objects.get_or_create( 
                                                      dateoccurred = tdate,

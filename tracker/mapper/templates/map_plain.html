@@ -63,7 +63,7 @@
       
     }
 function pinnit( map, infoWindow) {
-	downloadUrl("{%url 'tracker.kml.views.all_points'%}", function(data) {
+	downloadUrl("{%url "tracker.kml.views.all_points'%}", function(data) {
 		listOfPins=''
         var xml = data.responseXML;
         var markers = xml.documentElement.getElementsByTagName("marker");

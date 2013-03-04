@@ -2,6 +2,7 @@
 from datastore.models import CurrentPosition, ActionUser, Position,Icon
 from django.shortcuts import render_to_response
 import datetime
+from django.utils.timezone import utc
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 #from django.template import Template, RequestContext,Library, Node, loader, Context
@@ -9,8 +10,8 @@ from django.core import serializers
 
 @csrf_exempt
 def all_points( request ):
-    datefilter = datetime.datetime.now() + datetime.timedelta( days = -7 )
-    dayfilter = datetime.datetime.now() + datetime.timedelta( days = -2 )
+    datefilter =  datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -7 )
+    dayfilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -2 )
     myUsers = CurrentPosition.objects.all()
     points = []
     try:
@@ -23,23 +24,23 @@ def all_points( request ):
         except:
             inactive = False
         if not inactive:
-			try:
-				if theFilter == 'all':
-					if the_user.position.dateoccurred > dayfilter:
-						the_user.pin = 'current'
-					else:
-						the_user.pin = 'old'
-					points.append( the_user )
-				else:
-					if not inactive:
-						if the_user.position.dateoccurred > datefilter:
-							if the_user.position.dateoccurred > dayfilter:
-								the_user.pin = 'current'
-							else:
-								the_user.pin = 'old'
-							points.append( the_user )
-			except:
-				pass				
+            try:
+                if theFilter == 'all':
+                    if the_user.position.dateoccurred > dayfilter:
+                        the_user.pin = 'current'
+                    else:
+                        the_user.pin = 'old'
+                    points.append( the_user )
+                else:
+                    if not inactive:
+                        if the_user.position.dateoccurred > datefilter:
+                            if the_user.position.dateoccurred > dayfilter:
+                                the_user.pin = 'current'
+                            else:
+                                the_user.pin = 'old'
+                            points.append( the_user )
+            except:
+                pass
     my_response = render_to_response( 'listit.xml', {'list':points}, mimetype = "application/xml" )
     my_response['Access-Control-Allow-Origin'] = '*'
     return my_response
@@ -78,28 +79,28 @@ def show_images_rss(request):
 
 @csrf_exempt
 def all_points_kml( request ):
-    datefilter = datetime.datetime.now() + datetime.timedelta( days = -7 )
-    dayfilter = datetime.datetime.now() + datetime.timedelta( days = -1 )
+    datefilter =  datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -7 )
+    dayfilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -2 )
     myUsers = CurrentPosition.objects.all()
     points = []
     for the_user in myUsers:
         try:
-			if the_user.position.dateoccurred > datefilter:
-				if the_user.position.dateoccurred > dayfilter:
-					the_user.pin = 'here'
-				else:
-					the_user.pin = 'bar'
-				points.append( the_user )
+            if the_user.position.dateoccurred > datefilter:
+                if the_user.position.dateoccurred > dayfilter:
+                    the_user.pin = 'here'
+                else:
+                    the_user.pin = 'bar'
+                points.append( the_user )
         except:
-			pass
+            pass
     my_response = render_to_response( 'kml_repr.kml', {'list':points}, mimetype = "application/xml" )
     my_response['Access-Control-Allow-Origin'] = '*'
     return my_response
 
 @csrf_exempt
 def all_points_json( request ):
-    datefilter = datetime.datetime.now() + datetime.timedelta( days = -7 )
-    dayfilter = datetime.datetime.now() + datetime.timedelta( days = -1 )
+    datefilter =  datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -7 )
+    dayfilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -2 )
     myUsers = CurrentPosition.objects.all()
     points = []
     for the_user in myUsers:
@@ -120,8 +121,8 @@ def all_points_json( request ):
 
 @csrf_exempt
 def all_points_rss( request ):
-    datefilter = datetime.datetime.now() + datetime.timedelta( days = -7 )
-    dayfilter = datetime.datetime.now() + datetime.timedelta( days = -1 )
+    datefilter =  datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -7 )
+    dayfilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -2 )
     myUsers = CurrentPosition.objects.all()
     points = []
     for the_user in myUsers:
@@ -147,17 +148,17 @@ def all_points_rss( request ):
 def all_paths_kml( requst ):
     theUsers = ActionUser.objects.all()
     #points for the last 10w
-    datefilter = datetime.datetime.now() + datetime.timedelta( days = -200 )
+    datefilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -200 )
     for user in theUsers:
         try:
-			allPoints = Position.objects.filter( user = user ).order_by( '-dateoccurred' ).filter( dateoccurred__gt = datefilter )
-	
-			if  allPoints.count() > 3:
-				user.hasPath = True
-				user.path = allPoints[:40]
-				user.lastPoint = allPoints[allPoints.count() - 1]
+            allPoints = Position.objects.filter( user = user ).order_by( '-dateoccurred' ).filter( dateoccurred__gt = datefilter )
+    
+            if  allPoints.count() > 3:
+                user.hasPath = True
+                user.path = allPoints[:40]
+                user.lastPoint = allPoints[allPoints.count() - 1]
         except:
-			pass
+            pass
 
     my_response = render_to_response( 'kml_paths.kml', {'users':theUsers}, mimetype = "application/xml" )
     my_response['Access-Control-Allow-Origin'] = '*'
@@ -167,16 +168,16 @@ def all_paths_kml( requst ):
 def all_paths_rss( requst ):
     theUsers = ActionUser.objects.all()
     #points for the last 10w
-    datefilter = datetime.datetime.now() + datetime.timedelta( days = -200 )
+    datetime.datetime.utcnow().replace(tzinfo=utc)
     for user in theUsers:
         try:
-			allPoints = Position.objects.filter( user = user ).order_by( '-dateoccurred' ).filter( dateoccurred__gt = datefilter )[:10]
-			if  allPoints.count() > 3:
-				user.hasPath = True
-				user.path = allPoints[:40]
-				user.lastPoint = allPoints[allPoints.count() - 1]
+            allPoints = Position.objects.filter( user = user ).order_by( '-dateoccurred' ).filter( dateoccurred__gt = datefilter )[:10]
+            if  allPoints.count() > 3:
+                user.hasPath = True
+                user.path = allPoints[:40]
+                user.lastPoint = allPoints[allPoints.count() - 1]
         except:
-			pass
+            pass
     my_response = render_to_response( 'rss_paths.rss', {'users':theUsers}, mimetype = "application/xml" )
     my_response['Access-Control-Allow-Origin'] = '*'
     return my_response
@@ -185,16 +186,16 @@ def one_path_rss( requst,user ):
 #    theUsers = ActionUser.objects.all()
     theUsers = ActionUser.objects.filter(username=user)
     #points for the last 10w
-    datefilter = datetime.datetime.now() + datetime.timedelta( days = -200 )
+    datefilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -200 )
     for user in theUsers:
         try:
-			allPoints = Position.objects.filter( user = user ).order_by( '-dateoccurred' )#.filter( dateoccurred__gt = datefilter )
-			if  allPoints.count() > 3:
-				user.hasPath = True
-				user.path = allPoints[:40]
-				user.lastPoint = allPoints[allPoints.count() - 1]
+            allPoints = Position.objects.filter( user = user ).order_by( '-dateoccurred' )#.filter( dateoccurred__gt = datefilter )
+            if  allPoints.count() > 3:
+                user.hasPath = True
+                user.path = allPoints[:40]
+                user.lastPoint = allPoints[allPoints.count() - 1]
         except:
-			pass
+            pass
     my_response = render_to_response( 'rss_paths.rss', {'users':theUsers}, mimetype = "application/xml" )
     my_response['Access-Control-Allow-Origin'] = '*'
     return my_response

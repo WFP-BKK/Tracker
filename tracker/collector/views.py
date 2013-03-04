@@ -117,6 +117,12 @@ def collect( request ): #request.php
         myPoints=''
         tdate = parser.parse(do_date)
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
+        try:
+            ta = tdate - time_now
+            print ta
+        except
+            tdate = tdate.replace(tzinfo=utc)
+        
 #         urlTZ = "http://www.earthtools.org/timezone-1.1/" + latitude + '/' + longitude
 #         tzR = urllib2.urlopen(urlTZ)
 #         tzXml = tzR.read()

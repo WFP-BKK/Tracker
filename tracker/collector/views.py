@@ -117,24 +117,23 @@ def collect( request ): #request.php
         myPoints=''
         tdate = parser.parse(do_date)
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
-        try:
+        try:#brutal check if date is timezoned else add timezone
             ta = tdate - time_now
-            print ta
         except:
-            tdate = tdate.replace(tzinfo=utc)
+            timeShift = myUser.userdetail.timeZone
+            if timeShift !=0 :
+                timeZoneHere = tz.tzoffset("abc",timeShift*60*60)
+                tdate = tdate.replace(tzinfo=timeZoneHere)
+            else:
+                tdate = tdate.replace(tzinfo=utc)
         
 #         urlTZ = "http://www.earthtools.org/timezone-1.1/" + latitude + '/' + longitude
 #         tzR = urllib2.urlopen(urlTZ)
 #         tzXml = tzR.read()
 #         print tzXml
-        try:
-            timeShift = myUser.userdetail.timeZone
-        except:## check online for timeShift
-            timeShift = 0 
-        if timeShift :
-            do_date = tdate - datetime.timedelta(hours = timeShift)
+
         myPoints , new_position = Position.objects.get_or_create( 
-                                                     dateoccurred = do_date,
+                                                     dateoccurred = tdate,
                                                      user = myUser,
                                                      latitude = latitude,
                                                      longitude = longitude,

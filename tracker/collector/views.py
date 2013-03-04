@@ -114,15 +114,37 @@ def collect( request ): #request.php
             pass
     if action == 'upload':
         #add online timeShift per location
-        
+        saved = save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID,)
+        if saved:
+            return HttpResponse( 'Result:0' )
+        else:
+            return HttpResponse( 'Result:1' )
+
+
+    if action == 'gettriplist':
+        #mystring ='Result:0|A|B\nC|D'
+        mystring ='Result:0'
+        trips = Trip.objects.filter(user=myUser)
+        for trip in trips:
+            mystring += '|' + trip.name + '|%s\n'%datetime.date.today().isoformat()
+
+        return HttpResponse( mystring.strip() )
+
+    if action == 'updateimageurl':
+        return HttpResponse( 'Result:0' )
+    if action == 'findclosestpositionbytime':
+        date = request.GET.get( 'date' )
+        return HttpResponse('Result:0|0|%s'%date)    #return HttpResponse( 'Result:6' ) # no date....
+    return HttpResponse( 'Result:1' )
+
+
+def save_point(myUser,do_date, latitude,longitude,altitude,image,comments):
         myPoints=''
         tdate = parser.parse(do_date)
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
         try:#brutal check if date is timezoned else add timezone
             ta = tdate - time_now
-            print "Got TZ"
         except:
-            print "No TZ"
             timeShift = myUser.userdetail.timeZone
             if timeShift !=0 :
                 timeZoneHere = tz.tzoffset("abc",timeShift*60*60)
@@ -146,26 +168,10 @@ def collect( request ): #request.php
             cpos, new_cp = CurrentPosition.objects.get_or_create( user = myUser, defaults = {'position':myPoints} )
             cpos.position = myPoints
             cpos.save()
-            return HttpResponse( 'Result:0' )
+            return True
         else:
-            return HttpResponse( 'Result:1' )
+            return False
 
-
-    if action == 'gettriplist':
-        #mystring ='Result:0|A|B\nC|D'
-        mystring ='Result:0'
-        trips = Trip.objects.filter(user=myUser)
-        for trip in trips:
-            mystring += '|' + trip.name + '|%s\n'%datetime.date.today().isoformat()
-
-        return HttpResponse( mystring.strip() )
-
-    if action == 'updateimageurl':
-        return HttpResponse( 'Result:0' )
-    if action == 'findclosestpositionbytime':
-        date = request.GET.get( 'date' )
-        return HttpResponse('Result:0|0|%s'%date)    #return HttpResponse( 'Result:6' ) # no date....
-    return HttpResponse( 'Result:1' )
 
 
 def fixurl(string):

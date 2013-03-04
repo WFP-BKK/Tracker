@@ -2,6 +2,8 @@
 #from tracker.datastore.models import *
 import datetime, urllib2
 from django.utils.timezone import utc
+from dateutil import parser
+from dateutil import tz
 from xml.dom.minidom import parse, parseString
 from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip
 from django.http import HttpResponse
@@ -113,7 +115,6 @@ def collect( request ): #request.php
     if action == 'upload':
         #add online timeShift per location
         
-        from dateutil import parser
         myPoints=''
         tdate = parser.parse(do_date)
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)

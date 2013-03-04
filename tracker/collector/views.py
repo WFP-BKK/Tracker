@@ -114,7 +114,7 @@ def collect( request ): #request.php
             pass
     if action == 'upload':
         #add online timeShift per location
-        saved = save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID,)
+        saved = save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID)
         if saved:
             return HttpResponse( 'Result:0' )
         else:
@@ -138,7 +138,7 @@ def collect( request ): #request.php
     return HttpResponse( 'Result:1' )
 
 
-def save_point(myUser,do_date, latitude,longitude,altitude,image,comments):
+def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID):
         myPoints=''
         tdate = parser.parse(do_date)
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)

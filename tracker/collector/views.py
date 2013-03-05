@@ -8,7 +8,8 @@ from xml.dom.minidom import parse, parseString
 from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from urllib import unquote
+    
 import warnings
 warnings.filterwarnings(
         'error', r"DateTimeField received a naive datetime",
@@ -74,7 +75,7 @@ def collect( request ): #request.php
         pass
 
     #Get Dates
-    from urllib import unquote
+
     try:
         do_date = unquote(request.GET.get( 'do' ))
     except:
@@ -82,6 +83,7 @@ def collect( request ): #request.php
 
     try:
         user = request.GET.get( 'u' )
+
         if action != 'updateimageurl':
             id = request.GET.get('id')
             if id:
@@ -92,26 +94,33 @@ def collect( request ): #request.php
             #get the user
         if id:
             myUser, new_user = ActionUser.objects.get_or_create( id= id, username = user )
-        else :
+        else:
             myUser, new_user = ActionUser.objects.get_or_create( username = user )
+        
+    
     except:
         pass
+
     try:
         image = request.GET.get('imageurl')
         image = fixurl(image)
     except:
         pass
+
     try:
         comments = request.GET.get('comments')
     except:
         pass
+
     try:
         icon = request.GET.get('iconname')
         theIcon = Icon.objects.get(name=icon)
         if theIcon:
             myIconID = theIcon.id
+
     except:
             pass
+
     if action == 'upload':
         #add online timeShift per location
         saved = save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID)
@@ -122,19 +131,19 @@ def collect( request ): #request.php
 
 
     if action == 'gettriplist':
-        #mystring ='Result:0|A|B\nC|D'
         mystring ='Result:0'
         trips = Trip.objects.filter(user=myUser)
         for trip in trips:
             mystring += '|' + trip.name + '|%s\n'%datetime.date.today().isoformat()
-
         return HttpResponse( mystring.strip() )
 
     if action == 'updateimageurl':
         return HttpResponse( 'Result:0' )
+
     if action == 'findclosestpositionbytime':
         date = request.GET.get( 'date' )
         return HttpResponse('Result:0|0|%s'%date)    #return HttpResponse( 'Result:6' ) # no date....
+
     return HttpResponse( 'Result:1' )
 
 

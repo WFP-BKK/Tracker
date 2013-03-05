@@ -1,5 +1,5 @@
-from django.contrib import admin
-from datastore.models import UserDetail, ActionUser, Icon, CurrentPosition, Position
+from django.contrib.gis import admin
+from datastore.models import *
 
 
 
@@ -18,3 +18,5 @@ class PositionAdmin( admin.ModelAdmin ):
 admin.site.register(Position)
 admin.site.register( Icon )
 admin.site.register( ActionUser, ActionUserAdmin )
+admin.site.register(Incident, admin.GeoModelAdmin)
+admin.site.register(GeoFence, admin.GeoModelAdmin)

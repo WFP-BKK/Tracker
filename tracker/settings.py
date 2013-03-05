@@ -38,12 +38,16 @@ MEDIA_ROOT = ''
 USE_TZ = True
 
 import os
-STATIC_DOC_ROOT = os.path.join( os.path.dirname( __file__ ), 'static' )
-MEDIA_ROOT = os.path.join( os.path.dirname( __file__ ), 'media' )
-
+STATIC_ROOT = os.path.join( os.path.dirname( __file__ ), 'static_root' )
+MEDIA_ROOT = os.path.join( os.path.dirname( __file__ ), 'media_root' )
+STATICFILES_DIRS =( 
+    os.path.join( os.path.dirname( __file__ ), 'static_dir' ),
+)
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+
+
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'k_zc^@8l000s#5ni%@4_7w(q+=-x60)br1*^$r+&8y5%1g0l4v'
@@ -84,7 +88,8 @@ INSTALLED_APPS = (
     'kml',
     'mapper',
     'shell_plus',
-    'world'
+    'world',
+    'api'
  )
 
 SERIALIZATION_MODULES = {
@@ -92,4 +97,4 @@ SERIALIZATION_MODULES = {
 }
 
 
-GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so'
+#GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so'

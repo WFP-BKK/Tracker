@@ -16,5 +16,6 @@ urlpatterns = patterns( '',
     ( r'^trackme/media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': MEDIA_ROOT} ),
     ( r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': MEDIA_ROOT} ),
     ( r'^$', RedirectView.as_view(url= 'mapper/')),
+    ( r'^incident/', 'datastore.views.create_incident'),
 
  )

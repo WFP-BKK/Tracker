@@ -1,6 +1,12 @@
 from django.contrib.gis.db import models
 from django.db.models import Max
 
+
+FENCE_TYPE = (
+    ('DZ', 'Danger Zone'),
+    ('SZ', 'Safe Zone'),
+)
+
 class Icon( models.Model ):
     id = models.IntegerField( primary_key = True, db_column = 'ID' )
     name = models.TextField( max_length = 765, db_column = 'Name' )
@@ -112,10 +118,10 @@ class Incident(models.Model):
     
 class GeoFence(models.Model):
     name = models.CharField( max_length=200 , blank=True, null=True, help_text="Name of Fence")
-    type = models.CharField( max_length=50, blank=True, null=True, help_text="")
-    description = models.TextField(blank=True)
-    waring_in = models.CharField( max_length=144, blank=True, null=True, help_text="")
-    warining_out = models.CharField( max_length=144, blank=True, null=True, help_text="")
+    type = models.CharField(choices=FENCE_TYPE, max_length=50, blank=True, null=True, help_text="Type Of Fence")
+    description = models.TextField(blank=True, help_text="Describe Fence")
+    warningIn = models.CharField(verbose_name="Warning Text In", max_length=144, blank=True, null=True, help_text="Alert sent on entry")
+    warningOut = models.CharField( max_length=144, blank=True, null=True, help_text="Alert sent on exit")
     fence = models.PolygonField()
     objects = models.GeoManager()
     

@@ -105,13 +105,12 @@ class LoggingList(models.Model):
     
 class Incident(models.Model):
     user = models.ForeignKey(ActionUser)    
-    image = models.ImageField(upload_to=".")
-    desctiption = models.TextField(blank=True)
+    image = models.ImageField(upload_to=".",blank=True,null=True)
+    desctiption = models.TextField(blank=True,null=True)
     location = models.PointField()
     objects = models.GeoManager()
     
 class GeoFence(models.Model):
-    
     name = models.CharField( max_length=200 , blank=True, null=True, help_text="Name of Fence")
     type = models.CharField( max_length=50, blank=True, null=True, help_text="")
     description = models.TextField(blank=True)

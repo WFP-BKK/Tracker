@@ -65,3 +65,4 @@ tracker/media/photos
 tracker/data.dump.json
 tracker/static_root/
 tracker/media_root/
+tracker/packages.txt

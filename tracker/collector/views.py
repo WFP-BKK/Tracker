@@ -9,6 +9,8 @@ from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from urllib import unquote
+from settings import MEDIA_ROOT
+
     
 import warnings
 warnings.filterwarnings(
@@ -192,7 +194,7 @@ def update_current( request ):
 
 
 def handle_uploaded_file(f,name):
-    destination = open(MEDIA_ROOT+name, 'wb+')
+    destination = open(MEDIA_ROOT +'/' +name, 'wb+')
     for chunk in f.chunks():
         destination.write(chunk)
     destination.close()

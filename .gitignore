@@ -63,3 +63,5 @@ src/ets/settings/development.py
 #photos
 tracker/media/photos
 tracker/data.dump.json
+tracker/static_root/
+tracker/media_root/

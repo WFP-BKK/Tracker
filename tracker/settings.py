@@ -89,7 +89,8 @@ INSTALLED_APPS = (
     'mapper',
     'shell_plus',
     'world',
-    'api'
+    'api',
+    'south'
  )
 
 SERIALIZATION_MODULES = {

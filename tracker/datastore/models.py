@@ -73,15 +73,16 @@ class Position( models.Model ):
     altitude = models.FloatField( null = True, db_column = 'Altitude', blank = True )
     speed = models.FloatField( null = True, db_column = 'Speed', blank = True )
     angle = models.FloatField( null = True, db_column = 'Angle', blank = True )
-    dateadded = models.DateTimeField( db_column = 'DateAdded' )
+    dateadded = models.DateTimeField( db_column = 'DateAdded' , blank = True ,null = True)
     dateoccurred = models.DateTimeField( null = True, db_column = 'DateOccurred', blank = True )
     comments = models.TextField( max_length = 765, db_column = 'Comments', blank = True, null=True )
-    imageurl = models.ImageField(upload_to='c:/epic/tracker/media/images', max_length = 765, db_column = 'ImageURL', blank = True )
+    imageurl = models.ImageField(upload_to='c:/epic/tracker/media/images', max_length = 765, db_column = 'ImageURL', null = True,blank = True )
     signalstrength = models.IntegerField( null = True, db_column = 'SignalStrength', blank = True )
     signalstrengthmax = models.IntegerField( null = True, db_column = 'SignalStrengthMax', blank = True )
     signalstrengthmin = models.IntegerField( null = True, db_column = 'SignalStrengthMin', blank = True )
     batterystatus = models.IntegerField( null = True, db_column = 'BatteryStatus', blank = True )
     location = models.PointField( null = True, blank = True)
+    
     objects = models.GeoManager()
     class Meta:
         db_table = u'positions'
@@ -92,6 +93,7 @@ class CurrentPosition( models.Model ):
     user = models.OneToOneField( ActionUser )
     position = models.ForeignKey( Position )
     objects = models.GeoManager()
+
 
 ### NEW CLASSES   
 class RadioServer(models.Model):
@@ -112,10 +114,24 @@ class LoggingList(models.Model):
 class Incident(models.Model):
     user = models.ForeignKey(ActionUser)    
     image = models.ImageField(upload_to=".",blank=True,null=True)
-    desctiption = models.TextField(blank=True,null=True)
-    location = models.PointField()
+    description = models.TextField(blank=True,null=True)
+    location = models.PointField(help_text="POINT(LON LAT")
+    date_reported = models.DateTimeField()
+    actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
     objects = models.GeoManager()
     
+    def __unicode__(self):
+        return self.description +" Lon:"+ str(self.location.get_x()) + " Lat:" + str(self.location.get_y())
+        
+    @property
+    def longitude(self):
+        return self.location.get_y()
+
+    @property
+    def latitude(self):
+        return self.location.get_x()
+
+
 class GeoFence(models.Model):
     name = models.CharField( max_length=200 , blank=True, null=True, help_text="Name of Fence")
     type = models.CharField(choices=FENCE_TYPE, max_length=50, blank=True, null=True, help_text="Type Of Fence")

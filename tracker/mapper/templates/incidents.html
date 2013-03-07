@@ -63,7 +63,7 @@
 
         }
         function pinnit( map, infoWindow) {
-            downloadUrl("/kml/all_items/?callback=?", function(data) {
+            downloadUrl("/kml/all_incidents/?callback=?", function(data) {
                 tOfPins= new Array();
                 var xml = data.responseXML;
                 var markers = xml.documentElement.getElementsByTagName("marker");

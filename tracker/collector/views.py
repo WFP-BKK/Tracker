@@ -237,7 +237,8 @@ def create_incident(request):
         
     return render_to_response('incident.html',{'form':form})
     
-    
+
+
 def radioserver_update_now(request,radio_id):
     radio_server, new = RadioServer.objects.get_or_create(serverName = radio_id)
     radio_server.latestCheck  = datetime.datetime.utcnow().replace(tzinfo=utc)    

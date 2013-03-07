@@ -73,10 +73,12 @@
                     var type = markers[i].getAttribute("type");
                     var lat = parseFloat(markers[i].getAttribute("lat"));
                     var long = parseFloat(markers[i].getAttribute("lng"));
+                    var image =  markers[i].getAttribute("image");
+                    var desc =  markers[i].getAttribute("description");
                     var ar1 = new Array();
                     var point = new google.maps.LatLng(lat,long);
                     var icon = customIcons[type] || {};
-                    var html = "<b>" + name + "</b> <br/>" + address;
+                    var html = "<b>" + name + "</b> <br/>" + address + "<br />"+desc+"<br><img height=20px src="+ image+">";
                     var theDate =  markers[i].getAttribute("date");
                     var uID =  markers[i].getAttribute("mid");
                     var offset =  markers[i].getAttribute("offset");

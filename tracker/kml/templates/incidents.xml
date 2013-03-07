@@ -15,7 +15,8 @@
 	type="{{item.pin}}"
 	date="{{item.dateoccurred|utc|date:'Y-m-d H:i:s T'}}"
 	mid="{{item.user.id}}"
-    image="item.image"
+    image="{%if item.image%}{{item.image.url}}{%endif%}"
+    description="{%if item.description%}{{item.description}}{%endif%}"
 	/>
 {%endfor%}
 </markers>

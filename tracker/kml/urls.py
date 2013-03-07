@@ -4,6 +4,7 @@ from django.conf.urls.defaults import  patterns
 urlpatterns = patterns( 
                        '',
                        ( r'^/all_items/$', 'kml.views.all_points' ),
+                       ( r'^/all_incidents', 'kml.views.all_incidents' ),
                        ( r'^.kml$', 'kml.views.all_points_kml' ),
                        ( r'^.json$', 'kml.views.all_points_json' ),
                        ( r'^.rss$', 'kml.views.all_points_rss' ),

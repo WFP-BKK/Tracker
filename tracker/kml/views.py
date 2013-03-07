@@ -208,3 +208,6 @@ def get_styles(request):
     my_response['Access-Control-Allow-Origin'] = '*'
 
     return my_response
+
+def incidents(request):
+    all_incidents = Incidents.objects.all()

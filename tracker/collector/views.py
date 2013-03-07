@@ -5,12 +5,14 @@ from django.utils.timezone import utc
 from dateutil import parser
 from dateutil import tz
 from xml.dom.minidom import parse, parseString
-from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip
+from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip, Incident
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from urllib import unquote
 from settings import MEDIA_ROOT
-
+from django.shortcuts import render_to_response
+from django.forms.models import modelform_factory
+from django.views.decorators.csrf import csrf_exempt
     
 import warnings
 warnings.filterwarnings(
@@ -151,6 +153,7 @@ def collect( request ): #request.php
 
 def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID):
         myPoints=''
+        location = "POINT("+str(longitude) + " "+ str(latitude) +")"
         tdate = parser.parse(do_date)
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
         try:#brutal check if date is timezoned else add timezone
@@ -171,6 +174,7 @@ def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIcon
                                                      altitude = altitude,
                                                      imageurl = image,
                                                      comments = comments,
+                                                     location = location,
                                                      defaults = {'dateadded':time_now })
         if myIconID:
             myPoints.icon = theIcon
@@ -208,3 +212,24 @@ def upload( request):#upload.php
 def export( request):#upload.php
     print 'Export not yet implemented'
     return HttpResponse( '<Result>0</Result>' )
+
+
+
+@csrf_exempt
+def create_incident(request):
+    IncedentForm = modelform_factory(Incident)
+
+    if request.method == 'POST':
+        print request.POST
+        try:
+            user = ActionUser.objects.get(id = request.POST['user'])
+        except:
+            request.POST['user'] =  ActionUser.objects.get(username = request.POST['user']).id
+        form =  IncedentForm(request.POST, request.FILES)
+        if form.is_valid():
+                form.save()
+                return HttpResponse( 'Result:0' )
+    else:
+        form = IncedentForm()
+        
+    return render_to_response('incident.html',{'form':form})

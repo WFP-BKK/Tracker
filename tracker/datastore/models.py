@@ -68,8 +68,6 @@ class UserDetail( models.Model ):
 class Position( models.Model ):
     user = models.ForeignKey( ActionUser, db_column = 'FK_Users_ID' )
     icon = models.ForeignKey( Icon, db_column = 'FK_Icons_ID', blank = True,null=True )
-    latitude = models.FloatField( db_column = 'Latitude' )
-    longitude = models.FloatField( db_column = 'Longitude' )
     altitude = models.FloatField( null = True, db_column = 'Altitude', blank = True )
     speed = models.FloatField( null = True, db_column = 'Speed', blank = True )
     angle = models.FloatField( null = True, db_column = 'Angle', blank = True )
@@ -88,6 +86,14 @@ class Position( models.Model ):
         db_table = u'positions'
     def __unicode__( self ):
         return '%s "%s" %s' % ( self.user, self.dateoccurred, self.latitude )
+    
+    @property
+    def longitude(self):
+        return self.location.get_x()
+
+    @property
+    def latitude(self):
+        return self.location.get_y()
 
 class CurrentPosition( models.Model ):
     user = models.OneToOneField( ActionUser )
@@ -98,7 +104,8 @@ class CurrentPosition( models.Model ):
 ### NEW CLASSES   
 class RadioServer(models.Model):
     serverName = models.CharField(max_length = 100)
-    latestUpdate = models.DateTimeField(blank=True, null=True, auto_now_add=True)
+    latestUpdate = models.DateTimeField(blank=True, null=True)
+    latestCheck = models.DateTimeField(blank=True, null=True)
     serverEnabled = models.BooleanField(default=True)
     refreshPeriod = models.IntegerField(default = 300)
     objects = models.GeoManager()
@@ -109,14 +116,13 @@ class LoggingList(models.Model):
     reportingServer = models.CharField(max_length=20, blank=True, null=True, help_text="")
     errorText = models.CharField(max_length=100, blank=True, null=True, help_text="")
     actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
-    objects = models.GeoManager()
     
 class Incident(models.Model):
     user = models.ForeignKey(ActionUser)    
     image = models.ImageField(upload_to=".",blank=True,null=True)
     description = models.TextField(blank=True,null=True)
     location = models.PointField(help_text="POINT(LON LAT")
-    date_reported = models.DateTimeField()
+    date_reported = models.DateTimeField( blank = True ,null = True)
     actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
     objects = models.GeoManager()
     
@@ -125,11 +131,11 @@ class Incident(models.Model):
         
     @property
     def longitude(self):
-        return self.location.get_y()
+        return self.location.get_x()
 
     @property
     def latitude(self):
-        return self.location.get_x()
+        return self.location.get_y()
 
 
 class GeoFence(models.Model):

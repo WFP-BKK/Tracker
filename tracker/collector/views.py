@@ -5,7 +5,7 @@ from django.utils.timezone import utc
 from dateutil import parser
 from dateutil import tz
 from xml.dom.minidom import parse, parseString
-from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip, Incident
+from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip, Incident,RadioServer,LoggingList
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from urllib import unquote
@@ -159,11 +159,14 @@ def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIcon
         try:#brutal check if date is timezoned else add timezone
             ta = tdate - time_now
         except:
-            timeShift = myUser.userdetail.timeZone
-            if timeShift !=0 :
-                timeZoneHere = tz.tzoffset("abc",timeShift*60*60)
-                tdate = tdate.replace(tzinfo=timeZoneHere)
-            else:
+            try:
+                timeShift = myUser.userdetail.timeZone
+                if timeShift !=0 :
+                    timeZoneHere = tz.tzoffset("abc",timeShift*60*60)
+                    tdate = tdate.replace(tzinfo=timeZoneHere)
+                else:
+                    tdate = tdate.replace(tzinfo=utc)
+            except:
                 tdate = tdate.replace(tzinfo=utc)
 
         myPoints , new_position = Position.objects.get_or_create( 
@@ -233,3 +236,49 @@ def create_incident(request):
         form = IncedentForm()
         
     return render_to_response('incident.html',{'form':form})
+    
+    
+def radioserver_update_now(request,radio_id):
+    radio_server, new = RadioServer.objects.get_or_create(serverName = radio_id)
+    radio_server.latestCheck  = datetime.datetime.utcnow().replace(tzinfo=utc)    
+    radio_server.save()
+    if new:
+        radio_server.latestUpdate = datetime.datetime.utcnow().replace(tzinfo=utc)
+        radio_server.save()
+        return HttpResponse( '1' )     
+    
+    lastUpdate = radio_server.latestUpdate
+    intervall = radio_server.refreshPeriod
+    current_time = datetime.datetime.utcnow().replace(tzinfo=utc)
+    nextUpdate = lastUpdate + datetime.timedelta(seconds=intervall)
+    
+    if (current_time > nextUpdate):
+        radio_server.latestUpdate = datetime.datetime.utcnow().replace(tzinfo=utc)
+        radio_server.save()
+        return HttpResponse( '1' )
+    return HttpResponse( '0' )
+    
+def radioserver_error(request,radio_id):
+    try:
+        error_message = request.GET['error_message']
+        error_log = LoggingList.objects.create(reportingServer = radio_id,errorText = error_message)
+        error_log.save()
+        return HttpResponse( '1' )
+    except:
+        return HttpResponse( '0' )
+        
+def update_radio_positions(request,radio_id,device_id,latitude,longitude):
+# test http://10.11.208.39:8000/trackme/radio_update/toby/10000911/50.12341/60.14091/?date=2013-03-07%2013:33:49&device_type=smartPTT
+    do_date = request.GET['date']
+    system_type = request.GET['device_type']
+    
+    myUser, new_user = ActionUser.objects.get_or_create( id= device_id, username = system_type +" "+radio_id +" "+ device_id )
+    saved = save_point(myUser,do_date, latitude,longitude,0,'','','')
+    if saved:
+            return HttpResponse( '1' )
+    else:
+            return HttpResponse( '0' )
+    
+    
+    return HttpResponse( '0' )
+    

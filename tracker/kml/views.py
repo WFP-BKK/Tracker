@@ -1,5 +1,5 @@
 # Create your views here.
-from datastore.models import CurrentPosition, ActionUser, Position,Icon
+from datastore.models import CurrentPosition, ActionUser, Position,Icon,Incident
 from django.shortcuts import render_to_response
 import datetime
 from django.utils.timezone import utc
@@ -209,5 +209,8 @@ def get_styles(request):
 
     return my_response
 
-def incidents(request):
-    all_incidents = Incidents.objects.all()
+def all_incidents(request):
+    all_incidents = Incident.objects.all()
+    my_response = render_to_response( 'incidents.xml', {'list':all_incidents}, mimetype = "application/xml" )
+    my_response['Access-Control-Allow-Origin'] = '*'
+    return my_response

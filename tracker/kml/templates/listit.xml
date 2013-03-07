@@ -11,7 +11,7 @@
 	Latitude: {{item.position.latitude}}&lt;br&gt;
 	Longitude: {{item.position.longitude}}"
 	lat="{{item.position.latitude}}" 
-	lng="{{item.position.longitude}}" 
+	lng="{{item.position.location.get_x}}" 
 	type="{{item.pin}}"
 	date="{{item.position.dateoccurred|utc|date:'Y-m-d H:i:s T'}}"
 	mid="{{item.user.id}}"

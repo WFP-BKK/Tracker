@@ -21,3 +21,6 @@ admin.site.register( ActionUser, ActionUserAdmin )
 
 admin.site.register(Incident, admin.OSMGeoAdmin)
 admin.site.register(GeoFence, admin.OSMGeoAdmin)
+
+admin.site.register(RadioServer)
+

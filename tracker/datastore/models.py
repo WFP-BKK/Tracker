@@ -120,14 +120,23 @@ class LoggingList(models.Model):
 class Incident(models.Model):
     user = models.ForeignKey(ActionUser)    
     image = models.ImageField(upload_to=".",blank=True,null=True)
+    image_ref = models.CharField(max_length=50, blank=True, null=True, help_text="dont use")
     description = models.TextField(blank=True,null=True)
-    location = models.PointField(help_text="POINT(LON LAT")
+    location = models.PointField(help_text="POINT(LON LAT",blank=True,null=True)
     date_reported = models.DateTimeField( blank = True ,null = True)
     actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
     objects = models.GeoManager()
     
     def __unicode__(self):
-        return self.description +" Lon:"+ str(self.location.get_x()) + " Lat:" + str(self.location.get_y())
+        longitude = ""
+        latitude = ""
+        try:
+            longitude = self.location.get_x()
+            latitude =self.location.get_y()
+            return "%s Lon:%f Lat:%f"%(self.description ,longitude,latitude)
+        except:
+            return "%s Lon:%s Lat:%s"%(self.description ,longitude,latitude)
+        
         
     @property
     def longitude(self):

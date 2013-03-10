@@ -58,12 +58,10 @@ def show_poi(request):
 
 @csrf_exempt    
 def show_poi_rss(request):
-    thePositions = Position.objects.all()
-    thePointsOfIntrest = thePositions.filter(icon__isnull=False).exclude(icon =33)
-    thePhotos = thePositions.filter(imageurl__isnull=False).exclude(imageurl__exact='')
-    theComments = thePositions.filter(comments__isnull=False).exclude(comments__exact='')
-    myPoints= list(set(thePointsOfIntrest)|set(thePhotos)|set(theComments))
-    my_response = render_to_response( 'poi.rss', {'poi':myPoints}, mimetype = "application/xml" )
+    thePositions = Incident.objects.all()
+
+    myPoints= list(set(thePositions))
+    my_response = render_to_response( 'poi.rss', {'poi':myPoints, 'server':'server'}, mimetype = "text/text" )
     my_response['Access-Control-Allow-Origin'] = '*'
     return my_response
     

@@ -6,7 +6,7 @@
    <link href="http://trackme.globalepic.org"/>
    <updated>{%now "Y-m-d"%}T{%now "H:i:s"%}+04:00</updated>
    <author>
-      <name>EPIC</name>
+      <name>EPIC {{server}}</name>
    </author>
    <id>http://trackme.globalepic.org/trackme/kml/poi.rss</id>
    {%for item in poi%}
@@ -14,14 +14,14 @@
         <title>{%if item.icon.name%}{{item.icon.name}}{%else%}Place{%endif%} {{item.user.userdetail.emailAddress}} {{item.dateoccurred}}</title>
         <link href="http://trackme.globalepic.org/trackme/kml/poi.rss#{{item.user.id}}"/>
         <id>http://trackme.globalepic.org/trackme/kml.rss#{{item.user.id}}</id>
-        <updated>{{item.dateoccurred.isoformat}}{%if item.user.userdetail.timeZone%}+00:00{%else%}+04:00{%endif%}</updated>
+        <updated>{{item.date_reported.isoformat}}{%if item.user.userdetail.timeZone%}+00:00{%else%}+04:00{%endif%}</updated>
         <summary>
         <![CDATA[
-        Recorded: {{item.dateoccurred}}
-        Comment:{%if item.comments%}{{item.comments}}{%endif%}
-        {%if item.imageurl%}Image: <a href='http://trackme.globalepic.org/trackme/media/images/{{item.imageurl}}'><img height="100" src='http://trackme.globalepic.org/trackme/media/images/{{item.imageurl}}'/></a>{%endif%}
+        Recorded: {{item.date_reported}}
+        Comment:{%if item.description%}{{item.description}}{%endif%}
+        {%if item.image%}Image: <a href='http://trackme.globalepic.org/trackme{{item.image.url}}'><img height="100" src='http://trackme.globalepic.org/trackme{{item.image.url}}'/></a>{%endif%}
         ]]></summary>
-        {%if item.imageurl%}<enclosure url="http://trackme.globalepic.org/trackme/media/images/{{item.imageurl}}" type="image/jpeg" />{%endif%}
+        {%if item.imageurl%}<enclosure url="http://trackme.globalepic.org/trackme{{item.image.url}}" type="image/jpeg" />{%endif%}
       <georss:where>
          <gml:Point>
             <gml:pos>{{item.latitude}} {{item.longitude}}</gml:pos>

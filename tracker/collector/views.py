@@ -54,13 +54,16 @@ def collect( request ): #request.php
     longitude = ''
     date = ''
     altitude = 0
-    image = ''
-    comments = ''
+    image = None
+    comments = None
     myIconID = int()
 
     action = request.GET.get('a')
-
+    
+    myUser = get_user(request)
+        
     ## Utility functions
+    
     if action == 'geticonlist':
         mystring ='Result:0'
         icons = Icon.objects.all()
@@ -86,26 +89,6 @@ def collect( request ): #request.php
         pass
 
     try:
-        user = request.GET.get( 'u' )
-
-        if action != 'updateimageurl':
-            id = request.GET.get('id')
-            if id:
-                try:
-                    user = ActionUser.objects.get(id= id).username
-                except:
-                     user = id
-            #get the user
-        if id:
-            myUser, new_user = ActionUser.objects.get_or_create( id= id, username = user )
-        else:
-            myUser, new_user = ActionUser.objects.get_or_create( username = user )
-        
-    
-    except:
-        pass
-
-    try:
         image = request.GET.get('imageurl')
         image = fixurl(image)
     except:
@@ -123,15 +106,18 @@ def collect( request ): #request.php
             myIconID = theIcon.id
 
     except:
-            pass
+        theIcon = None
 
     if action == 'upload':
         #add online timeShift per location
-        saved = save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID)
+        if image or comments:
+            saved = save_incident(myUser,do_date, latitude,longitude,altitude,image,comments)
+        else:
+            saved = save_point(myUser,do_date, latitude,longitude,altitude,myIconID,image,comments)
         if saved:
             return HttpResponse( 'Result:0' )
         else:
-            return HttpResponse( 'Result:1' )
+            return HttpResponse( 'Result:2' )
 
 
     if action == 'gettriplist':
@@ -151,9 +137,28 @@ def collect( request ): #request.php
     return HttpResponse( 'Result:1' )
 
 
-def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID):
-        myPoints=''
-        location = "POINT("+str(longitude) + " "+ str(latitude) +")"
+
+def get_user(request):
+
+    user = request.GET.get( 'u' )
+
+    try:
+        id = request.GET.get('id')
+        if id:
+           try:
+               user = ActionUser.objects.get(id= id).username
+           except:
+               user = id
+    except:
+        pass
+    #get the user
+    if id:
+        myUser, new_user = ActionUser.objects.get_or_create( id= id, username = user )
+    else:
+        myUser, new_user = ActionUser.objects.get_or_create( username = user )
+
+    return myUser
+def fix_date(do_date, myUser):
         tdate = parser.parse(do_date)
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
         try:#brutal check if date is timezoned else add timezone
@@ -168,15 +173,20 @@ def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIcon
                     tdate = tdate.replace(tzinfo=utc)
             except:
                 tdate = tdate.replace(tzinfo=utc)
+        return tdate    
+
+def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID):
+        myPoints=''
+        time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
+        location = "POINT("+str(longitude) + " "+ str(latitude) +")"
+        
+        tdate = fix_date(do_date,myUser)
+        
 
         myPoints , new_position = Position.objects.get_or_create( 
                                                      dateoccurred = tdate,
                                                      user = myUser,
-                                                     latitude = latitude,
-                                                     longitude = longitude,
                                                      altitude = altitude,
-                                                     imageurl = image,
-                                                     comments = comments,
                                                      location = location,
                                                      defaults = {'dateadded':time_now })
         if myIconID:
@@ -208,7 +218,16 @@ def handle_uploaded_file(f,name):
         
 @csrf_exempt    
 def upload( request):#upload.php
-    handle_uploaded_file(request.FILES['uploadfile'],request.GET['newname'])
+    #handle_uploaded_file(request.FILES['uploadfile'],request.GET['newname'])
+    IncedentForm = modelform_factory(Incident)
+    filename = request.GET['newname']
+    username = request.GET['u']
+    request.FILES['uploadfile'].name = filename
+    user =  ActionUser.objects.get(username = username)
+    if request.method == 'POST':
+        instance = Incident(image = request.FILES['uploadfile'], image_ref = filename,user= user)
+        instance.save()
+    
     return HttpResponse( 'Result:0' )
 
 @csrf_exempt    
@@ -223,7 +242,6 @@ def create_incident(request):
     IncedentForm = modelform_factory(Incident)
 
     if request.method == 'POST':
-        print request.POST
         try:
             user = ActionUser.objects.get(id = request.POST['user'])
         except:
@@ -236,9 +254,41 @@ def create_incident(request):
         form = IncedentForm()
         
     return render_to_response('incident.html',{'form':form})
-    
 
 
+
+def save_incident(myUser,do_date, latitude,longitude,altitude,image=None,comments=None):
+    location = ""
+    tdate = fix_date(do_date,myUser)
+    if longitude and latitude:
+        location = "POINT(%s %s)"%(longitude,latitude)
+    if image:
+#        try:
+            incident = Incident.objects.get(image_ref=image)
+            print comments
+            incident.location = location
+            incident.description = comments
+            incident.date_reported = tdate
+            incident.save()
+#         except e:
+#             print e
+#             return False
+    else:
+        incident = Incident(user=myUser,location = location, description = comments, date_reported=do_date )
+        incident.save()
+
+    return True
+
+
+
+def save_image(request):
+    return True
+
+
+
+
+
+### RADIO
 def radioserver_update_now(request,radio_id):
     radio_server, new = RadioServer.objects.get_or_create(serverName = radio_id)
     radio_server.latestCheck  = datetime.datetime.utcnow().replace(tzinfo=utc)    

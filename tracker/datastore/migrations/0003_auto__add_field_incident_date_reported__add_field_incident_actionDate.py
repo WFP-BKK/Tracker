@@ -8,24 +8,10 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Incident.date_reported'
-        db.add_column(u'datastore_incident', 'date_reported',
-                      self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True),
-                      keep_default=False)
-
-        # Adding field 'Incident.actionDate'
-        db.add_column(u'datastore_incident', 'actionDate',
-                      self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True),
-                      keep_default=False)
-
-
+        pass
+        
     def backwards(self, orm):
-        # Deleting field 'Incident.date_reported'
-        db.delete_column(u'datastore_incident', 'date_reported')
-
-        # Deleting field 'Incident.actionDate'
-        db.delete_column(u'datastore_incident', 'actionDate')
-
+        pass
 
     models = {
         u'datastore.actionuser': {

@@ -8,15 +8,11 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Incident.image_ref'
-        db.add_column(u'datastore_incident', 'image_ref',
-                      self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True),
-                      keep_default=False)
+        pass
 
 
     def backwards(self, orm):
-        # Deleting field 'Incident.image_ref'
-        db.delete_column(u'datastore_incident', 'image_ref')
+        pass
 
 
     models = {

@@ -8,22 +8,10 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'RadioServer.latestCheck'
-        db.add_column(u'datastore_radioserver', 'latestCheck',
-                      self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True),
-                      keep_default=False)
-
-
-        # Changing field 'RadioServer.latestUpdate'
-        db.alter_column(u'datastore_radioserver', 'latestUpdate', self.gf('django.db.models.fields.DateTimeField')(null=True))
+        pass
 
     def backwards(self, orm):
-        # Deleting field 'RadioServer.latestCheck'
-        db.delete_column(u'datastore_radioserver', 'latestCheck')
-
-
-        # Changing field 'RadioServer.latestUpdate'
-        db.alter_column(u'datastore_radioserver', 'latestUpdate', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True))
+        pass
 
     models = {
         u'datastore.actionuser': {

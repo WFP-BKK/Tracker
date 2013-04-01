@@ -97,5 +97,7 @@ SERIALIZATION_MODULES = {
     'json': 'wadofstuff.django.serializers.json'
 }
 
+MAX_DAYS = 7
+CURR_DAYS = 1
 
 #GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so'

@@ -8,14 +8,10 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-
-        # Changing field 'Incident.location'
-        db.alter_column(u'datastore_incident', 'location', self.gf('django.contrib.gis.db.models.fields.PointField')(null=True))
+        pass
 
     def backwards(self, orm):
-
-        # User chose to not deal with backwards NULL issues for 'Incident.location'
-        raise RuntimeError("Cannot reverse this migration. 'Incident.location' and its values cannot be restored.")
+        pass
 
     models = {
         u'datastore.actionuser': {
@@ -53,6 +49,7 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
+            'image_ref': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
             'location': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['datastore.ActionUser']"})
         },

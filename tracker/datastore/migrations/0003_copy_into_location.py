@@ -1,117 +1,17 @@
 # -*- coding: utf-8 -*-
 import datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        # Deleting model 'RemoteStation'
-        db.delete_table(u'datastore_remotestation')
-
-        # Deleting model 'ContactWays'
-        db.delete_table(u'datastore_contactways')
-
-        # Adding model 'GeoFence'
-        db.create_table(u'datastore_geofence', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
-            ('type', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('warningIn', self.gf('django.db.models.fields.CharField')(max_length=144, null=True, blank=True)),
-            ('warningOut', self.gf('django.db.models.fields.CharField')(max_length=144, null=True, blank=True)),
-            ('fence', self.gf('django.contrib.gis.db.models.fields.PolygonField')()),
-        ))
-        db.send_create_signal(u'datastore', ['GeoFence'])
-
-        # Adding model 'RadioServer'
-        db.create_table(u'datastore_radioserver', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('serverName', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('latestUpdate', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('serverEnabled', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('refreshPeriod', self.gf('django.db.models.fields.IntegerField')(default=300)),
-            ('latestCheck', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'datastore', ['RadioServer'])
-
-        # Adding model 'Incident'
-        db.create_table(u'datastore_incident', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['datastore.ActionUser'])),
-            ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('location', self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True)),
-            ('date_reported', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('actionDate', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
-            ('image_ref',self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-        ))
-        db.send_create_signal(u'datastore', ['Incident'])
-
-
-        # Changing field 'Trip.comments'
-        db.alter_column(u'trips', 'comments', self.gf('django.db.models.fields.TextField')(max_length=1024, null=True))
-
-        # Adding field 'Position.location'
-        
-        db.add_column(u'datastore_position', 'location',
-                      self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True),
-                      keep_default=False)
-
-
-        # Changing field 'Position.comments'
-        db.alter_column(u'positions', 'Comments', self.gf('django.db.models.fields.TextField')(max_length=765, null=True, db_column='Comments'))
-
-        # Changing field 'Icon.url'
-        db.alter_column(u'icons', 'URL', self.gf('django.db.models.fields.TextField')(max_length=1536, db_column='URL'))
-
-        # Changing field 'Icon.name'
-        db.alter_column(u'icons', 'Name', self.gf('django.db.models.fields.TextField')(max_length=765, db_column='Name'))
+        "Write your forwards methods here."
+        # Note: Remember to use orm['appname.ModelName'] rather than "from appname.models..."
 
     def backwards(self, orm):
-        # Adding model 'RemoteStation'
-        db.create_table(u'datastore_remotestation', (
-            ('reportingFrequency', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('reportingServer', self.gf('django.db.models.fields.CharField')(max_length=20, primary_key=True)),
-            ('lastReported', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
-        ))
-        db.send_create_signal('datastore', ['RemoteStation'])
-
-        # Adding model 'ContactWays'
-        db.create_table(u'datastore_contactways', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('contactString', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('actionUser', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['datastore.ActionUser'])),
-            ('contactProtocol', self.gf('django.db.models.fields.CharField')(max_length=10)),
-        ))
-        db.send_create_signal('datastore', ['ContactWays'])
-
-        # Deleting model 'GeoFence'
-        db.delete_table(u'datastore_geofence')
-
-        # Deleting model 'RadioServer'
-        db.delete_table(u'datastore_radioserver')
-
-        # Deleting model 'Incident'
-        db.delete_table(u'datastore_incident')
-
-
-        # Changing field 'Trip.comments'
-        db.alter_column(u'trips', 'comments', self.gf('django.db.models.fields.CharField')(max_length=1024, null=True))
-        # Deleting field 'Position.location'
-        db.delete_column(u'positions', 'location')
-
-
-        # Changing field 'Position.comments'
-        db.alter_column(u'positions', 'Comments', self.gf('django.db.models.fields.CharField')(default='', max_length=765, db_column='Comments'))
-
-        # Changing field 'Icon.url'
-        db.alter_column(u'icons', 'URL', self.gf('django.db.models.fields.CharField')(max_length=1536, db_column='URL'))
-
-        # Changing field 'Icon.name'
-        db.alter_column(u'icons', 'Name', self.gf('django.db.models.fields.CharField')(max_length=765, db_column='Name'))
+        "Write your backwards methods here."
 
     models = {
         u'datastore.actionuser': {
@@ -215,3 +115,4 @@ class Migration(SchemaMigration):
     }
 
     complete_apps = ['datastore']
+    symmetrical = True

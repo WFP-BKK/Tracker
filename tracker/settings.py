@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'trackme-dev',
+        'NAME': 'trackme',
         'USER': 'trackme',
         'PASSWORD': 'trackme',
         'HOST': '10.11.208.35',
@@ -83,14 +83,15 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'south',
+    'world',
     'datastore',
     'collector',
     'kml',
     'mapper',
     'shell_plus',
-    'world',
     'api',
-    'south'
+
  )
 
 SERIALIZATION_MODULES = {

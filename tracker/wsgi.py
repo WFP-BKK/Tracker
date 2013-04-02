@@ -1,6 +1,6 @@
 import os
 import sys
-sys.path.append('/Users/carlander/projects/epic/python_workspace/tracker')
+sys.path.append('/opt/Tracker/tracker')
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
 import django.core.handlers.wsgi

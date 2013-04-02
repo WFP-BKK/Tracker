@@ -122,7 +122,7 @@ class Incident(models.Model):
     image = models.ImageField(upload_to=".",blank=True,null=True)
     image_ref = models.CharField(max_length=50, blank=True, null=True, help_text="dont use")
     description = models.TextField(blank=True,null=True)
-    location = models.PointField(help_text="POINT(LON LAT",blank=True,null=True)
+    location = models.PointField(help_text="POINT(LON LAT)",blank=True,null=True)
     date_reported = models.DateTimeField( blank = True ,null = True)
     actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
     objects = models.GeoManager()

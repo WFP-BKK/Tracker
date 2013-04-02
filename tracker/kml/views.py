@@ -6,12 +6,13 @@ from django.utils.timezone import utc
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 #from django.template import Template, RequestContext,Library, Node, loader, Context
+from settings import MAX_DAYS,CURR_DAYS
 
 
 @csrf_exempt
 def all_points( request ):
-    datefilter =  datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -7 )
-    dayfilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -2 )
+    datefilter =  datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -MAX_DAYS )
+    dayfilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( hours = -CURR_DAYS*24 )
     myUsers = CurrentPosition.objects.all()
     points = []
     try:

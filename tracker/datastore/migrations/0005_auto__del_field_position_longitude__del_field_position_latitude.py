@@ -16,12 +16,13 @@ class Migration(SchemaMigration):
 
 
     def backwards(self, orm):
-
-        # User chose to not deal with backwards NULL issues for 'Position.longitude'
-        raise RuntimeError("Cannot reverse this migration. 'Position.longitude' and its values cannot be restored.")
-
-        # User chose to not deal with backwards NULL issues for 'Position.latitude'
-        raise RuntimeError("Cannot reverse this migration. 'Position.latitude' and its values cannot be restored.")
+    
+        db.add_column(u'datastore_position', 'latitude',
+                      self.gf('django.db.models.fields.FloatField')(null=True, blank=True),
+                      keep_default=False)
+        db.add_column(u'datastore_position', 'longitude',
+                      self.gf('django.db.models.fields.FloatField')(null=True, blank=True),
+                      keep_default=False)
 
     models = {
         u'datastore.actionuser': {
@@ -59,7 +60,8 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'location': ('django.contrib.gis.db.models.fields.PointField', [], {}),
+            'image_ref': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
+            'location': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['datastore.ActionUser']"})
         },
         u'datastore.logginglist': {

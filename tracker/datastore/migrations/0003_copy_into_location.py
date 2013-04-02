@@ -1,31 +1,25 @@
 # -*- coding: utf-8 -*-
 import datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        # Adding field 'Incident.date_reported'
-        db.add_column(u'datastore_incident', 'date_reported',
-                      self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True),
-                      keep_default=False)
-
-        # Adding field 'Incident.actionDate'
-        db.add_column(u'datastore_incident', 'actionDate',
-                      self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True),
-                      keep_default=False)
-
+        "Write your forwards methods here."
+        # Note: Remember to use orm['appname.ModelName'] rather than "from appname.models..."
+        for point in orm.position.all():
+            point.location = "POINT("+str(point.longitude) + " "+ str(point.latitude) +")"
+            point.save()
 
     def backwards(self, orm):
-        # Deleting field 'Incident.date_reported'
-        db.delete_column(u'datastore_incident', 'date_reported')
-
-        # Deleting field 'Incident.actionDate'
-        db.delete_column(u'datastore_incident', 'actionDate')
-
+        "Write your backwards methods here."
+        for point in orm.position.all():
+            
+            point.longitude = point.location.get_x()
+            point.latitude = point.location.get_y()
+            point.save()
 
     models = {
         u'datastore.actionuser': {
@@ -63,7 +57,8 @@ class Migration(SchemaMigration):
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'location': ('django.contrib.gis.db.models.fields.PointField', [], {}),
+            'image_ref': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
+            'location': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['datastore.ActionUser']"})
         },
         u'datastore.logginglist': {
@@ -96,7 +91,8 @@ class Migration(SchemaMigration):
         u'datastore.radioserver': {
             'Meta': {'object_name': 'RadioServer'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'latestUpdate': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'latestCheck': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'latestUpdate': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'refreshPeriod': ('django.db.models.fields.IntegerField', [], {'default': '300'}),
             'serverEnabled': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'serverName': ('django.db.models.fields.CharField', [], {'max_length': '100'})
@@ -127,3 +123,4 @@ class Migration(SchemaMigration):
     }
 
     complete_apps = ['datastore']
+    symmetrical = True

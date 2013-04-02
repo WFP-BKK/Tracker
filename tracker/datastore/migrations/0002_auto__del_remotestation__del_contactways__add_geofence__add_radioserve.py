@@ -30,9 +30,10 @@ class Migration(SchemaMigration):
         db.create_table(u'datastore_radioserver', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('serverName', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('latestUpdate', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
+            ('latestUpdate', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('serverEnabled', self.gf('django.db.models.fields.BooleanField')(default=True)),
             ('refreshPeriod', self.gf('django.db.models.fields.IntegerField')(default=300)),
+            ('latestCheck', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'datastore', ['RadioServer'])
 
@@ -42,15 +43,20 @@ class Migration(SchemaMigration):
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['datastore.ActionUser'])),
             ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
             ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('location', self.gf('django.contrib.gis.db.models.fields.PointField')()),
+            ('location', self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True)),
+            ('date_reported', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
+            ('actionDate', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
+            ('image_ref',self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
         ))
         db.send_create_signal(u'datastore', ['Incident'])
 
 
         # Changing field 'Trip.comments'
         db.alter_column(u'trips', 'comments', self.gf('django.db.models.fields.TextField')(max_length=1024, null=True))
+
         # Adding field 'Position.location'
-        db.add_column(u'positions', 'location',
+        
+        db.add_column(u'datastore_position', 'location',
                       self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True),
                       keep_default=False)
 
@@ -138,10 +144,13 @@ class Migration(SchemaMigration):
         },
         u'datastore.incident': {
             'Meta': {'object_name': 'Incident'},
+            'actionDate': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'date_reported': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'location': ('django.contrib.gis.db.models.fields.PointField', [], {}),
+            'image_ref': ('django.db.models.fields.CharField', [], {'max_length': '50', 'null': 'True', 'blank': 'True'}),
+            'location': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['datastore.ActionUser']"})
         },
         u'datastore.logginglist': {
@@ -174,7 +183,8 @@ class Migration(SchemaMigration):
         u'datastore.radioserver': {
             'Meta': {'object_name': 'RadioServer'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'latestUpdate': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'null': 'True', 'blank': 'True'}),
+            'latestCheck': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'latestUpdate': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'refreshPeriod': ('django.db.models.fields.IntegerField', [], {'default': '300'}),
             'serverEnabled': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'serverName': ('django.db.models.fields.CharField', [], {'max_length': '100'})

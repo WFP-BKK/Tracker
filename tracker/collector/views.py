@@ -287,9 +287,9 @@ def save_image(request):
 
 ## Instant Update Radio Server
 
-def request_update(request,radio_server_name):
+def request_update(request,radio_id):
     
-    radio_server = RadioServer.objects.get(serverName=radio_server_name)
+    radio_server = RadioServer.objects.get(serverName=radio_id)
     intervall = radio_server.refreshPeriod
     #set  latestupdate to (now - intervall -10 seconds) to force next to be an update
     radio_server.latestUpdate = datetime.datetime.utcnow().replace(tzinfo=utc)-datetime.timedelta(seconds=intervall)-datetime.timedelta(seconds=10)

@@ -325,7 +325,9 @@ def update_radio_positions(request,radio_id,device_id,latitude,longitude):
     
     myUser, new_user = ActionUser.objects.get_or_create( id= device_id, username = system_type +" "+radio_id +" "+ device_id )
     if new_user:
-        myUser.userdetail.deviceType = 'Radio/SmartPTT'
+        x,new_detail = UserDetail.objects.get_or_create( user = myUser )
+        x.deviceType = "Radio/SmartPTT"
+        x.save()
         
     saved = save_point(myUser,do_date, latitude,longitude,0,'','','')
     if saved:

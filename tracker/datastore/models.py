@@ -23,7 +23,7 @@ class ActionUser( models.Model ):
 
     def __unicode__( self ):
         try:
-            x,new_user = UserDetail.objects.get_or_create( user = self )
+            x = UserDetail.objects.get( user = self )
         except:
             x = ''
         if x != '':

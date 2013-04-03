@@ -293,6 +293,7 @@ def request_update(request,radio_id):
     intervall = radio_server.refreshPeriod
     #set  latestupdate to (now - intervall -10 seconds) to force next to be an update
     radio_server.latestUpdate = datetime.datetime.utcnow().replace(tzinfo=utc)-datetime.timedelta(seconds=intervall)-datetime.timedelta(seconds=10)
+    radio_server.save()
     return HttpResponse( '1' )
     
 

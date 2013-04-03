@@ -5,7 +5,7 @@ from django.utils.timezone import utc
 from dateutil import parser
 from dateutil import tz
 from xml.dom.minidom import parse, parseString
-from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip, Incident,RadioServer,LoggingList
+from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip, Incident,RadioServer,LoggingList,UserDetail
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from urllib import unquote

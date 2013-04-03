@@ -17,6 +17,7 @@ class PositionAdmin( admin.ModelAdmin ):
 
 admin.site.register(Position)
 admin.site.register( Icon )
+admin.site.register( LoggingList )
 admin.site.register( ActionUser, ActionUserAdmin )
 admin.site.register(Incident, admin.OSMGeoAdmin)
 admin.site.register(GeoFence, admin.OSMGeoAdmin)

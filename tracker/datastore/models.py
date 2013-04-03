@@ -14,6 +14,10 @@ class Icon( models.Model ):
     class Meta:
         db_table = u'icons'
 
+    def __unicode__(self):
+        return self.name 
+
+
 class ActionUser( models.Model ):
     username = models.CharField( unique = True, max_length = 60 )
     password = models.CharField( max_length = 150, null = True, blank = True )
@@ -23,7 +27,7 @@ class ActionUser( models.Model ):
 
     def __unicode__( self ):
         try:
-            x = UserDetail.objects.get( user = self )
+            x,new_user = UserDetail.objects.get( user = self )
         except:
             x = ''
         if x != '':
@@ -99,6 +103,10 @@ class CurrentPosition( models.Model ):
     user = models.OneToOneField( ActionUser )
     position = models.ForeignKey( Position )
     objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return self.user 
+
 
 
 ### NEW CLASSES   
@@ -109,13 +117,17 @@ class RadioServer(models.Model):
     serverEnabled = models.BooleanField(default=True)
     refreshPeriod = models.IntegerField(default = 300)
     objects = models.GeoManager()
-
+    
+    def __unicode__(self):
+        return self.serverName 
 
     
 class LoggingList(models.Model):
     reportingServer = models.CharField(max_length=20, blank=True, null=True, help_text="")
     errorText = models.CharField(max_length=100, blank=True, null=True, help_text="")
     actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
+    def __unicode__(self):
+        return self.serverName _"  " + errorText 
     
 class Incident(models.Model):
     user = models.ForeignKey(ActionUser)    
@@ -155,7 +167,8 @@ class GeoFence(models.Model):
     warningOut = models.CharField( max_length=144, blank=True, null=True, help_text="Alert sent on exit")
     fence = models.PolygonField()
     objects = models.GeoManager()
-    
+    def __unicode__(self):
+        return self.name
     
 
 ### TO BE REMOVED
@@ -166,6 +179,4 @@ class Trip(models.Model):
     objects = models.GeoManager()
     class Meta:
             db_table = u'trips'
-    def __unicode__(self):
-        return self.name
 

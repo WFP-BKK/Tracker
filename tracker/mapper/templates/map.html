@@ -8,6 +8,7 @@
         ul { list-style-type: none; }
         body{width:1200px}
         .legend{ width: 550px;float:right;padding-right: 0px;padding-bottom: 20px;height: 650px}
+        .dataTable{clear:both;}
     </style>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <title>EPIC - Assets Tracking</title>
@@ -52,7 +53,7 @@
 
         function load() {
             map = new google.maps.Map(document.getElementById("map"), {
-                center: new google.maps.LatLng(25.18507, 55.291735),
+                center: new google.maps.LatLng(24.89517, 55.071139),
                 zoom: 16,
                 mapTypeId: google.maps.MapTypeId.HYBRID
             });
@@ -82,8 +83,16 @@
                     var offset =  markers[i].getAttribute("offset");
                     var deviceType =markers[i].getAttribute("deviceType");
                     var deviceModel =markers[i].getAttribute("deviceModel");
+                    var organization =markers[i].getAttribute("organization");
+                    var username =markers[i].getAttribute("username");
                     ar1.push('<a href="javascript:map.setCenter(new google.maps.LatLng(' + lat + ',' + long + '));showIW(' + i + ');");><img src=' + icon.icon + '></a>');
-                    ar1.push(name);
+                    id_name = "trackMe-" + uID;
+                    if (name.length>1){
+                        ar1.push(name + "<br>ID: " + id_name +" " + "<br>username: "+username+ "");
+                    }else{
+                        ar1.push("<br>ID: " + id_name+ "<br>username: "+username+ "");
+                    }
+                    ar1.push(organization);
                     var DateText = " " + theDate + " (" + offset +")";
                     ar1.push(DateText);
                     ar1.push(""+ deviceType + " " + deviceModel+" ")

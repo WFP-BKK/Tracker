@@ -4,13 +4,15 @@ Tracker
 Tracking system
 
 Requirements:
-Postgre GIS
-vertualenv 1.9
+
+* Postgre GIS
+* vertualenv 1.9
+
+sudo aptitude install binutils libproj-dev gdal-bin libgeoip1 gdal-bin python-gdal 
 
 To install:
 
 cd /opt/
-
 mkdir Tracker
 
 virtualenv --distribute Tracker/v1

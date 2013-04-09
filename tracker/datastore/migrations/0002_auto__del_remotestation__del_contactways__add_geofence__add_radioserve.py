@@ -56,7 +56,7 @@ class Migration(SchemaMigration):
 
         # Adding field 'Position.location'
         
-        db.add_column(u'datastore_position', 'location',
+        db.add_column(u'positions', 'location',
                       self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True),
                       keep_default=False)
 

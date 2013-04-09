@@ -49,6 +49,7 @@ class UserDetail( models.Model ):
     callSign = models.CharField( max_length = 20, null = True, blank = True )
     deviceType = models.CharField( max_length = 40, null = True, blank = True )
     deviceModel = models.CharField( max_length = 40, null = True, blank = True )
+    radioServer = models.CharField( max_length = 40, null = True, blank = True )
     firstName = models.CharField( max_length = 40, null = True, blank = True )
     lastName = models.CharField( max_length = 40, null = True, blank = True )
     organization = models.CharField( max_length = 40, null = True, blank = True )

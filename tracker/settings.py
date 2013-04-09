@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'trackme',
+        'NAME': 'trackme-dev',
         'USER': 'trackme',
         'PASSWORD': 'trackme',
         'HOST': '10.11.208.35',

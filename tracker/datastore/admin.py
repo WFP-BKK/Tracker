@@ -9,7 +9,7 @@ class CurrentPositionInline( admin.TabularInline ):
     model = CurrentPosition
 class ActionUserAdmin( admin.ModelAdmin ):
     inlines = [
-        UserDetailInline, ContactWaysInline,#CurrentPositionInline
+        UserDetailInline,# ContactWaysInline,#CurrentPositionInline
     ]
     search_fields = ['username']
 class PositionAdmin( admin.ModelAdmin ):
@@ -17,10 +17,9 @@ class PositionAdmin( admin.ModelAdmin ):
 
 admin.site.register(Position)
 admin.site.register( Icon )
+admin.site.register( LoggingList )
 admin.site.register( ActionUser, ActionUserAdmin )
 
 admin.site.register(Incident, admin.OSMGeoAdmin)
 admin.site.register(GeoFence, admin.OSMGeoAdmin)
-
 admin.site.register(RadioServer)
-

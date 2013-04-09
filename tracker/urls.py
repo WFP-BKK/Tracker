@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import patterns, include
+from django.conf.urls import patterns, include
 from collector.views import *
 from django.views.generic.base import RedirectView
 from settings import MEDIA_ROOT

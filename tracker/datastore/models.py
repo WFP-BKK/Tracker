@@ -14,6 +14,10 @@ class Icon( models.Model ):
     class Meta:
         db_table = u'icons'
 
+    def __unicode__(self):
+        return self.name 
+
+
 class ActionUser( models.Model ):
     username = models.CharField( unique = True, max_length = 60 )
     password = models.CharField( max_length = 150, null = True, blank = True )
@@ -23,7 +27,8 @@ class ActionUser( models.Model ):
 
     def __unicode__( self ):
         try:
-            x = UserDetail.objects.get( user = self )
+            x,new_user = UserDetail.objects.get( user = self )
+
         except:
             x = ''
         if x != '':
@@ -45,6 +50,7 @@ class UserDetail( models.Model ):
     callSign = models.CharField( max_length = 20, null = True, blank = True )
     deviceType = models.CharField( max_length = 40, null = True, blank = True )
     deviceModel = models.CharField( max_length = 40, null = True, blank = True )
+    radioServer = models.CharField( max_length = 40, null = True, blank = True )
     firstName = models.CharField( max_length = 40, null = True, blank = True )
     lastName = models.CharField( max_length = 40, null = True, blank = True )
     organization = models.CharField( max_length = 40, null = True, blank = True )
@@ -99,26 +105,9 @@ class CurrentPosition( models.Model ):
     user = models.OneToOneField( ActionUser )
     position = models.ForeignKey( Position )
     objects = models.GeoManager()
-
-
-### NEW CLASSES   
-class RadioServer(models.Model):
-    serverName = models.CharField(max_length = 100)
-    latestUpdate = models.DateTimeField(blank=True, null=True)
-    latestCheck = models.DateTimeField(blank=True, null=True)
-    serverEnabled = models.BooleanField(default=True)
-    refreshPeriod = models.IntegerField(default = 300)
-    objects = models.GeoManager()
-
-
     
-class LoggingList(models.Model):
-    reportingServer = models.CharField(max_length=20, blank=True, null=True, help_text="")
-    errorText = models.CharField(max_length=100, blank=True, null=True, help_text="")
-    actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
-
     def __unicode__(self):
-        return self.serverName + "  " + errorText 
+        return self.user 
 
     
 class Incident(models.Model):
@@ -150,6 +139,56 @@ class Incident(models.Model):
     def latitude(self):
         return self.location.get_y()
 
+### NEW CLASSES   
+class RadioServer(models.Model):
+    serverName = models.CharField(max_length = 100)
+    latestUpdate = models.DateTimeField(blank=True, null=True)
+    latestCheck = models.DateTimeField(blank=True, null=True)
+    serverEnabled = models.BooleanField(default=True)
+    refreshPeriod = models.IntegerField(default = 300)
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        return self.serverName 
+
+    
+class LoggingList(models.Model):
+    reportingServer = models.CharField(max_length=20, blank=True, null=True, help_text="")
+    errorText = models.CharField(max_length=100, blank=True, null=True, help_text="")
+    actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
+    def __unicode__(self):
+        return self.serverName + "  " + errorText 
+    
+class Incident(models.Model):
+    user = models.ForeignKey(ActionUser)    
+    image = models.ImageField(upload_to=".",blank=True,null=True)
+    image_ref = models.CharField(max_length=50, blank=True, null=True, help_text="dont use")
+    description = models.TextField(blank=True,null=True)
+    location = models.PointField(help_text="POINT(LON LAT)",blank=True,null=True)
+    date_reported = models.DateTimeField( blank = True ,null = True)
+    actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
+    objects = models.GeoManager()
+    
+    def __unicode__(self):
+        longitude = ""
+        latitude = ""
+        try:
+            longitude = self.location.get_x()
+            latitude =self.location.get_y()
+            return "%s Lon:%f Lat:%f"%(self.description ,longitude,latitude)
+        except:
+            return "%s Lon:%s Lat:%s"%(self.description ,longitude,latitude)
+        
+        
+    @property
+    def longitude(self):
+        return self.location.get_x()
+
+    @property
+    def latitude(self):
+        return self.location.get_y()
+
+
 
 class GeoFence(models.Model):
     name = models.CharField( max_length=200 , blank=True, null=True, help_text="Name of Fence")
@@ -159,7 +198,10 @@ class GeoFence(models.Model):
     warningOut = models.CharField( max_length=144, blank=True, null=True, help_text="Alert sent on exit")
     fence = models.PolygonField()
     objects = models.GeoManager()
-    
+
+    def __unicode__(self):
+        return self.name
+
     
 
 ### TO BE REMOVED
@@ -170,6 +212,5 @@ class Trip(models.Model):
     objects = models.GeoManager()
     class Meta:
             db_table = u'trips'
-    def __unicode__(self):
-        return self.name
+
 

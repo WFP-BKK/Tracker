@@ -9,13 +9,13 @@ class Migration(DataMigration):
     def forwards(self, orm):
         "Write your forwards methods here."
         # Note: Remember to use orm['appname.ModelName'] rather than "from appname.models..."
-        for point in orm.position.all():
+        for point in orm.position.objects.all():
             point.location = "POINT("+str(point.longitude) + " "+ str(point.latitude) +")"
             point.save()
 
     def backwards(self, orm):
         "Write your backwards methods here."
-        for point in orm.position.all():
+        for point in orm.position.objects.all():
             
             point.longitude = point.location.get_x()
             point.latitude = point.location.get_y()

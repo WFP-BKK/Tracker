@@ -17,10 +17,10 @@ class Migration(SchemaMigration):
 
     def backwards(self, orm):
     
-        db.add_column(u'datastore_position', 'latitude',
+        db.add_column(u'positions', 'latitude',
                       self.gf('django.db.models.fields.FloatField')(null=True, blank=True),
                       keep_default=False)
-        db.add_column(u'datastore_position', 'longitude',
+        db.add_column(u'positions', 'longitude',
                       self.gf('django.db.models.fields.FloatField')(null=True, blank=True),
                       keep_default=False)
 

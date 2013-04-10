@@ -59,31 +59,31 @@ class ActionUser( models.Model ):
     def encode( self,format ):
         return self.__unicode__()
 
-class UserDetail( models.Model ):
-    user = models.OneToOneField( ActionUser )
-    callSign = models.CharField( max_length = 20, null = True, blank = True )
-    deviceType = models.CharField( max_length = 40, null = True, blank = True )
-    deviceModel = models.CharField( max_length = 40, null = True, blank = True )
-    radioServer = models.CharField( max_length = 40, null = True, blank = True )
-    firstName = models.CharField( max_length = 40, null = True, blank = True )
-    lastName = models.CharField( max_length = 40, null = True, blank = True )
-    organization = models.CharField( max_length = 40, null = True, blank = True )
-    epicNumber = models.CharField( max_length = 10, null = True, blank = True )
-    inactiveUser = models.BooleanField( blank = True )
-    sipAddress = models.CharField( max_length = 80, null = True, blank = True )
-    emailAddress = models.EmailField(blank=True,null=True)
-    timeZone = models.IntegerField( null = True, blank = True )
-    objects = models.GeoManager()
-
-    def __unicode__( self ):
-        theStr = u'%s %s' % ( self.firstName, self.lastName )
-        if theStr == u'None None':
-            theStr = self.user.username
-        if self.organization:
-            theStr = u'%s - %s' % ( theStr, self.organization )
-        if self.emailAddress:
-            theStr = u'%s - %s' % ( theStr, self.emailAddress )
-        return theStr
+# class UserDetail( models.Model ):
+#     user = models.OneToOneField( ActionUser )
+#     callSign = models.CharField( max_length = 20, null = True, blank = True )
+#     deviceType = models.CharField( max_length = 40, null = True, blank = True )
+#     deviceModel = models.CharField( max_length = 40, null = True, blank = True )
+#     radioServer = models.CharField( max_length = 40, null = True, blank = True )
+#     firstName = models.CharField( max_length = 40, null = True, blank = True )
+#     lastName = models.CharField( max_length = 40, null = True, blank = True )
+#     organization = models.CharField( max_length = 40, null = True, blank = True )
+#     epicNumber = models.CharField( max_length = 10, null = True, blank = True )
+#     inactiveUser = models.BooleanField( blank = True )
+#     sipAddress = models.CharField( max_length = 80, null = True, blank = True )
+#     emailAddress = models.EmailField(blank=True,null=True)
+#     timeZone = models.IntegerField( null = True, blank = True )
+#     objects = models.GeoManager()
+# 
+#     def __unicode__( self ):
+#         theStr = u'%s %s' % ( self.firstName, self.lastName )
+#         if theStr == u'None None':
+#             theStr = self.user.username
+#         if self.organization:
+#             theStr = u'%s - %s' % ( theStr, self.organization )
+#         if self.emailAddress:
+#             theStr = u'%s - %s' % ( theStr, self.emailAddress )
+#         return theStr
         
     
     

@@ -21,7 +21,7 @@ def all_points( request ):
         theFilter = ''
     for the_user in myUsers:
         try:
-            inactive = the_user.user.userdetail.inactiveUser
+            inactive = the_user.user.inactiveUser
         except:
             inactive = False
         if not inactive:
@@ -126,7 +126,7 @@ def all_points_rss( request ):
     points = []
     for the_user in myUsers:
         try:
-            if not the_user.user.userdetail.inactiveUser:
+            if not the_user.user.inactiveUser:
                 try:
                     if the_user.position.dateoccurred > datefilter:
                         if the_user.position.dateoccurred > dayfilter:

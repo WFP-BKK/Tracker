@@ -14,12 +14,12 @@
  <title>{{item.user}}</title>
       <link href="http://trackme.globalepic.org/trackme/kml.rss#{{item.user.id}}"/>
       <id>http://trackme.globalepic.org/trackme/kml.rss#{{item.user.id}}</id>
-      <updated>{{item.position.dateoccurred.isoformat}}{%if item.user.userdetail.timeZone%}+00:00{%else%}+04:00{%endif%}</updated>
+      <updated>{{item.position.dateoccurred.isoformat}}{%if item.user.timeZone%}+00:00{%else%}+04:00{%endif%}</updated>
       <summary>User: {{item.user}} - {{item.user.id}}&lt;br/&gt;
 On:{{item.position.dateoccurred}} &lt;br/&gt;
 Lat:{{item.position.latitude}} &lt;br/&gt;
 Long: {{item.position.longitude}}&lt;br/&gt;
-EMail: {{item.user.userdetail.emailAddress}}
+EMail: {{item.user.emailAddress}}
       </summary>
       <georss:where>
          <gml:Point>

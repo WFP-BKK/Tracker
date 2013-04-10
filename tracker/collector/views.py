@@ -165,7 +165,7 @@ def fix_date(do_date, myUser):
             ta = tdate - time_now
         except:
             try:
-                timeShift = myUser.userdetail.timeZone
+                timeShift = myUser.timeZone
                 if timeShift !=0 :
                     timeZoneHere = tz.tzoffset("abc",timeShift*60*60)
                     tdate = tdate.replace(tzinfo=timeZoneHere)
@@ -335,10 +335,9 @@ def update_radio_positions(request,radio_id,device_id,latitude,longitude):
     
     myUser, new_user = ActionUser.objects.get_or_create( id= device_id, username = device_id )
     if new_user:
-        x,new_detail = UserDetail.objects.get_or_create( user = myUser )
-        x.deviceType = "Radio/SmartPTT"
-        x.radioServer = radio_id
-        x.save()
+        myUser.deviceType = "Radio/SmartPTT"
+        myUser.radioServer = radio_id
+        myUser.save()
         
     saved = save_point(myUser,do_date, latitude,longitude,0,'','','')
     if saved:

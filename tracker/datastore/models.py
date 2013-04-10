@@ -75,7 +75,7 @@ class UserDetail( models.Model ):
     def __unicode__( self ):
         theStr = '%s %s' % ( self.firstName, self.lastName )
         if theStr == 'None None':
-            theStr = self.user.username
+            theStr = self.username
         if self.organization:
             theStr = '%s - %s' % ( theStr, self.organization )
         if self.emailAddress:

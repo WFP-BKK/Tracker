@@ -31,7 +31,7 @@ class Migration(DataMigration):
     def backwards(self, orm):
         "Write your backwards methods here."
         for user in orm.actionUser.objects.all():
-            userdetail,new_user = UserDetail.objects.get( user = user )
+            userdetail,new_user = orm.userDetail.objects.get( user = user )
             if new_user:
                 userdetail.callSign     =   user.callSign    
                 userdetail.deviceType   =   user.deviceType  

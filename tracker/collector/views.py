@@ -296,7 +296,9 @@ def request_update(request,radio_id):
     radio_server.save()
     return HttpResponse( '1' )
     
-
+### NEW 
+def user_registration(request,username,password):
+    return HttpResponse( '0' )
 
 ### RADIO
 def radioserver_update_now(request,radio_id):

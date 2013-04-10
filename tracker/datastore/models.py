@@ -130,7 +130,8 @@ class CurrentPosition( models.Model ):
     objects = models.GeoManager()
     
     def __unicode__(self):
-        return self.user
+        desc = 'Latest for %s'%self.user
+        return desc
 
 
 

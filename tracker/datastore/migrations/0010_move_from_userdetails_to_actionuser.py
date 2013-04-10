@@ -9,24 +9,28 @@ class Migration(DataMigration):
     def forwards(self, orm):
         "Write your forwards methods here."
         # Note: Remember to use orm['appname.ModelName'] rather than "from appname.models..."
-         for user in orm.actionUsers.objects.all():
-            user.callSign     = user.userdetail.callSign    
-            user.deviceType   = user.userdetail.deviceType  
-            user.deviceModel  = user.userdetail.deviceModel 
-            user.radioServer  = user.userdetail.radioServer 
-            user.firstName    = user.userdetail.firstName   
-            user.lastName     = user.userdetail.lastName    
-            user.organization = user.userdetail.organization
-            user.epicNumber   = user.userdetail.epicNumber  
-            user.inactiveUser = user.userdetail.inactiveUser
-            user.sipAddress   = user.userdetail.sipAddress  
-            user.emailAddress = user.userdetail.emailAddress
-            user.timeZone     = user.userdetail.timeZone    
+        
+        for user in orm.actionUser.objects.all():
+            try:
+                user.callSign     = user.userdetail.callSign    
+                user.deviceType   = user.userdetail.deviceType  
+                user.deviceModel  = user.userdetail.deviceModel 
+                user.radioServer  = user.userdetail.radioServer 
+                user.firstName    = user.userdetail.firstName   
+                user.lastName     = user.userdetail.lastName    
+                user.organization = user.userdetail.organization
+                user.epicNumber   = user.userdetail.epicNumber  
+                user.inactiveUser = user.userdetail.inactiveUser
+                user.sipAddress   = user.userdetail.sipAddress  
+                user.emailAddress = user.userdetail.emailAddress
+                user.timeZone     = user.userdetail.timeZone
+            except:
+                pass
             user.save()
             
     def backwards(self, orm):
         "Write your backwards methods here."
-        for user in orm.actionUsers.objects.all():
+        for user in orm.actionUser.objects.all():
             userdetail,new_user = UserDetail.objects.get( user = user )
             if new_user:
                 userdetail.callSign     =   user.callSign    

@@ -21,19 +21,32 @@ class Icon( models.Model ):
 class ActionUser( models.Model ):
     username = models.CharField( unique = True, max_length = 60 )
     password = models.CharField( max_length = 150, null = True, blank = True )
+    callSign = models.CharField( max_length = 20, null = True, blank = True )
+    deviceType = models.CharField( max_length = 40, null = True, blank = True )
+    deviceModel = models.CharField( max_length = 40, null = True, blank = True )
+    radioServer = models.CharField( max_length = 40, null = True, blank = True )
+    firstName = models.CharField( max_length = 40, null = True, blank = True )
+    lastName = models.CharField( max_length = 40, null = True, blank = True )
+    organization = models.CharField( max_length = 40, null = True, blank = True )
+    epicNumber = models.CharField( max_length = 10, null = True, blank = True )
+    inactiveUser = models.BooleanField( blank = True )
+    sipAddress = models.CharField( max_length = 80, null = True, blank = True )
+    emailAddress = models.EmailField(blank=True,null=True)
+    timeZone = models.IntegerField( null = True, blank = True )
     objects = models.GeoManager()
     class Meta:
         db_table = u'users'
 
     def __unicode__( self ):
-        try:
-            x,new_user = UserDetail.objects.get( user = self )
-        except:
-            x = ''
-        if x != '':
-            return '%s - %s' % ( x, self.username )
+        if self.firstName:
+            theStr = '%s %s (%s)' % ( self.firstName, self.lastName, self.username )
         else:
-            return ' NA - %s' % ( self.username )
+            theStr = user.username
+        if self.organization:
+            theStr = '%s - %s' % ( theStr, self.organization )
+        return theStr
+
+            
 
     def myLatestPos( self ):
         try:
@@ -41,7 +54,6 @@ class ActionUser( models.Model ):
         except:
             return
     def myTag (self):
-        x = UserDetail.objects.get( user = self )
         return self.username
 
 class UserDetail( models.Model ):

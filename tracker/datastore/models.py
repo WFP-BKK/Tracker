@@ -41,7 +41,7 @@ class ActionUser( models.Model ):
         if self.firstName:
             theStr = '%s %s (%s)' % ( self.firstName, self.lastName, self.username )
         else:
-            theStr = user.username
+            theStr = self.username
         if self.organization:
             theStr = '%s - %s' % ( theStr, self.organization )
         return theStr
@@ -55,6 +55,9 @@ class ActionUser( models.Model ):
             return
     def myTag (self):
         return self.username
+    
+    def encode( self,format ):
+        return self.__unicode__()
 
 class UserDetail( models.Model ):
     user = models.OneToOneField( ActionUser )
@@ -73,14 +76,17 @@ class UserDetail( models.Model ):
     objects = models.GeoManager()
 
     def __unicode__( self ):
-        theStr = '%s %s' % ( self.firstName, self.lastName )
-        if theStr == 'None None':
-            theStr = self.username
+        theStr = u'%s %s' % ( self.firstName, self.lastName )
+        if theStr == u'None None':
+            theStr = self.user.username
         if self.organization:
-            theStr = '%s - %s' % ( theStr, self.organization )
+            theStr = u'%s - %s' % ( theStr, self.organization )
         if self.emailAddress:
-            theStr = '%s - %s' % ( theStr, self.emailAddress )
+            theStr = u'%s - %s' % ( theStr, self.emailAddress )
         return theStr
+        
+    
+    
 
 class Position( models.Model ):
     user = models.ForeignKey( ActionUser, db_column = 'FK_Users_ID' )
@@ -102,7 +108,11 @@ class Position( models.Model ):
     class Meta:
         db_table = u'positions'
     def __unicode__( self ):
-        return '%s "%s" %s' % ( self.user, self.dateoccurred, self.latitude )
+        return u'%s "%s" %s' % ( self.user, self.dateoccurred, self.latitude )
+
+    def encode( self,format ):
+        return u'%s "%s" %s' % ( self.user, self.dateoccurred, self.latitude )
+
     
     @property
     def longitude(self):
@@ -111,6 +121,8 @@ class Position( models.Model ):
     @property
     def latitude(self):
         return self.location.get_y()
+        
+
 
 class CurrentPosition( models.Model ):
     user = models.OneToOneField( ActionUser )
@@ -118,7 +130,7 @@ class CurrentPosition( models.Model ):
     objects = models.GeoManager()
     
     def __unicode__(self):
-        return self.user 
+        return self.user
 
 
 

@@ -12,7 +12,7 @@ class Migration(DataMigration):
         # Note: Remember to use orm['appname.ModelName'] rather than "from appname.models..."
         theIncidents = orm.position.objects.filter( ~Q(imageurl = '') | ~Q(comments =None) )
         for item in theIncidents:
-            Incident.objects.get_or_create(
+            orm.incident.objects.get_or_create(
                 date_reported = item.dateoccurred,
                 location = item.location,
                 user = item.user,
@@ -24,7 +24,7 @@ class Migration(DataMigration):
 
     def backwards(self, orm):
         "Write your backwards methods here."
-        theIncidents = Incident.objects.all()
+        theIncidents = orm.incident.objects.all()
         for item in theIncidents:
             thePos = Position.objects.get_or_create(
                 dateoccurred = item.date_reported,

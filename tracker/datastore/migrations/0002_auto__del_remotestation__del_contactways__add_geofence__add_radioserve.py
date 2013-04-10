@@ -61,8 +61,6 @@ class Migration(SchemaMigration):
                       keep_default=False)
 
 
-        # Changing field 'Position.comments'
-        db.alter_column(u'positions', 'Comments', self.gf('django.db.models.fields.TextField')(max_length=765, null=True, db_column='Comments'))
 
         # Changing field 'Icon.url'
         db.alter_column(u'icons', 'URL', self.gf('django.db.models.fields.TextField')(max_length=1536, db_column='URL'))
@@ -104,8 +102,6 @@ class Migration(SchemaMigration):
         db.delete_column(u'positions', 'location')
 
 
-        # Changing field 'Position.comments'
-        db.alter_column(u'positions', 'Comments', self.gf('django.db.models.fields.CharField')(default='', max_length=765, db_column='Comments'))
 
         # Changing field 'Icon.url'
         db.alter_column(u'icons', 'URL', self.gf('django.db.models.fields.CharField')(max_length=1536, db_column='URL'))

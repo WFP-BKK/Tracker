@@ -26,7 +26,7 @@ class Migration(DataMigration):
         "Write your backwards methods here."
         theIncidents = orm.incident.objects.all()
         for item in theIncidents:
-            thePos = Position.objects.get_or_create(
+            thePos = orm.position.objects.get_or_create(
                 dateoccurred = item.date_reported,
                 location = item.location,
                 user = item.user,

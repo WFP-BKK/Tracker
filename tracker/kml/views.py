@@ -2,6 +2,7 @@
 from datastore.models import CurrentPosition, ActionUser, Position,Icon,Incident
 from django.shortcuts import render_to_response
 import datetime
+from django.utils import timezone
 from django.utils.timezone import utc
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -11,8 +12,8 @@ from settings import MAX_DAYS,CURR_DAYS
 
 @csrf_exempt
 def all_points( request ):
-    datefilter =  datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -MAX_DAYS )
-    dayfilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( hours = -CURR_DAYS*24 )
+    datefilter =  timezone.now() - timezone.timedelta(days = MAX_DAYS )
+    dayfilter = timezone.now() - timezone.timedelta(hours = CURR_DAYS*24 )
     myUsers = CurrentPosition.objects.all()
     points = []
     try:

@@ -19,29 +19,25 @@ def all_points( request ):
         theFilter = request.GET.get( 'filter' )
     except:
         theFilter = ''
+    
     for the_user in myUsers:
-        try:
-            inactive = the_user.user.inactiveUser
-        except:
-            inactive = False
+        inactive = the_user.user.inactiveUser
         if not inactive:
-            try:
-                if theFilter == 'all':
-                    if the_user.position.dateoccurred > dayfilter:
-                        the_user.pin = 'current'
-                    else:
-                        the_user.pin = 'old'
-                    points.append( the_user )
+            if theFilter == 'all':
+                if the_user.position.dateoccurred > dayfilter:
+                    the_user.pin = 'current'
                 else:
-                    if not inactive:
-                        if the_user.position.dateoccurred > datefilter:
-                            if the_user.position.dateoccurred > dayfilter:
-                                the_user.pin = 'current'
-                            else:
-                                the_user.pin = 'old'
-                            points.append( the_user )
-            except:
-                pass
+                    the_user.pin = 'old'
+                points.append( the_user )
+            else:
+                if not inactive:
+                    if the_user.position.dateoccurred > datefilter:
+                        if the_user.position.dateoccurred > dayfilter:
+                            the_user.pin = 'current'
+                        else:
+                            the_user.pin = 'old'
+                        points.append( the_user )
+
     my_response = render_to_response( 'listit.xml', {'list':points}, mimetype = "application/xml" )
     my_response['Access-Control-Allow-Origin'] = '*'
     return my_response

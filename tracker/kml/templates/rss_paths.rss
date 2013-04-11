@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+{% load tz %}{% localtime off %}<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:georss="http://www.georss.org/georss" xmlns:gml="http://www.opengis.net/gml">
 <title>People Positions Now</title>
 <link href="http://trackme.globalepic.org/" />
@@ -24,4 +24,4 @@
       <gml:pos>{{user.lastPoint.latitude}} {{user.lastPoint.longitude}}</gml:pos>
     </gml:Point>
   </georss:where>
-</entry>{%endif%}{%endfor%}</feed>
+</entry>{%endif%}{%endfor%}</feed>{% endlocaltime %}

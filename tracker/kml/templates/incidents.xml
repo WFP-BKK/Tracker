@@ -1,4 +1,4 @@
-{% load tz %}<?xml version="1.0" encoding="UTF-8"?>
+{% load tz %}{% localtime off %}<?xml version="1.0" encoding="UTF-8"?>
 <markers>
 {%for item in list%}
 <marker 
@@ -19,4 +19,4 @@
     description="{%if item.description%}{{item.description}}{%endif%}"
 	/>
 {%endfor%}
-</markers>
+</markers>{% endlocaltime %}

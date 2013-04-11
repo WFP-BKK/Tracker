@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+{% load tz %}{% localtime off %}<?xml version="1.0" encoding="utf-8"?>
  <feed xmlns="http://www.w3.org/2005/Atom" 
       xmlns:georss="http://www.georss.org/georss" 
       xmlns:gml="http://www.opengis.net/gml">
@@ -29,4 +29,4 @@
       </georss:where>
    </entry>
    {%endfor%}
- </feed>
+ </feed>{% endlocaltime %}

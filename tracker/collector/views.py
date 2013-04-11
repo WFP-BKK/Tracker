@@ -13,7 +13,10 @@ from settings import MEDIA_ROOT
 from django.shortcuts import render_to_response
 from django.forms.models import modelform_factory
 from django.views.decorators.csrf import csrf_exempt
-    
+import inspect
+
+
+
 import warnings
 warnings.filterwarnings(
         'error', r"DateTimeField received a naive datetime",
@@ -180,9 +183,18 @@ def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIcon
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
         location = "POINT("+str(longitude) + " "+ str(latitude) +")"
         
-        tdate = fix_date(do_date,myUser)
+        ## Filter Future and past
+        furureEvent =  datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( hours =  24)
+        pastEvent = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( hours = -24 )
+        frm = inspect.stack()[1]
+        item = frm[3]
+        del frm
+        if item != 'update_radio_positions':
+            tdate = fix_date(do_date,myUser)
+        else:
+            tdate = parser.parse(do_date).replace(tzinfo=utc)
+        #if tdate >
         
-
         myPoints , new_position = Position.objects.get_or_create( 
                                                      dateoccurred = tdate,
                                                      user = myUser,
@@ -263,16 +275,13 @@ def save_incident(myUser,do_date, latitude,longitude,altitude,image=None,comment
     if longitude and latitude:
         location = "POINT(%s %s)"%(longitude,latitude)
     if image:
-#        try:
             incident = Incident.objects.get(image_ref=image)
             print comments
             incident.location = location
             incident.description = comments
             incident.date_reported = tdate
             incident.save()
-#         except e:
-#             print e
-#             return False
+
     else:
         incident = Incident(user=myUser,location = location, description = comments, date_reported=do_date )
         incident.save()

@@ -11,7 +11,7 @@
    <id>http://trackme.globalepic.org/trackme/kml.rss</id>
    {%for item in list%}
    <entry>
- <title>{{item.user}}</title>
+ <title>{{item.user}} - {{item.user.id}}</title>
       <link href="http://trackme.globalepic.org/trackme/kml.rss#{{item.user.id}}"/>
       <id>http://trackme.globalepic.org/trackme/kml.rss#{{item.user.id}}</id>
       <updated>{{item.position.dateoccurred.isoformat}}{%if item.user.timeZone%}+00:00{%else%}+04:00{%endif%}</updated>

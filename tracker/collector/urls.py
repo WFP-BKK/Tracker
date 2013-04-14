@@ -6,6 +6,7 @@ urlpatterns = patterns(
                        ( r'^update/', 'collector.views.update_current' ),
                        ( r'^upload.php', 'collector.views.upload' ),
                        ( r'^export.php', 'collector.views.export' ),
+                       ( r'^kml.rss', 'kml.views.all_points_rss'),
                        ( r'^radio_check/(?P<radio_id>.*)$', 'collector.views.radioserver_update_now' ),
                        ( r'^radio_force/(?P<radio_id>.*)$', 'collector.views.request_update' ),
                        ( r'^radio_error/(?P<radio_id>.*)$', 'collector.views.radioserver_error' ),

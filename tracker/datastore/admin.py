@@ -3,14 +3,9 @@ from datastore.models import *
 
 
 
-class UserDetailInline( admin.StackedInline ):
-    model = UserDetail
 class CurrentPositionInline( admin.TabularInline ):
     model = CurrentPosition
 class ActionUserAdmin( admin.ModelAdmin ):
-    inlines = [
-        UserDetailInline,# ContactWaysInline,#CurrentPositionInline
-    ]
     search_fields = ['username']
 class PositionAdmin( admin.ModelAdmin ):
     model = Position

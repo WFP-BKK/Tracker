@@ -21,32 +21,6 @@ class Icon( models.Model ):
 class ActionUser( models.Model ):
     username = models.CharField( unique = True, max_length = 60 )
     password = models.CharField( max_length = 150, null = True, blank = True )
-    objects = models.GeoManager()
-    class Meta:
-        db_table = u'users'
-
-    def __unicode__( self ):
-        try:
-            x,new_user = UserDetail.objects.get( user = self )
-
-        except:
-            x = ''
-        if x != '':
-            return '%s - %s' % ( x, self.username )
-        else:
-            return ' NA - %s' % ( self.username )
-
-    def myLatestPos( self ):
-        try:
-            return CurrentPosition.object.get( id = self.positions_set.aggregate( Max( 'id' ) )['id__max'] )
-        except:
-            return
-    def myTag (self):
-        x = UserDetail.objects.get( user = self )
-        return self.username
-
-class UserDetail( models.Model ):
-    user = models.OneToOneField( ActionUser )
     callSign = models.CharField( max_length = 20, null = True, blank = True )
     deviceType = models.CharField( max_length = 40, null = True, blank = True )
     deviceModel = models.CharField( max_length = 40, null = True, blank = True )
@@ -60,16 +34,59 @@ class UserDetail( models.Model ):
     emailAddress = models.EmailField(blank=True,null=True)
     timeZone = models.IntegerField( null = True, blank = True )
     objects = models.GeoManager()
+    class Meta:
+        db_table = u'users'
 
     def __unicode__( self ):
-        theStr = '%s %s' % ( self.firstName, self.lastName )
-        if theStr == 'None None':
-            theStr = self.user.username
+        if self.firstName:
+            theStr = '%s %s (%s)' % ( self.firstName, self.lastName, self.username )
+        else:
+            theStr = self.username
         if self.organization:
             theStr = '%s - %s' % ( theStr, self.organization )
-        if self.emailAddress:
-            theStr = '%s - %s' % ( theStr, self.emailAddress )
         return theStr
+
+            
+
+    def myLatestPos( self ):
+        try:
+            return CurrentPosition.object.get( id = self.positions_set.aggregate( Max( 'id' ) )['id__max'] )
+        except:
+            return
+    def myTag (self):
+        return self.username
+    
+    def encode( self,format ):
+        return self.__unicode__()
+
+# class UserDetail( models.Model ):
+#     user = models.OneToOneField( ActionUser )
+#     callSign = models.CharField( max_length = 20, null = True, blank = True )
+#     deviceType = models.CharField( max_length = 40, null = True, blank = True )
+#     deviceModel = models.CharField( max_length = 40, null = True, blank = True )
+#     radioServer = models.CharField( max_length = 40, null = True, blank = True )
+#     firstName = models.CharField( max_length = 40, null = True, blank = True )
+#     lastName = models.CharField( max_length = 40, null = True, blank = True )
+#     organization = models.CharField( max_length = 40, null = True, blank = True )
+#     epicNumber = models.CharField( max_length = 10, null = True, blank = True )
+#     inactiveUser = models.BooleanField( blank = True )
+#     sipAddress = models.CharField( max_length = 80, null = True, blank = True )
+#     emailAddress = models.EmailField(blank=True,null=True)
+#     timeZone = models.IntegerField( null = True, blank = True )
+#     objects = models.GeoManager()
+# 
+#     def __unicode__( self ):
+#         theStr = u'%s %s' % ( self.firstName, self.lastName )
+#         if theStr == u'None None':
+#             theStr = self.user.username
+#         if self.organization:
+#             theStr = u'%s - %s' % ( theStr, self.organization )
+#         if self.emailAddress:
+#             theStr = u'%s - %s' % ( theStr, self.emailAddress )
+#         return theStr
+        
+    
+    
 
 class Position( models.Model ):
     user = models.ForeignKey( ActionUser, db_column = 'FK_Users_ID' )
@@ -79,8 +96,8 @@ class Position( models.Model ):
     angle = models.FloatField( null = True, db_column = 'Angle', blank = True )
     dateadded = models.DateTimeField( db_column = 'DateAdded' , blank = True ,null = True)
     dateoccurred = models.DateTimeField( null = True, db_column = 'DateOccurred', blank = True )
-    comments = models.TextField( max_length = 765, db_column = 'Comments', blank = True, null=True )
-    imageurl = models.ImageField(upload_to='c:/epic/tracker/media/images', max_length = 765, db_column = 'ImageURL', null = True,blank = True )
+#    comments = models.TextField( max_length = 765, db_column = 'Comments', blank = True, null=True )
+#    imageurl = models.ImageField(upload_to='c:/epic/tracker/media/images', max_length = 765, db_column = 'ImageURL', null = True,blank = True )
     signalstrength = models.IntegerField( null = True, db_column = 'SignalStrength', blank = True )
     signalstrengthmax = models.IntegerField( null = True, db_column = 'SignalStrengthMax', blank = True )
     signalstrengthmin = models.IntegerField( null = True, db_column = 'SignalStrengthMin', blank = True )
@@ -91,7 +108,11 @@ class Position( models.Model ):
     class Meta:
         db_table = u'positions'
     def __unicode__( self ):
-        return '%s "%s" %s' % ( self.user, self.dateoccurred, self.latitude )
+        return u'%s "%s" %s' % ( self.user, self.dateoccurred, self.latitude )
+
+    def encode( self,format ):
+        return u'%s "%s" %s' % ( self.user, self.dateoccurred, self.latitude )
+
     
     @property
     def longitude(self):
@@ -100,6 +121,8 @@ class Position( models.Model ):
     @property
     def latitude(self):
         return self.location.get_y()
+        
+
 
 class CurrentPosition( models.Model ):
     user = models.OneToOneField( ActionUser )
@@ -107,7 +130,8 @@ class CurrentPosition( models.Model ):
     objects = models.GeoManager()
     
     def __unicode__(self):
-        return self.user 
+        desc = 'Latest for %s'%self.user
+        return desc
 
     
 class Incident(models.Model):

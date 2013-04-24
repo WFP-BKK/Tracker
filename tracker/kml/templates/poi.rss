@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+{% load tz %}{% localtime off %}<?xml version="1.0" encoding="utf-8"?>
  <feed xmlns="http://www.w3.org/2005/Atom" 
       xmlns:georss="http://www.georss.org/georss" 
       xmlns:gml="http://www.opengis.net/gml">
@@ -11,10 +11,10 @@
    <id>http://trackme.globalepic.org/trackme/kml/poi.rss</id>
    {%for item in poi%}
    <entry>
-        <title>{%if item.icon.name%}{{item.icon.name}}{%else%}Place{%endif%} {{item.user.userdetail.emailAddress}} {{item.dateoccurred}}</title>
+        <title>{%if item.icon.name%}{{item.icon.name}}{%else%}Place{%endif%} {{item.user.emailAddress}} {{item.dateoccurred}}</title>
         <link href="http://trackme.globalepic.org/trackme/kml/poi.rss#{{item.user.id}}"/>
         <id>http://trackme.globalepic.org/trackme/kml.rss#{{item.user.id}}</id>
-        <updated>{{item.date_reported.isoformat}}{%if item.user.userdetail.timeZone%}+00:00{%else%}+04:00{%endif%}</updated>
+        <updated>{{item.date_reported.isoformat}}{%if item.user.timeZone%}+00:00{%else%}+04:00{%endif%}</updated>
         <summary>
         <![CDATA[
         Recorded: {{item.date_reported}}
@@ -29,4 +29,4 @@
       </georss:where>
    </entry>
    {%endfor%}
- </feed>
+ </feed>{% endlocaltime %}

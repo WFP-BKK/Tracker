@@ -8,112 +8,122 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Deleting model 'RemoteStation'
-        db.delete_table(u'datastore_remotestation')
+        # Adding field 'ActionUser.callSign'
+        db.add_column(u'users', 'callSign',
+                      self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True),
+                      keep_default=False)
 
-        # Deleting model 'ContactWays'
-        db.delete_table(u'datastore_contactways')
+        # Adding field 'ActionUser.deviceType'
+        db.add_column(u'users', 'deviceType',
+                      self.gf('django.db.models.fields.CharField')(max_length=40, null=True, blank=True),
+                      keep_default=False)
 
-        # Adding model 'GeoFence'
-        db.create_table(u'datastore_geofence', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
-            ('type', self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
-            ('warningIn', self.gf('django.db.models.fields.CharField')(max_length=144, null=True, blank=True)),
-            ('warningOut', self.gf('django.db.models.fields.CharField')(max_length=144, null=True, blank=True)),
-            ('fence', self.gf('django.contrib.gis.db.models.fields.PolygonField')()),
-        ))
-        db.send_create_signal(u'datastore', ['GeoFence'])
+        # Adding field 'ActionUser.deviceModel'
+        db.add_column(u'users', 'deviceModel',
+                      self.gf('django.db.models.fields.CharField')(max_length=40, null=True, blank=True),
+                      keep_default=False)
 
-        # Adding model 'RadioServer'
-        db.create_table(u'datastore_radioserver', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('serverName', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('latestUpdate', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('serverEnabled', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('refreshPeriod', self.gf('django.db.models.fields.IntegerField')(default=300)),
-            ('latestCheck', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'datastore', ['RadioServer'])
+        # Adding field 'ActionUser.radioServer'
+        db.add_column(u'users', 'radioServer',
+                      self.gf('django.db.models.fields.CharField')(max_length=40, null=True, blank=True),
+                      keep_default=False)
 
-        # Adding model 'Incident'
-        db.create_table(u'datastore_incident', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['datastore.ActionUser'])),
-            ('image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, null=True, blank=True)),
-            ('description', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('location', self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True)),
-            ('date_reported', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('actionDate', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
-            ('image_ref',self.gf('django.db.models.fields.CharField')(max_length=50, null=True, blank=True)),
-        ))
-        db.send_create_signal(u'datastore', ['Incident'])
+        # Adding field 'ActionUser.firstName'
+        db.add_column(u'users', 'firstName',
+                      self.gf('django.db.models.fields.CharField')(max_length=40, null=True, blank=True),
+                      keep_default=False)
 
+        # Adding field 'ActionUser.lastName'
+        db.add_column(u'users', 'lastName',
+                      self.gf('django.db.models.fields.CharField')(max_length=40, null=True, blank=True),
+                      keep_default=False)
 
-        # Changing field 'Trip.comments'
-        db.alter_column(u'trips', 'comments', self.gf('django.db.models.fields.TextField')(max_length=1024, null=True))
+        # Adding field 'ActionUser.organization'
+        db.add_column(u'users', 'organization',
+                      self.gf('django.db.models.fields.CharField')(max_length=40, null=True, blank=True),
+                      keep_default=False)
 
-        # Adding field 'Position.location'
-        
-        db.add_column(u'positions', 'location',
-                      self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True),
+        # Adding field 'ActionUser.epicNumber'
+        db.add_column(u'users', 'epicNumber',
+                      self.gf('django.db.models.fields.CharField')(max_length=10, null=True, blank=True),
+                      keep_default=False)
+
+        # Adding field 'ActionUser.inactiveUser'
+        db.add_column(u'users', 'inactiveUser',
+                      self.gf('django.db.models.fields.BooleanField')(default=False),
+                      keep_default=False)
+
+        # Adding field 'ActionUser.sipAddress'
+        db.add_column(u'users', 'sipAddress',
+                      self.gf('django.db.models.fields.CharField')(max_length=80, null=True, blank=True),
+                      keep_default=False)
+
+        # Adding field 'ActionUser.emailAddress'
+        db.add_column(u'users', 'emailAddress',
+                      self.gf('django.db.models.fields.EmailField')(max_length=75, null=True, blank=True),
+                      keep_default=False)
+
+        # Adding field 'ActionUser.timeZone'
+        db.add_column(u'users', 'timeZone',
+                      self.gf('django.db.models.fields.IntegerField')(null=True, blank=True),
                       keep_default=False)
 
 
-
-        # Changing field 'Icon.url'
-        db.alter_column(u'icons', 'URL', self.gf('django.db.models.fields.TextField')(max_length=1536, db_column='URL'))
-
-        # Changing field 'Icon.name'
-        db.alter_column(u'icons', 'Name', self.gf('django.db.models.fields.TextField')(max_length=765, db_column='Name'))
-
     def backwards(self, orm):
-        # Adding model 'RemoteStation'
-        db.create_table(u'datastore_remotestation', (
-            ('reportingFrequency', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
-            ('reportingServer', self.gf('django.db.models.fields.CharField')(max_length=20, primary_key=True)),
-            ('lastReported', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, null=True, blank=True)),
-        ))
-        db.send_create_signal('datastore', ['RemoteStation'])
+        # Deleting field 'ActionUser.callSign'
+        db.delete_column(u'users', 'callSign')
 
-        # Adding model 'ContactWays'
-        db.create_table(u'datastore_contactways', (
-            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('contactString', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('actionUser', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['datastore.ActionUser'])),
-            ('contactProtocol', self.gf('django.db.models.fields.CharField')(max_length=10)),
-        ))
-        db.send_create_signal('datastore', ['ContactWays'])
+        # Deleting field 'ActionUser.deviceType'
+        db.delete_column(u'users', 'deviceType')
 
-        # Deleting model 'GeoFence'
-        db.delete_table(u'datastore_geofence')
+        # Deleting field 'ActionUser.deviceModel'
+        db.delete_column(u'users', 'deviceModel')
 
-        # Deleting model 'RadioServer'
-        db.delete_table(u'datastore_radioserver')
+        # Deleting field 'ActionUser.radioServer'
+        db.delete_column(u'users', 'radioServer')
 
-        # Deleting model 'Incident'
-        db.delete_table(u'datastore_incident')
+        # Deleting field 'ActionUser.firstName'
+        db.delete_column(u'users', 'firstName')
 
+        # Deleting field 'ActionUser.lastName'
+        db.delete_column(u'users', 'lastName')
 
-        # Changing field 'Trip.comments'
-        db.alter_column(u'trips', 'comments', self.gf('django.db.models.fields.CharField')(max_length=1024, null=True))
-        # Deleting field 'Position.location'
-        db.delete_column(u'positions', 'location')
+        # Deleting field 'ActionUser.organization'
+        db.delete_column(u'users', 'organization')
 
+        # Deleting field 'ActionUser.epicNumber'
+        db.delete_column(u'users', 'epicNumber')
 
+        # Deleting field 'ActionUser.inactiveUser'
+        db.delete_column(u'users', 'inactiveUser')
 
-        # Changing field 'Icon.url'
-        db.alter_column(u'icons', 'URL', self.gf('django.db.models.fields.CharField')(max_length=1536, db_column='URL'))
+        # Deleting field 'ActionUser.sipAddress'
+        db.delete_column(u'users', 'sipAddress')
 
-        # Changing field 'Icon.name'
-        db.alter_column(u'icons', 'Name', self.gf('django.db.models.fields.CharField')(max_length=765, db_column='Name'))
+        # Deleting field 'ActionUser.emailAddress'
+        db.delete_column(u'users', 'emailAddress')
+
+        # Deleting field 'ActionUser.timeZone'
+        db.delete_column(u'users', 'timeZone')
+
 
     models = {
         u'datastore.actionuser': {
             'Meta': {'object_name': 'ActionUser', 'db_table': "u'users'"},
+            'callSign': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
+            'deviceModel': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
+            'deviceType': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
+            'emailAddress': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
+            'epicNumber': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
+            'firstName': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'inactiveUser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'lastName': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
+            'organization': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '150', 'null': 'True', 'blank': 'True'}),
+            'radioServer': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
+            'sipAddress': ('django.db.models.fields.CharField', [], {'max_length': '80', 'null': 'True', 'blank': 'True'}),
+            'timeZone': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '60'})
         },
         u'datastore.currentposition': {
@@ -167,8 +177,7 @@ class Migration(SchemaMigration):
             'icon': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['datastore.Icon']", 'null': 'True', 'db_column': "'FK_Icons_ID'", 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'imageurl': ('django.db.models.fields.files.ImageField', [], {'max_length': '765', 'null': 'True', 'db_column': "'ImageURL'", 'blank': 'True'}),
-            'latitude': ('django.db.models.fields.FloatField', [], {'db_column': "'Latitude'"}),
-            'longitude': ('django.db.models.fields.FloatField', [], {'db_column': "'Longitude'"}),
+            'location': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True', 'blank': 'True'}),
             'signalstrength': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'db_column': "'SignalStrength'", 'blank': 'True'}),
             'signalstrengthmax': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'db_column': "'SignalStrengthMax'", 'blank': 'True'}),
             'signalstrengthmin': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'db_column': "'SignalStrengthMin'", 'blank': 'True'}),
@@ -203,6 +212,7 @@ class Migration(SchemaMigration):
             'inactiveUser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'lastName': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
             'organization': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
+            'radioServer': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
             'sipAddress': ('django.db.models.fields.CharField', [], {'max_length': '80', 'null': 'True', 'blank': 'True'}),
             'timeZone': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['datastore.ActionUser']", 'unique': 'True'})

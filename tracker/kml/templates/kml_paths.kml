@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+{% load tz %}{% localtime off %}<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document>
 <name>People</name>
@@ -85,4 +85,4 @@
 </Placemark>
 {%endif%}{%endfor%}
 </Document>
-</kml>
+</kml>{% endlocaltime %}

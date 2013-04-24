@@ -5,7 +5,7 @@ from django.utils.timezone import utc
 from dateutil import parser
 from dateutil import tz
 from xml.dom.minidom import parse, parseString
-from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip, Incident,RadioServer,LoggingList,UserDetail
+from datastore.models import Position, CurrentPosition, ActionUser,Icon,Trip, Incident,RadioServer,LoggingList
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from urllib import unquote
@@ -13,7 +13,10 @@ from settings import MEDIA_ROOT
 from django.shortcuts import render_to_response
 from django.forms.models import modelform_factory
 from django.views.decorators.csrf import csrf_exempt
-    
+import inspect
+
+
+
 import warnings
 warnings.filterwarnings(
         'error', r"DateTimeField received a naive datetime",
@@ -165,7 +168,7 @@ def fix_date(do_date, myUser):
             ta = tdate - time_now
         except:
             try:
-                timeShift = myUser.userdetail.timeZone
+                timeShift = myUser.timeZone
                 if timeShift !=0 :
                     timeZoneHere = tz.tzoffset("abc",timeShift*60*60)
                     tdate = tdate.replace(tzinfo=timeZoneHere)
@@ -180,9 +183,18 @@ def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIcon
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
         location = "POINT("+str(longitude) + " "+ str(latitude) +")"
         
-        tdate = fix_date(do_date,myUser)
+        ## Filter Future and past
+        furureEvent =  datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( hours =  24)
+        pastEvent = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( hours = -24 )
+        frm = inspect.stack()[1]
+        item = frm[3]
+        del frm
+        if item != 'update_radio_positions':
+            tdate = fix_date(do_date,myUser)
+        else:
+            tdate = parser.parse(do_date).replace(tzinfo=utc)
+        #if tdate >
         
-
         myPoints , new_position = Position.objects.get_or_create( 
                                                      dateoccurred = tdate,
                                                      user = myUser,
@@ -263,16 +275,13 @@ def save_incident(myUser,do_date, latitude,longitude,altitude,image=None,comment
     if longitude and latitude:
         location = "POINT(%s %s)"%(longitude,latitude)
     if image:
-#        try:
             incident = Incident.objects.get(image_ref=image)
             print comments
             incident.location = location
             incident.description = comments
             incident.date_reported = tdate
             incident.save()
-#         except e:
-#             print e
-#             return False
+
     else:
         incident = Incident(user=myUser,location = location, description = comments, date_reported=do_date )
         incident.save()
@@ -296,7 +305,9 @@ def request_update(request,radio_id):
     radio_server.save()
     return HttpResponse( '1' )
     
-
+### NEW 
+def user_registration(request,username,password):
+    return HttpResponse( '0' )
 
 ### RADIO
 def radioserver_update_now(request,radio_id):
@@ -336,10 +347,9 @@ def update_radio_positions(request,radio_id,device_id,latitude,longitude):
 
     myUser, new_user = ActionUser.objects.get_or_create( id= device_id, username = device_id )
     if new_user:
-        x,new_detail = UserDetail.objects.get_or_create( user = myUser )
-        x.deviceType = "Radio/SmartPTT"
-        x.radioServer = radio_id
-        x.save()
+        myUser.deviceType = "Radio/SmartPTT"
+        myUser.radioServer = radio_id
+        myUser.save()
         
     saved = save_point(myUser,do_date, latitude,longitude,0,'','','')
     if saved:

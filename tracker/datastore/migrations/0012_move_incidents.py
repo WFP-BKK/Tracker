@@ -1,34 +1,57 @@
 # -*- coding: utf-8 -*-
 import datetime
 from south.db import db
-from south.v2 import SchemaMigration
+from south.v2 import DataMigration
 from django.db import models
+from django.db.models import Q
 
-
-class Migration(SchemaMigration):
+class Migration(DataMigration):
 
     def forwards(self, orm):
-        # Deleting field 'Position.longitude'
-        db.delete_column(u'positions', 'Longitude')
-
-        # Deleting field 'Position.latitude'
-        db.delete_column(u'positions', 'Latitude')
+        "Write your forwards methods here."
+        # Note: Remember to use orm['appname.ModelName'] rather than "from appname.models..."
+        theIncidents = orm.position.objects.filter( ~Q(imageurl = '') | ~Q(comments =None) )
+        for item in theIncidents:
+            orm.incident.objects.get_or_create(
+                date_reported = item.dateoccurred,
+                location = item.location,
+                user = item.user,
+                image_ref = item.imageurl,
+                image = item.imageurl,
+                description = item.comments
+            )
 
 
     def backwards(self, orm):
-    
-        db.add_column(u'positions', 'Longitude',
-                      self.gf('django.db.models.fields.FloatField')(null=True, blank=True),
-                      keep_default=False)
-        db.add_column(u'positions', 'Latitude',
-                      self.gf('django.db.models.fields.FloatField')(null=True, blank=True),
-                      keep_default=False)
+        "Write your backwards methods here."
+        theIncidents = orm.incident.objects.all()
+        for item in theIncidents:
+            thePos = orm.position.objects.get_or_create(
+                dateoccurred = item.date_reported,
+                location = item.location,
+                user = item.user,
+                imageurl = item.image_ref,
+                comments = item.description
+            )
+
 
     models = {
         u'datastore.actionuser': {
             'Meta': {'object_name': 'ActionUser', 'db_table': "u'users'"},
+            'callSign': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
+            'deviceModel': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
+            'deviceType': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
+            'emailAddress': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
+            'epicNumber': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
+            'firstName': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'inactiveUser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'lastName': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
+            'organization': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '150', 'null': 'True', 'blank': 'True'}),
+            'radioServer': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
+            'sipAddress': ('django.db.models.fields.CharField', [], {'max_length': '80', 'null': 'True', 'blank': 'True'}),
+            'timeZone': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '60'})
         },
         u'datastore.currentposition': {
@@ -104,23 +127,8 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['datastore.ActionUser']", 'db_column': "'FK_Users_ID'"})
-        },
-        u'datastore.userdetail': {
-            'Meta': {'object_name': 'UserDetail'},
-            'callSign': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
-            'deviceModel': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
-            'deviceType': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
-            'emailAddress': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'null': 'True', 'blank': 'True'}),
-            'epicNumber': ('django.db.models.fields.CharField', [], {'max_length': '10', 'null': 'True', 'blank': 'True'}),
-            'firstName': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'inactiveUser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'lastName': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
-            'organization': ('django.db.models.fields.CharField', [], {'max_length': '40', 'null': 'True', 'blank': 'True'}),
-            'sipAddress': ('django.db.models.fields.CharField', [], {'max_length': '80', 'null': 'True', 'blank': 'True'}),
-            'timeZone': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['datastore.ActionUser']", 'unique': 'True'})
         }
     }
 
     complete_apps = ['datastore']
+    symmetrical = True

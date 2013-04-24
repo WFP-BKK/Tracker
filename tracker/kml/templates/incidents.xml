@@ -1,12 +1,12 @@
-{% load tz %}<?xml version="1.0" encoding="UTF-8"?>
+{% load tz %}{% localtime off %}<?xml version="1.0" encoding="UTF-8"?>
 <markers>
 {%for item in list%}
 <marker 
 	name="{{item.description}}" 
 	address="
-	{%if item.user.userdetail.epicNumber%}Number:{{item.user.userdetail.epicNumber}}{%endif%}
-	{%if item.user.userdetail.callSign%}&lt;br&gt;Call Sign: {{item.user.userdetail.callSign}}&lt;br&gt;{%endif%}
-	{%if item.user.userdetail.sipAddress%}&lt;a href='sip:{{item.user.userdetail.sipAddress}}'&gt;Call {{item.user}}&lt;a&gt;&lt;br&gt;{%endif%}
+	{%if item.user.epicNumber%}Number:{{item.user.epicNumber}}{%endif%}
+	{%if item.user.callSign%}&lt;br&gt;Call Sign: {{item.user.callSign}}&lt;br&gt;{%endif%}
+	{%if item.user.sipAddress%}&lt;a href='sip:{{item.user.sipAddress}}'&gt;Call {{item.user}}&lt;a&gt;&lt;br&gt;{%endif%}
 	Latest Position Date:{{item.dateoccurred|utc|date:'Y-m-d H:i:s T'}}&lt;br&gt;
 	Latitude: {{item.latitude}}&lt;br&gt;
 	Longitude: {{item.longitude}}"
@@ -19,4 +19,4 @@
     description="{%if item.description%}{{item.description}}{%endif%}"
 	/>
 {%endfor%}
-</markers>
+</markers>{% endlocaltime %}

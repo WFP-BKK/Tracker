@@ -2,6 +2,7 @@
 from datastore.models import CurrentPosition, ActionUser, Position,Icon,Incident
 from django.shortcuts import render_to_response
 import datetime
+from django.utils import timezone
 from django.utils.timezone import utc
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
@@ -11,37 +12,33 @@ from settings import MAX_DAYS,CURR_DAYS
 
 @csrf_exempt
 def all_points( request ):
-    datefilter =  datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( days = -MAX_DAYS )
-    dayfilter = datetime.datetime.utcnow().replace(tzinfo=utc) + datetime.timedelta( hours = -CURR_DAYS*24 )
+    datefilter =  timezone.now() - timezone.timedelta(days = MAX_DAYS )
+    dayfilter = timezone.now() - timezone.timedelta(hours = CURR_DAYS*24 )
     myUsers = CurrentPosition.objects.all()
     points = []
     try:
         theFilter = request.GET.get( 'filter' )
     except:
         theFilter = ''
+    
     for the_user in myUsers:
-        try:
-            inactive = the_user.user.userdetail.inactiveUser
-        except:
-            inactive = False
+        inactive = the_user.user.inactiveUser
         if not inactive:
-            try:
-                if theFilter == 'all':
-                    if the_user.position.dateoccurred > dayfilter:
-                        the_user.pin = 'current'
-                    else:
-                        the_user.pin = 'old'
-                    points.append( the_user )
+            if theFilter == 'all':
+                if the_user.position.dateoccurred > dayfilter:
+                    the_user.pin = 'current'
                 else:
-                    if not inactive:
-                        if the_user.position.dateoccurred > datefilter:
-                            if the_user.position.dateoccurred > dayfilter:
-                                the_user.pin = 'current'
-                            else:
-                                the_user.pin = 'old'
-                            points.append( the_user )
-            except:
-                pass
+                    the_user.pin = 'old'
+                points.append( the_user )
+            else:
+                if not inactive:
+                    if the_user.position.dateoccurred > datefilter:
+                        if the_user.position.dateoccurred > dayfilter:
+                            the_user.pin = 'current'
+                        else:
+                            the_user.pin = 'old'
+                        points.append( the_user )
+
     my_response = render_to_response( 'listit.xml', {'list':points}, mimetype = "application/xml" )
     my_response['Access-Control-Allow-Origin'] = '*'
     return my_response
@@ -126,7 +123,7 @@ def all_points_rss( request ):
     points = []
     for the_user in myUsers:
         try:
-            if not the_user.user.userdetail.inactiveUser:
+            if not the_user.user.inactiveUser:
                 try:
                     if the_user.position.dateoccurred > datefilter:
                         if the_user.position.dateoccurred > dayfilter:

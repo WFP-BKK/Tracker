@@ -54,7 +54,7 @@ class Migration(SchemaMigration):
             ('angle', self.gf('django.db.models.fields.FloatField')(null=True, db_column='Angle', blank=True)),
             ('dateadded', self.gf('django.db.models.fields.DateTimeField')(null=True, db_column='DateAdded', blank=True)),
             ('dateoccurred', self.gf('django.db.models.fields.DateTimeField')(null=True, db_column='DateOccurred', blank=True)),
-            ('comments', self.gf('django.db.models.fields.CharField')(max_length=765, db_column='Comments', blank=True)),
+            ('comments', self.gf('django.db.models.fields.CharField')(null=True,max_length=765, db_column='Comments', blank=True)),
             ('imageurl', self.gf('django.db.models.fields.files.ImageField')(max_length=765, null=True, db_column='ImageURL', blank=True)),
             ('signalstrength', self.gf('django.db.models.fields.IntegerField')(null=True, db_column='SignalStrength', blank=True)),
             ('signalstrengthmax', self.gf('django.db.models.fields.IntegerField')(null=True, db_column='SignalStrengthMax', blank=True)),

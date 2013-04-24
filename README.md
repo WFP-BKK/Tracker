@@ -31,8 +31,6 @@ To install:
 
 Edit settings.py for db
 
-run:
-    ./manage.py
 
 edit Apache/nginx etc.
 
@@ -43,6 +41,7 @@ in /etc/uwsgi/apps-available:
 
     sudo nano trackme.xml
 
+enter:
 
     <uwsgi>
       <plugin>python</plugin>
@@ -56,3 +55,43 @@ in /etc/uwsgi/apps-available:
 sudo ln -s /etc/uwsgi/apps-available/trackme.xml /etc/uwsgi/apps-enabled/trackme.xml
 
 NGINX:
+
+in /etc/nginx/sites-available
+
+    sudo nano trackme
+
+enter:
+
+    server {
+      listen 80;
+      server_name qa.trackme.pro trackme-qa.globalepic.lu trackme-qa.globalepic.org trackme-qa; 
+
+      access_log /var/log/nginx/trackme-qa_access.log;
+      error_log /var/log/nginx/trackme-qa_error.log;
+      location /static/ {
+        alias /opt/Tracker/tracker/static_root/;
+        expires 5d;
+      }
+
+      location /media/ {
+        alias /opt/Tracker/tracker/media/;
+        expires 5d;
+      }
+
+
+      location / {
+    uwsgi_pass 127.0.0.1:3032;
+    include uwsgi_params;  
+
+      }
+
+    }
+
+Do:
+    sudo ln -s /etc/nginx/sites-available/trackme /etc/nginx/sites-enabled/trackme
+    
+    
+run:
+
+
+    ./manage.py

@@ -210,3 +210,10 @@ def all_incidents(request):
     my_response = render_to_response( 'incidents.xml', {'list':all_incidents}, mimetype = "application/xml" )
     my_response['Access-Control-Allow-Origin'] = '*'
     return my_response
+
+def all_incidents_images(request):
+    all_incidents = Incident.objects.filter(image__isnull=False)
+    my_response = render_to_response( 'incidents.xml', {'list':all_incidents}, mimetype = "application/xml" )
+    my_response['Access-Control-Allow-Origin'] = '*'
+    return my_response
+    

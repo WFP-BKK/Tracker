@@ -15,6 +15,6 @@ urlpatterns = patterns(
                        ( r'^/style.kml', 'kml.views.get_styles' ),
                        ( r'^/poi.kml', 'kml.views.show_poi' ),
                        ( r'^/poi.rss', 'kml.views.show_poi_rss' ),
-                       ( r'^/images.rss', 'kml.views.show_images_rss' ),
+                       ( r'^/images.rss', 'kml.views.all_incidents_images' ),
 
  )

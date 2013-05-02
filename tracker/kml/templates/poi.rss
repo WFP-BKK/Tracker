@@ -9,9 +9,9 @@
       <name>EPIC {{server}}</name>
    </author>
    <id>http://trackme.globalepic.org/trackme/kml/poi.rss</id>
-   {%for item in poi%}
+{%for item in list%}
    <entry>
-        <title>{%if item.icon.name%}{{item.icon.name}}{%else%}Place{%endif%} {{item.user.emailAddress}} {{item.dateoccurred}}</title>
+        <title>{{item.description}} {{item.dateoccurred}}</title>
         <link href="http://trackme.globalepic.org/trackme/kml/poi.rss#{{item.user.id}}"/>
         <id>http://trackme.globalepic.org/trackme/kml.rss#{{item.user.id}}</id>
         <updated>{{item.date_reported.isoformat}}{%if item.user.timeZone%}+00:00{%else%}+04:00{%endif%}</updated>
@@ -19,9 +19,9 @@
         <![CDATA[
         Recorded: {{item.date_reported}}
         Comment:{%if item.description%}{{item.description}}{%endif%}
-        {%if item.image%}Image: <a href='http://trackme.globalepic.org/trackme{{item.image.url}}'><img height="100" src='http://trackme.globalepic.org/trackme{{item.image.url}}'/></a>{%endif%}
+        {%if item.image%}Image: <a href='http://trackme.globalepic.org/{{item.image.url}}'><img height="100" src='http://trackme.globalepic.org/trackme{{item.image.url}}'/></a>{%endif%}
         ]]></summary>
-        {%if item.imageurl%}<enclosure url="http://trackme.globalepic.org/trackme{{item.image.url}}" type="image/jpeg" />{%endif%}
+        {%if item.imageurl%}<enclosure url="http://trackme.globalepic.org/{{item.image.url}}" type="image/jpeg" />{%endif%}
       <georss:where>
          <gml:Point>
             <gml:pos>{{item.latitude}} {{item.longitude}}</gml:pos>
@@ -29,4 +29,30 @@
       </georss:where>
    </entry>
    {%endfor%}
- </feed>{% endlocaltime %}
+ </feed>
+ 
+ 
+ 
+ 
+ 
+
+	name="{{item.description}}" 
+	address="
+	{%if item.user.epicNumber%}Number:{{item.user.epicNumber}}{%endif%}
+	{%if item.user.callSign%}&lt;br&gt;Call Sign: {{item.user.callSign}}&lt;br&gt;{%endif%}
+	{%if item.user.sipAddress%}&lt;a href='sip:{{item.user.sipAddress}}'&gt;Call {{item.user}}&lt;a&gt;&lt;br&gt;{%endif%}
+	Latest Position Date:{{item.dateoccurred|utc|date:'Y-m-d H:i:s T'}}&lt;br&gt;
+	Latitude: {{item.latitude}}&lt;br&gt;
+	Longitude: {{item.longitude}}"
+	lat="{{item.latitude}}" 
+	lng="{{item.longitude}}" 
+	type="{{item.pin}}"
+	date="{{item.dateoccurred|utc|date:'Y-m-d H:i:s T'}}"
+	mid="{{item.user.id}}"
+    image="{%if item.image%}{{item.image.url}}{%endif%}"
+    description="{%if item.description%}{{item.description}}{%endif%}"
+
+</markers>
+ 
+ 
+ {% endlocaltime %}

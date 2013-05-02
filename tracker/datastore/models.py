@@ -1,7 +1,7 @@
 from django.contrib.gis.db import models
 from django.db.models import Max
-
-
+from django.core.files.storage import FileSystemStorage
+fs = FileSystemStorage(location='/opt/Tracker/tracker/media')
 FENCE_TYPE = (
     ('DZ', 'Danger Zone'),
     ('SZ', 'Safe Zone'),
@@ -157,7 +157,7 @@ class LoggingList(models.Model):
     
 class Incident(models.Model):
     user = models.ForeignKey(ActionUser)    
-    image = models.ImageField(upload_to="images",blank=True,null=True)
+    image = models.ImageField(storage=fs, upload_to="images/%Y/%m/%d",blank=True,null=True)
     image_ref = models.CharField(max_length=50, blank=True, null=True, help_text="dont use")
     description = models.TextField(blank=True,null=True)
     location = models.PointField(help_text="POINT(LON LAT)",blank=True,null=True)

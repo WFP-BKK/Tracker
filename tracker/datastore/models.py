@@ -157,7 +157,7 @@ class LoggingList(models.Model):
     
 class Incident(models.Model):
     user = models.ForeignKey(ActionUser)    
-    image = models.ImageField(upload_to=".",blank=True,null=True)
+    image = models.ImageField(upload_to="images",blank=True,null=True)
     image_ref = models.CharField(max_length=50, blank=True, null=True, help_text="dont use")
     description = models.TextField(blank=True,null=True)
     location = models.PointField(help_text="POINT(LON LAT)",blank=True,null=True)

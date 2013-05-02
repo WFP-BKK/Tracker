@@ -258,7 +258,7 @@ def create_incident(request):
             user = ActionUser.objects.get(id = request.POST['user'])
         except:
             request.POST['user'] =  ActionUser.objects.get(username = request.POST['user']).id
-        form =  IncedentForm(request.POST, image = request.FILES['image'])
+        form =  IncedentForm(request.POST, image = request.FILES)
         if form.is_valid():
                 form.save()
                 return HttpResponse( 'Result:0' )

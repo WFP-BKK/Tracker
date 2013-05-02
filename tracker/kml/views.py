@@ -213,7 +213,7 @@ def all_incidents(request):
 
 def all_incidents_images(request):
     all_incidents = Incident.objects.filter(image__isnull=False)
-    my_response = render_to_response( 'poi.rss', {'list':all_incidents}, mimetype = "application/text" )
+    my_response = render_to_response( 'poi.rss', {'list':all_incidents}, mimetype = "application/xml" )
     my_response['Access-Control-Allow-Origin'] = '*'
     return my_response
     

@@ -261,9 +261,6 @@ def create_incident(request):
         form =  IncedentForm(request.POST, request.FILES)
         if form.is_valid():
                 form.save()
-                form.image = request.FILES
-                form.save()
-                
                 return HttpResponse( 'Result:0' )
     else:
         form = IncedentForm()

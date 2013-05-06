@@ -95,3 +95,12 @@ run:
 
 
     ./manage.py
+    
+    
+Compatible Clients:
+
+
+* Radio Systems : <https://github.com/WFP-Dubai/Radio-Tracking>
+* iOS : <https://github.com/tcarlander/iTrackMe2>
+* Windows Mobile, Android, Windows Phone: <http://www.luisespinosa.com/trackme_eng.html>
+

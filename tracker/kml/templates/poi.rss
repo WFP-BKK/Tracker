@@ -29,14 +29,8 @@
       </georss:where>
    </entry>
    {%endfor%}
- </feed>
- 
- 
- 
- 
- 
-
-</markers>
+  </feed>
+ </markers>
  
  
  {% endlocaltime %}

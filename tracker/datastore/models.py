@@ -181,7 +181,7 @@ class LoggingList(models.Model):
     errorText = models.CharField(max_length=100, blank=True, null=True, help_text="")
     actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
     def __unicode__(self):
-        return self.reportingServer + "  " + errorText 
+        return self.reportingServer + "  " + self.errorText 
     
 class Incident(models.Model):
     user = models.ForeignKey(ActionUser)    

@@ -96,7 +96,7 @@
                     var DateText = " " + theDate + " (" + offset +")";
                     ar1.push(DateText);
                     ar1.push(""+ deviceType + " " + deviceModel+" ")
-                    ar1.push('<a target="Edit" href ="/admin/datastore/actionuser/'+ uID +'/">edit</a> <a target="sensor" href="http://middleware-qa.globalepic.lu/sensorservice/admin/rest/devices/'+ id_name +'">Sensor QA</a>');
+                    ar1.push('<a target="Edit" href ="/admin/datastore/actionuser/'+ uID +'/">edit</a> <a target="sensor" href="http://{{sensory_url}}.service.emergency.lu/sensorservice/admin/rest/devices/'+ id_name +'">Sensor Service</a>');
                     // ar1.push(lat);
                     // ar1.push(long);
                     tOfPins.push(ar1);
@@ -237,6 +237,17 @@
                     "aaSorting": [[ 3, "desc" ]]
         });
     });
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-26504412-2']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
 </script>
 
 </body>

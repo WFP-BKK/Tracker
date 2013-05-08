@@ -89,8 +89,8 @@ INSTALLED_APPS = (
     'collector',
     'kml',
     'mapper',
-    'shell_plus',
     'api',
+    'django_extensions',
 
  )
 
@@ -100,5 +100,10 @@ SERIALIZATION_MODULES = {
 
 MAX_DAYS = 7
 CURR_DAYS = 1
+try:
+    import local_settings
+    SENSOR_URL = local_settings.SENSOR_URL
+except:
+    SENSOR_URL= 'middleware'
 
 #GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so'

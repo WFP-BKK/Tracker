@@ -9,10 +9,18 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+try:
+    import local_settings
+    SENSOR_URL = local_settings.SENSOR_URL
+    DB_NAME = local_settings.DB_NAME
+except:
+    SENSOR_URL= 'middleware'
+    DB_NAME = 'trackme'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'trackme-dev',
+        'NAME': DB_NAME,
         'USER': 'trackme',
         'PASSWORD': 'trackme',
         'HOST': '10.11.208.35',
@@ -34,7 +42,7 @@ LANGUAGE_CODE = 'en-gb'
 SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
-MEDIA_ROOT = ''
+MEDIA_ROOT = '/opt/Tracker/tracker/media/'
 USE_TZ = True
 
 import os

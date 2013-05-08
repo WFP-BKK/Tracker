@@ -8,6 +8,7 @@ class MapTemplateView(TemplateView):
         def get_context_data(self, **kwargs):
             context = super(MapTemplateView, self).get_context_data(**kwargs)
             context['sensory_url'] = settings.SENSOR_URL
+            context['server_type'] = settings.SERVER_TYPE
             return context
 
 

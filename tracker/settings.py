@@ -13,9 +13,11 @@ try:
     import local_settings
     SENSOR_URL = local_settings.SENSOR_URL
     DB_NAME = local_settings.DB_NAME
+    SERVER_TYPE = local_settings.SERVER_TYPE
 except:
     SENSOR_URL= 'middleware'
     DB_NAME = 'trackme'
+    SERVER_TYPE =  'PROD'
 
 DATABASES = {
     'default': {

@@ -8,9 +8,11 @@ class CurrentPositionInline( admin.TabularInline ):
 class ActionUserAdmin( admin.ModelAdmin ):
     search_fields = ['username']
 class PositionAdmin( admin.ModelAdmin ):
+    search_fields = ['user__username','user__firstName','user__lastName']
     model = Position
 
-admin.site.register(Position)
+
+admin.site.register(Position,PositionAdmin)
 admin.site.register( Icon )
 admin.site.register( LoggingList )
 admin.site.register( ActionUser, ActionUserAdmin )

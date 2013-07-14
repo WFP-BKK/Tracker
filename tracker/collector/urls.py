@@ -4,8 +4,8 @@ from django.conf.urls import  patterns
 urlpatterns = patterns( 
                        '',
                        ( r'^requests.php', 'collector.views.collect' ),
-                       ( r'^update/', 'collector.views.update_current' ),
-                       ( r'^upload.php', 'collector.views.upload' ),
+                       ( r'^update/', 'collector.views.update_current' ),( r'^trackme/update/', 'collector.views.update_current' ), 
+                      ( r'^upload.php', 'collector.views.upload' ),
                        ( r'^export.php', 'collector.views.export' ),
                        ( r'^kml.rss', 'kml.views.all_points_rss'),
                        ( r'^radio_check/(?P<radio_id>.*)$', 'collector.views.radioserver_update_now' ),

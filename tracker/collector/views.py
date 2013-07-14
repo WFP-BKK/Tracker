@@ -22,6 +22,8 @@ warnings.filterwarnings(
         'error', r"DateTimeField received a naive datetime",
         RuntimeWarning, r'django\.db\.models\.fields')
 
+#Samples of calls from devices
+
 #"GET /trackme/requests.php?a=upload&u=wgonzalez&p=wfpdubai&lat=25.18511038&long=55.29178735&do=2011-2-3%2013:12:3&tn=wgonzalez&alt=7&ang=&sp=&db=8 HTTP/1.1"
 #"GET /trackme/requests.php?a=gettriplist&u=wgonzalez&p=wfpdubai&db=8 HTTP/1.1" 200 16
 #"POST /trackme/upload.php?u=wgonzalez&p=wfpdubai&db=8&a=pic&newname=wgonzalez14736.jpg& HTTP/1.1" 200 8

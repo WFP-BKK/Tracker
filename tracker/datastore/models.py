@@ -178,10 +178,10 @@ class RadioServer(models.Model):
     
 class LoggingList(models.Model):
     reportingServer = models.CharField(max_length=20, blank=True, null=True, help_text="")
-    errorText = models.CharField(max_length=100, blank=True, null=True, help_text="")
+    errorText = models.CharField(max_length=500, blank=True, null=True, help_text="")
     actionDate = models.DateTimeField( blank=True, null=True, auto_now_add=True)
     def __unicode__(self):
-        return self.serverName + "  " + errorText 
+        return self.reportingServer + "  " + self.errorText + " " + self.actionDate.strftime('%Y/%m/%d')
     
 class Incident(models.Model):
     user = models.ForeignKey(ActionUser)    

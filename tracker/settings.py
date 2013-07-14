@@ -9,10 +9,20 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+try:
+    import local_settings
+    SENSOR_URL = local_settings.SENSOR_URL
+    DB_NAME = local_settings.DB_NAME
+    SERVER_TYPE = local_settings.SERVER_TYPE
+except:
+    SENSOR_URL= 'middleware'
+    DB_NAME = 'trackme'
+    SERVER_TYPE =  'PROD'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'trackme-dev',
+        'NAME': DB_NAME,
         'USER': 'trackme',
         'PASSWORD': 'trackme',
         'HOST': '10.11.208.35',
@@ -34,7 +44,7 @@ LANGUAGE_CODE = 'en-gb'
 SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
-MEDIA_ROOT = ''
+MEDIA_ROOT = '/opt/Tracker/tracker/media/'
 USE_TZ = True
 
 import os
@@ -89,8 +99,8 @@ INSTALLED_APPS = (
     'collector',
     'kml',
     'mapper',
-    'shell_plus',
     'api',
+    'django_extensions',
 
  )
 
@@ -100,5 +110,10 @@ SERIALIZATION_MODULES = {
 
 MAX_DAYS = 7
 CURR_DAYS = 1
+try:
+    import local_settings
+    SENSOR_URL = local_settings.SENSOR_URL
+except:
+    SENSOR_URL= 'middleware'
 
 #GEOS_LIBRARY_PATH = '/usr/lib/libgeos_c.so'

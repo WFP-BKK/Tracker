@@ -1,6 +1,7 @@
 from django.conf.urls import patterns
 from django.views.generic.base import TemplateView
 import settings
+from django.contrib.auth.decorators import login_required
 
 class MapTemplateView(TemplateView):
         template_name = "map 2.html"
@@ -14,7 +15,7 @@ class MapTemplateView(TemplateView):
 
 urlpatterns = patterns( 
                        '',
-                       ( r'^$', MapTemplateView.as_view(template_name='map 2.html') ),
+                       ( r'^$', login_required(MapTemplateView.as_view(template_name='map 2.html') )),
                        ( r'^incidents$', TemplateView.as_view(template_name='incidents.html') ),
                        ( r'^upload$', TemplateView.as_view(template_name='upload.html') ),
 

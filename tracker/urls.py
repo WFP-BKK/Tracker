@@ -5,6 +5,8 @@ from settings import MEDIA_ROOT
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
+#from django.conf.urls.defaults import *
+
 
 
 urlpatterns = patterns( '',
@@ -18,5 +20,7 @@ urlpatterns = patterns( '',
     ( r'^media/(?P<path>.*)$', 'django.views.static.serve',{'document_root': MEDIA_ROOT} ),
     ( r'^$', RedirectView.as_view(url= 'mapper/')),
     ( r'^incident/', 'collector.views.create_incident'),
+(r'^accounts/logout/$', 'django.contrib.auth.views.logout'), 
+(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'admin/login.html'}), 
 
  )

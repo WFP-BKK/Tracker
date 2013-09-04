@@ -93,6 +93,10 @@ def collect( request ): #request.php
             accuracy = request.GET.get( 'acc' )
             if accuracy=='':
                 accuracy = 0
+        except:
+            pass
+
+        
     except:
         pass
 

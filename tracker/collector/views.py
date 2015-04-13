@@ -285,7 +285,7 @@ def save_incident(myUser,do_date, latitude,longitude,altitude,image=None,comment
             incident.save()
 
     else:
-        incident = Incident(user=myUser,location = location, description = comments, date_reported=do_date )
+        incident = Incident(user=myUser,location = location, description = comments, date_reported=tdate )
         incident.save()
 
     return True

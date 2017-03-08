@@ -59,6 +59,8 @@ def collect( request ): #request.php
     longitude = ''
     date = ''
     altitude = 0
+    accuracy = 0
+    speed = 0
     image = None
     comments = None
     myIconID = int()
@@ -80,9 +82,21 @@ def collect( request ): #request.php
     try:
         latitude = request.GET.get( 'lat' )
         longitude = request.GET.get( 'long' )
+        speed = request.GET.get('sp')
+        if speed=='':
+            speed = 0
+        
         altitude = request.GET.get( 'alt' )
         if altitude=='':
             altitude = 0
+        try:
+            accuracy = request.GET.get( 'acc' )
+            if accuracy=='':
+                accuracy = 0
+        except:
+            pass
+
+        
     except:
         pass
 
@@ -118,7 +132,7 @@ def collect( request ): #request.php
         if image or comments:
             saved = save_incident(myUser,do_date, latitude,longitude,altitude,image,comments)
         else:
-            saved = save_point(myUser,do_date, latitude,longitude,altitude,myIconID,image,comments)
+            saved = save_point(myUser,do_date, latitude,longitude,altitude,myIconID,image,comments,speed,accuracy)
         if saved:
             return HttpResponse( 'Result:0' )
         else:
@@ -180,7 +194,7 @@ def fix_date(do_date, myUser):
                 tdate = tdate.replace(tzinfo=utc)
         return tdate    
 
-def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID):
+def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIconID,speed,accuracy):
         myPoints=''
         time_now = datetime.datetime.utcnow().replace(tzinfo=utc)
         location = "POINT("+str(longitude) + " "+ str(latitude) +")"
@@ -202,6 +216,8 @@ def save_point(myUser,do_date, latitude,longitude,altitude,image,comments,myIcon
                                                      user = myUser,
                                                      altitude = altitude,
                                                      location = location,
+                                                     speed = speed,
+                                                     accuracy = accuracy,
                                                      defaults = {'dateadded':time_now })
         if myIconID:
             myPoints.icon = theIcon
